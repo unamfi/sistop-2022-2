@@ -1,7 +1,7 @@
 # Práctica 2: Ramas paralelas de desarrollo
 
     Práctica creada: 2022.02.08
-	Entrega en tiempo: 2022.02.15
+    Entrega en tiempo: 2022.02.15
 
 Posiblemente, varios de ustedes se han confundido (o lo harán) al
 enviar un un *pull request*, incluyendo cambios de más o de menos
@@ -82,7 +82,7 @@ Creemos una rama llamado `practica2a`, y otra llamada
 `practica2b`. Desde el directorio base de nuestro repositorio:
 
     $ git branch practica2a
-	$ git branch practica2b
+    $ git branch practica2b
 
 ## Trabajando sobre una de mis nuevas ramas
 
@@ -138,14 +138,14 @@ Puedes verificar que cada una de las prácticas contiene archivos
 distintos en el mismo punto del directorio:
 
     $ cd practicas/2/WolfGunnar
-	$ git checkout practica2a
-	Switched to branch 'practica2a'
-	$ ls
-	hora_actual.txt
-	$ git checkout practica2b
-	Switched to branch 'practica2b'
-	$ ls
-	cpuinfo.txt
+    $ git checkout practica2a
+    Switched to branch 'practica2a'
+    $ ls
+    hora_actual.txt
+    $ git checkout practica2b
+    Switched to branch 'practica2b'
+    $ ls
+    cpuinfo.txt
 
 ## Envía tus cambios mediante *dos* pull requests
 
