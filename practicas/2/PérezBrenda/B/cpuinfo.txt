@@ -1,8 +1,0 @@
-Velocidad de base: 2.30 GHz
-Sockets: 1
-Núcleos: 4
-Procesadores lógicos: 8
-Virtualización: Habilitado
-Caché L1: 256 kB
-Caché L2: 1.0 MB
-Caché L3: 8.0 MB
