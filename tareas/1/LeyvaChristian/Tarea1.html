@@ -43,7 +43,7 @@
             text-decoration: none;
         }
         .container_t1{
-            width: 75vw;
+            width: 60vw;
             margin-left: auto;
             margin-right: auto;
             box-sizing: content-box;
@@ -102,8 +102,10 @@
             .instrucciones{
                 width: 80vw;
             }
+            .container_t1{
+                width: 80vw;
+            }
         }
-
     </style>
 </head>
 <body>
@@ -145,7 +147,7 @@
     <h2 class="section__title" id="instrucciones">Instrucciones</h2>
     <div class="instrucciones">
         <p>El programa que analice fue un pequeño programa que tenía realizado en el lenguaje <b>Python</b>
-            el cual simplemente muestra un temporizador en la consola de ejecucion del tiempo que el usuario le ingresa al inicio del mismo.
+            el cual simplemente muestra un temporizador en la consola de ejecucion del tiempo que el usuario le ingresa al inicio del mismo, asi como la hora en que el contador inicio y el contador termino.
             <br> El codigo fuente mostrado a continuacion contiene marcado de color <a href="#explicacion">ROJO</a> las instrucciones que <b>yo</b> considero que realizan <b>llamadas al sistema</b>, al dar <a href="#explicacion">click</a> en ellas te dirigira a la explicacion de porque yo considero que realiza una llamada al sistema.
         </p>
     </div>
@@ -153,35 +155,46 @@
     <h2 class="section__title" id="codigo">Codigo</h2>
     <br>
     <div class="code_bg" >
-    <pre><code class="code">
-        import time
-        from os import system
-        from os import <a href="#OSName">name as OSName</a>
+        <pre><code class="code">
+    import time
+    from datetime import datetime
+    from os import system
+    from os import <a href="#OSName">name as OSName</a>
 
-        def clear():
-            # nt -> Windows
-            system('cls') if OSName == 'nt' else system('clear')
+    def clear():
+        # nt -> Windows
+        if OSName == 'nt':
+            <a href="#clear">system('cls')</a>
+        else:
+            <a href="#clear">system('clear')</a>
 
-        def contador(tiempo_seg):
-            while tiempo_seg:
-                mins, segs = divmod(tiempo_seg, 60)
-                tiempo_str = '{:02d}:{:02d}'.format(mins, segs)
-                print(tiempo_str, end='\r') # end \r -> Escribir en la misma linea.
-                time.sleep(1)
-                tiempo_seg -= 1
+    def contador(tiempo_seg):
+        # Obtiene la hora actual
+        hora_inicio = <a href="#datetime">datetime.now()</a> 
 
-            print("¡Tiempo agotado!")
-
-        def main():
-            print("Ingresa el tiempo del contador EN SEGUNDOS: ", end= '')
-            tiempo = int(input())
-            clear()
-            mins, segs = divmod(tiempo, 60)
+        while tiempo_seg:
+            mins, segs = divmod(tiempo_seg, 60)
             tiempo_str = '{:02d}:{:02d}'.format(mins, segs)
-            print("Contador de {} min.".format(tiempo_str))
-            contador(tiempo)
+            # end \r -> Escribe en la misma linea.
+            <a href="#print">print</a>(tiempo_str, end='\r') 
+            time.<a href="#sleep">sleep(1)</a>
+            tiempo_seg -= 1
+        hora_final = <a href="#datetime">datetime.now()</a>
+        
+        <a href="#print">print</a>("¡Tiempo agotado!")
+        <a href="#print">print</a>("Hora inicio: {}".format(hora_inicio.strftime("%H:%M:%S")))
+        <a href="#print">print</a>("Hora termino: {}\n".format(hora_final.strftime("%H:%M:%S")))
 
-        main()
+    def main():
+    <a href="#print">print</a>("Ingresa el tiempo del contador EN SEGUNDOS: ", end= '')
+        tiempo = int(<a href="#input">input()</a>)
+        clear()
+        mins, segs = divmod(tiempo, 60)
+        tiempo_str = '{:02d}:{:02d}'.format(mins, segs)
+        <a href="#print">print</a>("Contador de {} min.".format(tiempo_str))
+        contador(tiempo)
+
+    main()
     </code></pre></div>
     <br>
     <h2 class="section__title" id="explicacion">Explicacion</h2>
@@ -190,16 +203,24 @@
             <h3>name as OSName</h3>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
         </div>
-        <div class="p_bg" id="">
-            <h3>OSName</h3>
+        <div class="p_bg" id="clear">
+            <h3>system('cls') & system('clear')</h3>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
         </div>
-        <div class="p_bg" id="">
-            <h3>OSName</h3>
+        <div class="p_bg" id="print">
+            <h3>print()</h3>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
         </div>
-        <div class="p_bg" id="">
-            <h3>OSName</h3>
+        <div class="p_bg" id="datetime">
+            <h3>datetime.now()</h3>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
+        </div>
+        <div class="p_bg" id="sleep">
+            <h3>sleep()</h3>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
+        </div>
+        <div class="p_bg" id="input">
+            <h3>input()</h3>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
         </div>
     </div>
