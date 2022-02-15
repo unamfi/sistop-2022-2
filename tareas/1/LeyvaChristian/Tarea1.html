@@ -123,12 +123,12 @@
                     </li>
                     <li class="nav__item">
                         <a href="#codigo" class="nav__link">
-                            <i class="uil uil-brackets-curly nav__icon"></i> Codigo
+                            <i class="uil uil-brackets-curly nav__icon"></i> Código
                         </a>
                     </li>
                     <li class="nav__item">
                         <a href="#explicacion" class="nav__link">
-                            <i class="uil uil-file-edit-alt nav__icon"></i> Explicacion
+                            <i class="uil uil-file-edit-alt nav__icon"></i> Explicación
                         </a>
                     </li>
                 </ul>
@@ -147,12 +147,12 @@
     <h2 class="section__title" id="instrucciones">Instrucciones</h2>
     <div class="instrucciones">
         <p>El programa que analice fue un pequeño programa que tenía realizado en el lenguaje <b>Python</b>
-            el cual simplemente muestra un temporizador en la consola de ejecucion del tiempo que el usuario le ingresa al inicio del mismo, asi como la hora en que el contador inicio y el contador termino.
-            <br> El codigo fuente mostrado a continuacion contiene marcado de color <a href="#explicacion">ROJO</a> las instrucciones que <b>yo</b> considero que realizan <b>llamadas al sistema</b>, al dar <a href="#explicacion">click</a> en ellas te dirigira a la explicacion de porque yo considero que realiza una llamada al sistema.
+            el cual simplemente muestra un temporizador en la consola de ejecución del tiempo que el usuario le ingresa al inicio del mismo, asi como la hora en que el contador inicio y el contador termino.
+            <br> El código fuente mostrado a continuación contiene marcado de color <a href="#explicacion">ROJO</a> las instrucciones que <b>yo</b> considero que realizan <b>llamadas al sistema</b>, al dar <a href="#explicacion">click</a> en ellas te dirigirá a la explicación de porque yo considero que realiza una llamada al sistema.
         </p>
     </div>
 
-    <h2 class="section__title" id="codigo">Codigo</h2>
+    <h2 class="section__title" id="codigo">Código</h2>
     <br>
     <div class="code_bg" >
         <pre><code class="code">
@@ -197,31 +197,41 @@
     main()
     </code></pre></div>
     <br>
-    <h2 class="section__title" id="explicacion">Explicacion</h2>
+    <h2 class="section__title" id="explicacion">Explicación</h2>
     <div class="container_t1">
         <div class="p_bg" id="OSName">
             <h3>name as OSName</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
+            Considero que se realiza una llamada al sistema en esta declaración ya que la librería <b>os</b>
+            tiene que hacerla para obtener el nombre del sistema operativo que se esta utilizando, y se hace en esta 
+            linea ya que se esta declarando la variable <b>OSName</b> con este valor.
         </div>
         <div class="p_bg" id="clear">
             <h3>system('cls') & system('clear')</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
+            En estas funciones se esta haciendo una llamada directa al sistema, ya que esta
+            le esta pasando una función que la consola del sistema debe ejecutar. <br>
+            En este caso esta ejecutando (dependiendo el sistema operativo) la función para limpiar la consola.
         </div>
         <div class="p_bg" id="print">
             <h3>print()</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
+            En esta función pasaría algo similar a lo que vimos en clase con el ejemplo en C, el programa
+            haría una llamada a sistema enviando el texto que la consola del sistema debe mostrar.
         </div>
         <div class="p_bg" id="datetime">
             <h3>datetime.now()</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
+            En la función <b>now()</b> de la librería datetime, considero que el programa debe de hacer
+            una llamada al sistema para obtener la hora del sistema (hora actual), mediante algún servició que ofrezca el sistema.
         </div>
         <div class="p_bg" id="sleep">
             <h3>sleep()</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
+            sleep es una función que hace que como su nombre lo indica, el programa se <b>"duerma"</b> (suspenda) durante la cantidad
+            de tiempo que se le pase a esta de argumento, yo considero que la función hace una llamada al sistema para que
+            este se suspenda por la cantidad de tiempo que se le dio de parámetro.
         </div>
         <div class="p_bg" id="input">
             <h3>input()</h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio...
+            Input es la función en Python que le permite al programa obtener la entrada del usuario mediante
+            la consola del sistema, yo creo que la función debe hacer una llamada al sistema para
+            obtener la cadena que el usuario ingrese mediante la terminal.
         </div>
     </div>
     <footer class="footer_t1">
