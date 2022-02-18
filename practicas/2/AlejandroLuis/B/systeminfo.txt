@@ -1,0 +1,56 @@
+
+Nombre de host:                            DESKTOP-49AQI4F
+Nombre del sistema operativo:              Microsoft Windows 10 Pro
+Versión del sistema operativo:             10.0.19044 N/D Compilación 19044
+Fabricante del sistema operativo:          Microsoft Corporation
+Configuración del sistema operativo:       Estación de trabajo independiente
+Tipo de compilación del sistema operativo: Multiprocessor Free
+Propiedad de:                              N/D
+Organización registrada:                   N/D
+Id. del producto:                          00331-10000-00001-AA268
+Fecha de instalación original:             12/12/2021, 06:08:30 p. m.
+Tiempo de arranque del sistema:            12/02/2022, 10:38:15 a. m.
+Fabricante del sistema:                    System manufacturer
+Modelo el sistema:                         System Product Name
+Tipo de sistema:                           x64-based PC
+Procesador(es):                            1 Procesadores instalados.
+                                           [01]: AMD64 Family 23 Model 1 Stepping 1 AuthenticAMD ~3100 Mhz
+Versión del BIOS:                          American Megatrends Inc. 4011, 19/04/2018
+Directorio de Windows:                     C:\WINDOWS
+Directorio de sistema:                     C:\WINDOWS\system32
+Dispositivo de arranque:                   \Device\HarddiskVolume1
+Configuración regional del sistema:        es-mx;Español (México)
+Idioma de entrada:                         es-mx;Español (México)
+Zona horaria:                              (UTC-06:00) Guadalajara, Ciudad de México, Monterrey
+Cantidad total de memoria física:          12,223 MB
+Memoria física disponible:                 7,394 MB
+Memoria virtual: tamaño máximo:            16,578 MB
+Memoria virtual: disponible:               8,122 MB
+Memoria virtual: en uso:                   8,456 MB
+Ubicación(es) de archivo de paginación:    C:\pagefile.sys
+Dominio:                                   WORKGROUP
+Servidor de inicio de sesión:              \\DESKTOP-49AQI4F
+Revisión(es):                              7 revisión(es) instaladas.
+                                           [01]: KB5009467
+                                           [02]: KB5003791
+                                           [03]: KB5010342
+                                           [04]: KB5006753
+                                           [05]: KB5007273
+                                           [06]: KB5011352
+                                           [07]: KB5005699
+Tarjeta(s) de red:                         1 Tarjetas de interfaz de red instaladas.
+                                           [01]: Realtek PCIe GbE Family Controller
+                                                 Nombre de conexión: Ethernet
+                                                 DHCP habilitado:    Sí
+                                                 Servidor DHCP:      192.168.1.254
+                                                 Direcciones IP
+                                                 [01]: 192.168.1.69
+                                                 [02]: fe80::515b:21c4:c728:f12b
+                                                 [03]: fdac:ae68:9864:0:582a:4366:86d2:8c47
+                                                 [04]: 2806:106e:2:d317:582a:4366:86d2:8c47
+                                                 [05]: fdac:ae68:9864:0:515b:21c4:c728:f12b
+                                                 [06]: 2806:106e:2:d317:515b:21c4:c728:f12b
+Requisitos Hyper-V:                        Extensiones de modo de monitor de VM: Sí
+                                           Se habilitó la virtualización en el firmware: No
+                                           Traducción de direcciones de segundo nivel: Sí
+                                           La prevención de ejecución de datos está disponible: Sí
