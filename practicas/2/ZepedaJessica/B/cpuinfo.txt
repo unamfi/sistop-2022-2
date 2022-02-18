@@ -1,0 +1,1 @@
+Darwin MacBook-Pro-de-Jessica.local 21.2.0 Darwin Kernel Version 21.2.0: Sun Nov 28 20:29:10 PST 2021; root:xnu-8019.61.5~1/RELEASE_ARM64_T8101 arm64
