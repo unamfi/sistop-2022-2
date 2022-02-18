@@ -1,0 +1,74 @@
+using System;				'Todas las llamadas a bibliotecas estan relacionadas con el sistema operativo
+using System.Collections.Generic;	ya que son funciones proporcionadas por las bibliotecas de porgramación.
+using System.Linq;			Es decir, buscan en las funciones del sistema operativo, las funciones
+using System.Text;			que son llamadas por las palabras reservadas de las librerias.
+using System.Threading;			Por ejemplo FileStream.'
+using System.IO;
+
+namespace Ejercicio_2
+{
+    class Program
+    {
+        public static int C1, C2, C3, C4, C5;
+        public static List<int> posiciones = new List<int>();
+        public static void Corredor1()
+        {
+            Random c1 = new Random();
+            C1 = c1.Next(0, 10);
+            posiciones.Add(C1);
+        }
+        public static void Corredor2()
+        {
+            Random c2 = new Random();
+            C2 = c2.Next(11, 20);
+            posiciones.Add(C2);
+        }
+        public static void Corredor3()
+        {
+            Random c3 = new Random();
+            C3 = c3.Next(21, 30);
+            posiciones.Add(C3);
+        }
+        public static void Corredor4()
+        {
+            Random c4 = new Random();
+            C4 = c4.Next(31, 40);
+            posiciones.Add(C4);
+        }
+        public static void Corredor5()
+        {
+            Random c5 = new Random();
+            C5 = c5.Next(41, 50);
+            posiciones.Add(C5);
+        }
+        static void Main(string[] args)
+        {
+            string nombreArchivo = "RegistroCorredores.txt";
+            FileStream crearArchivo = new FileStream(nombreArchivo, FileMode.OpenOrCreate, FileAccess.Write);	'Llamada al sistema porque se esta manejando una
+            StreamWriter escribir = new StreamWriter(crearArchivo);								creacion nueva de un archivo o una apertura de
+																			este.'
+            List<int> Llegada = new List<int>();
+            Thread corredor1 = new Thread(new ThreadStart(Corredor1));
+            Thread corredor2 = new Thread(new ThreadStart(Corredor2));
+            Thread corredor3 = new Thread(new ThreadStart(Corredor3));
+            Thread corredor4 = new Thread(new ThreadStart(Corredor4));
+            Thread corredor5 = new Thread(new ThreadStart(Corredor5));
+            
+            corredor1.Start();
+            corredor2.Start();
+            corredor3.Start();
+            corredor4.Start();
+            corredor5.Start();
+
+            Thread.Sleep(1000);
+
+            int lugar = 1;
+            foreach(int pos in posiciones)
+            {
+                Console.WriteLine("El corredor con ID " + pos + " quedo en " + lugar + "° lugar");	'Llamada al sistema ya que se necesita que el sistema 
+                lugar++;													operativo escriba este mensaje.'
+            }
+            Console.ReadKey();
+        }
+    }
+}
