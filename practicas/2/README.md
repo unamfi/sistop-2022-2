@@ -1,7 +1,7 @@
 # Práctica 2: Ramas paralelas de desarrollo
 
     Práctica creada: 2022.02.08
-	Entrega en tiempo: 2022.02.15
+    Entrega en tiempo: 2022.02.15
 
 Posiblemente, varios de ustedes se han confundido (o lo harán) al
 enviar un un *pull request*, incluyendo cambios de más o de menos
@@ -53,8 +53,7 @@ encontrar la situación actual:
 
 	$ git log --all --graph --oneline --pretty=format:'%h <%an> %s %Cgreen%d'
 
-En sistemas Unix (posiblemente también en Windows, pero no estoy
-seguro), pueden utilizar una interfaz gráfica que les dará información
+En sistemas Unix (funciona también en Windows, pero solo usando la gitbash, cmd git, usando WSL sólo obtendrás un error de comando no existente), pueden utilizar una interfaz gráfica que les dará información
 similar al comando anterior con:
 
 	$ gitk --all
@@ -83,14 +82,14 @@ Creemos una rama llamado `practica2a`, y otra llamada
 `practica2b`. Desde el directorio base de nuestro repositorio:
 
     $ git branch practica2a
-	$ git branch practica2b
+    $ git branch practica2b
 
 ## Trabajando sobre una de mis nuevas ramas
 
-En este momento, `master`, `practica2a` y `practica2b` apuntan al
+En este momento, `main`, `practica2a` y `practica2b` apuntan al
 mismo *objeto*, al mismo punto en la historia de nuestro proyecto. Y,
 a pesar de haber creado las dos ramas, la rama activa sigue siendo
-`master`. Vamos a seleccionar, con `checkout`, la práctica 2A, y crear
+`main`. Vamos a seleccionar, con `checkout`, la práctica 2A, y crear
 un archivo dentro de ésta. Por ejemplo, para obtener la fecha del
 sistema y guardarla en un archivo:
 
@@ -139,14 +138,14 @@ Puedes verificar que cada una de las prácticas contiene archivos
 distintos en el mismo punto del directorio:
 
     $ cd practicas/2/WolfGunnar
-	$ git checkout practica2a
-	Switched to branch 'practica2a'
-	$ ls
-	hora_actual.txt
-	$ git checkout practica2b
-	Switched to branch 'practica2b'
-	$ ls
-	cpuinfo.txt
+    $ git checkout practica2a
+    Switched to branch 'practica2a'
+    $ ls
+    hora_actual.txt
+    $ git checkout practica2b
+    Switched to branch 'practica2b'
+    $ ls
+    cpuinfo.txt
 
 ## Envía tus cambios mediante *dos* pull requests
 
