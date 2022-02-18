@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea 2</title>
+</head>
+<body style="background-color: aliceblue;">
+    <h2>Tarea 2, Sistemas Operativos, Velasco Pachuca Bryan</h2>
+    <h4>Programa creado en c#  :)</h4>
+    <style>
+        .estilo{
+            color: green;
+        }
+        .estilo2{
+            color: blueviolet;
+        }
+    </style>
+    <pre>
+        namespace Ejercicios
+        {
+            class Program
+            {
+                static void Main(string[] args)
+                {
+                    <i class="estilo"><b>String input;</b></i>  <big class="estilo2"><-Es una llamada al sistema debido a que se necesita asignar un espacio en memoria</big>
+                    int option = 1;
+                    while (option != 4) {
+                        <i class="estilo"><b>Console.Write</b></i>("Velasco Pachuca Bryan\nQue ejercicio desea evaluar?\n1)Calcular el cubo de un numero proporcionado.\n2)Mostrar una matriz de 3x3 que muestre del 1 al 9 usando loops.\n3)Invertir el orden de un numero dado.\n4)salir\n");
+                        <big class="estilo2">La línea anterior es una llamada al sistema debido a que se escribe una cadena en consola y por lo tanto se tuvo que administrar la impresión en pantalla</big>
+                        input = <i class="estilo"><b>Console.ReadLine();</i></b>  <big class="estilo2"><-Es una llamada al sistema ya que se detiene la ejecución del programa para leer el buffer del teclado y se regresa el control hasta que se presione enter</big>
+                        option = checkOption(input);
+                        switch (option)
+                        {
+                            case 1:
+                                calculateCube();
+                                break;
+                            case 2:
+                                showMatrix();
+                                break;
+                            case 3:
+                                reverseNumber();
+                                break;
+                            case 4:
+                                Console.WriteLine("Bye :)");
+                                break;
+                        }
+                    }
+        
+                }
+        
+                public static int checkOption(String input)
+                {
+                    int parsed = -1;
+                    <i class="estilo"><b>try</i></b> <big class="estilo2"><-Un try-catch podría llegar a ser una llamada al sistema si no se atrapa adecuadamente la exceción</big>
+                    {
+                        parsed = Int32.Parse(input);
+                        if (parsed < 1 || parsed > 4) {
+                            <i class="estilo"><b>Console.WriteLine("Opcion no disponible");</i></b>
+                            return 5;
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        <i class="estilo"><b>Console.WriteLine("Entrada incorrecta");</i></b>
+                        return 5;
+                    }
+                    return parsed;
+                }
+        
+                private static void calculateCube()
+                {
+                    int number = isInput();
+                    <i class="estilo"><b>Console.WriteLine("Su Cubo es: " + (Math.Pow(number, 3)));</i></b>
+                    <i class="estilo"><b>Thread.Sleep(3000);</i></b> <big class="estilo2"><-El detener la ejecución del hilo del programa es una llamada al sistema, regresando el control al programa hasta que se cumpla la condición (3000 milisegundos de espera)</big>
+                    <i class="estilo"><b>Console.Clear();</i></b> <big class="estilo2"><-Como se limpia la pantalla en la que se está ejecutando el programa es necesario administrar la impresión de la imagen en pantalla</big>
+                }
+        
+                private static void showMatrix() 
+                { 
+                    for ( int i = 0; i < 3 ; i++)
+                    {
+                        for (int j = 1; j < 4; j++)
+                        {
+                            <i class="estilo"><b>Console.Write("[" + (3 * i + j) + "] ","");</i></b>
+                        }
+                        <i class="estilo"><b>Console.WriteLine();</i></b>
+                    }
+                    <i class="estilo"><b>Thread.Sleep(3000);</i></b>
+                    <i class="estilo"><b>Console.Clear();</i></b>
+                }
+                 private static void reverseNumber()
+                {
+                    int number = isInput();
+                    string str = number.ToString();
+                    char[] charArray = str.ToCharArray();
+                    Array.Reverse(charArray);
+                    <i class="estilo"><b>Console.WriteLine(new string(charArray));</i></b>
+                    <i class="estilo"><b>Thread.Sleep(3000);</i></b>
+                    <i class="estilo"><b>Console.Clear();</i></b>
+                }
+        
+                private static int isInput()
+                {
+                    int parsed = 0;
+                    <i class="estilo"><b>Console.WriteLine("Ingresa el numero:");</i></b>
+                    try
+                    {
+                        parsed = Int32.Parse(<i class="estilo"><b>Console.ReadLine()</i></b>);
+                    }
+                    catch (FormatException)
+                    {
+                        <i class="estilo"><b>Console.WriteLine("Entrada incorrecta");</i></b>
+                        return 0;
+                    }
+                    return parsed;
+                }
+        
+            }
+        }
+        
+    </pre>
+</body>
+</html>
