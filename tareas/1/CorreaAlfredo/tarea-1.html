@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tarea 1 SO</title>
+	<style type="text/css">
+		p
+		{
+			color: red;
+		}
+
+		#llamadaAlSistema
+		{
+			background: rgb(229, 165, 165);
+			color: black;
+		}
+	</style>
+</head>
+<body>
+	<pre>
+//Correa González Alfredo
+//Pequeño programa en C de una calculadora que puede hacer las operaciones aritméticas básicas.
+//Puse así las bibliotecas porque html las confunde con etiquetas.
+//Lo que está resaltado en rojo es lo que pienso que son llamadas al sistema.
+//Pienso que al invocar las librerias son llamadas al sistema porque pide recursos para mostrar en pantalla y capturar datos.
+//Las funciones de C como printf() y scanf() pienso que son llamadas al sistema porque piden mostrar y capturar datos.
+//Declarar variables pienso que son llamadas al sistema porque escribe datos en una sección de memoria.
+//Sobre escribir los valores de las variables pienso que son llamadas al sistema porque escribe datos en una sección de memoria.
+
+<p id="llamadaAlSistema">
+#include stdio.h   
+#include stdlib.h </p>
+				
+int main()
+{
+	<p id="llamadaAlSistema">      
+	int opcion;
+	float a,b,c;
+	</p>
+		
+	float sumar(float a, float b)
+		{
+			return (a+b);
+		}
+		
+	float restar(float a, float b)
+		{
+			return (a-b);
+		}
+		
+	float multiplicar(float a, float b)
+		{
+			return (a*b);
+		}
+		
+	float dividir(float a, float b)
+		{
+			return(a/b);
+		}
+				
+		
+	do
+	{
+		<p id="llamadaAlSistema">
+		printf("\nCalculadora \n");
+		printf("1)SUMA\n");
+		printf("2)RESTA\n");
+		printf("3)MULTIPLICACION\n");
+		printf("4)DIVISION\n");		
+		printf("5)SALIR\n\n");
+			
+		printf("Escoge una opcion: ");
+		scanf("%d", &opcion);
+		
+		</p>>
+		switch (opcion)
+		{
+			case 1:
+			<p id="llamadaAlSistema">
+				printf("\nSUMA");
+				printf("\nDame el primer numero a sumar:  ");
+				scanf("%f",&a);
+				printf("\nDame el segundo numero a sumar: ");
+				scanf("%f", &b);
+			
+				c = sumar(a,b);
+				
+				printf("\nLa suma es: %f ", c);
+			</p>	
+			break;
+			
+			case 2:
+			<p id="llamadaAlSistema">
+				printf("\nRESTA");
+				printf("\nDame el primer numero a restar:  ");
+				scanf("%f",&a);
+				printf("\nDame el segundo numero a restar: ");
+				scanf("%f", &b);
+			
+				c = restar(a,b);
+				
+				printf("\nLa resta es: %f ", c);
+			</p>	
+			break;
+			
+			case 3:
+			<p id="llamadaAlSistema">
+				printf("\nMULTIPLICACION");
+				printf("\nDame el primer numero a multiplicar:  ");
+				scanf("%f",&a);
+				printf("\nDame el segundo numero a multiplicar: ");
+				scanf("%f", &b);>
+			
+				c = multiplicar(a,b);
+				
+				printf("\nLa multiplicacion es: %f ", c);
+			</p>	
+			break;
+			
+			case 4:
+			<p id="llamadaAlSistema">
+				printf("\nDIVISION");
+				printf("\nDame el primer numero:  ");
+				scanf("%f",&a);
+				printf("\nDame el segundo numero para dividir: ");
+				scanf("%f", &b);
+			
+				if(b!=0)
+				{
+					<p id="llamadaAlSistema">
+					c = dividir(a,b);
+					
+					printf("La division es: %f", c);
+					</p>
+				}
+				else
+				{	
+					<p id="llamadaAlSistema">
+					printf("\nIndeterminado\n");
+					</p>
+				}
+										
+			break;
+						
+			case 5:
+			<p id="llamadaAlSistema">
+				printf("SALIENDO...\n\n");
+			</p>
+			break;
+			
+			default:
+			<p id="llamadaAlSistema">
+				printf("Opcion invalida\n\n");
+			</p>
+			break;
+			
+		}
+		
+	while(opcion != 5);
+		
+		
+		
+	return 0;
+}
+
+
+	
+</pre>
+</body>
+</html>
