@@ -1,0 +1,365 @@
+#+options: toc:nil
+
+* Revisión de la tarea #1, «¿Cuándo es una llamada al sistema?
+
+** Comentarios repetitivos
+Hay algunos comentarios que es muy común hacer, así que me evito
+repeticiones, y los refiero a esta sección. ¡Disculpen que yo sea tan
+flojo 😉
+
+- include :: Los que me marcaron =import=, =using=, =#include= o
+  similares: Me parece interesante ver que incluyen a estas
+  directivas. Es cierto, cumplirlas requiere de buscar, abrir y leer
+  una serie de archivos, que son llamadas al sistema — pero son
+  /directivas al compilador/, y normalmente no forman parte de tu
+  código compilado.
+
+  En todo caso, dependiendo del lenguaje: ya dependerá de cómo
+  invocas al compilador si hace /ligado estático/ o /dinámico/...
+
+- Control de flujo :: El control de flujo de los programas (un salto,
+  ya sea para /bifurcar/ la lógica o para introducir ciclos, que
+  dependa del resultado de la evaluación de una condicional, que puede
+  ser un =if=, =while=, =for=, =case=, =break=, llamadas a función o
+  similares) se resuelve completamente dentro de la máquina von
+  Neumann, por lo que no requiere de una llamada al sistema.
+
+- Consola limpia :: Siempre que veo llamadas como =system(cls)=
+  (Windows) o =system(clear)= (Unix) rechino los dientes... La llamada
+  al sistema que tienes en tu programa en =system()=, que hace el
+  equivalente en tu sistema a un =fork()= seguido de un =exec()=. Esto
+  lanza a un nuevo programa, que averigua las características de la
+  consola que estás utilizando (mediante una serie de lecturas de
+  archivos y de =sockets=... Y envía una cadena que le indica a la
+  consola que limpie el área de visualización. En mi equipo, esta
+  cadena es =\33[H\33[2J=. ¡Cuánto trabajo le ahorraríamos al sistema
+  sin invocar a =system()=!
+
+** Enrique Albores
+- Archivos :: [[./AlboresEnrique/Menu 1.png][Menu 1.png]], [[./AlboresEnrique/Menu 2.jpg][Menu 2.jpg]]
+- Comentarios ::
+  - Ojo: Marcas únicamente como =LLAMADA AL SISTEMA= a línea tras
+    línea, pero no indicas ni una vez por qué lo son (que es parte de
+    la consigna) ☹
+  - Correcto: Casi todas las líneas de tu programa son llamadas al
+    sistema
+    - Claro, es un programa en el que casi todo lo que se hace es
+      entrada/salida
+  - Comentario repetitivo *control de flujo*
+- Calificación :: 7.5
+
+** Luis Alejandro
+- Archivos :: [[./AlejandroLuis/tarea1.txt][tarea1.txt]]
+- Comentarios ::
+  - Comentario repetitivo *control de flujo*. La declaración de una
+    función (en este caso, la declaración de =main()=) se compila a
+    una etiqueta y un poco de aritmética de apuntadores.
+  - ni el =while= ni la condición que contiene (=c!=EOF=) son llamadas
+    al sistema: El primero es un salto condicional, y la segunda es
+    una comparación entre un valor en memoria (=c=) constante
+    (=EOF=). ¡Esto lo puede hacer perfectamente tu máquina von Neumann!
+- Calificación :: 9
+
+** Carlos Aleman
+- Archivos :: [[./CarlosAleman/Tarea1.html][Tarea1.html]]
+- Comentarios ::
+  - Comentario repeptitivo *include*
+  - ¡Recuerda que una máquina von Neumann no tiene entrada y salida!
+    Las llamadas a =Console.WriteLine()= y =Console.ReadLine()= son
+    también llamadas al sistema.
+  - =sr.ReadLine()= es también una llamada al sistema: Avanza sobre el
+    archivo =sr=, leyendo hasta encontrar un =\n= cada vez
+  - =catch (Exception e)= debería estar marcado también, me parece:
+    para poder /atrapar/ una excepción, es necesario
+    registrarla. Claro, ese registro se llevaría a cabo al entrar al
+    bloque =try=; el bloque =catch= podría ser similar a lo que les
+    mostré de las señales, un bloque de código no necsariamente
+    contiguo/en línea.
+- Calificación :: 9
+
+** Andrea Andres
+- Archivos :: [[./AndresAndrea/Tarea 1.pdf][Tarea 1.pdf]]
+- Comentarios ::
+  - Línea 141, la creación de tu objeto =Scanner= no necesariamente va
+    a ser una llamada al sistema (aunque podría tenerlo, como parte de
+    su inicialización; no puedo ver su fuente para asegurártelo);
+    estás únicamente /preparando una estructura/ que va a trabajar
+    sobre =System.in=, pero es posible que no la estés /utilizando/
+    aún.
+    - Pero supongo que =sc.hasNext()= y =sc.nextLine()= (líneas
+      148-149) sí operan sobre los datos de entrada: Ahí estarían las
+      llamadas al sistema.
+  - Las líneas 157-158 (=BufferedReader(archivo)= y  =entrada =
+    buffer.readLine()=) son llamadas al sistema. Misma nota respecto a
+    las líneas 176/177.
+  - Más que el =e.printStackTrace()= (l. 162), me parece que sería el
+    =catch Exception e)= (l. 161) que tendrías que marcar como
+    llamada. Mostrar el =stack trace= puede hacerse con examinar
+    /desde dentro/ la memoria del proceso. Lo hiciste precisamente así
+    en las líneas 180/181.
+  - =System.out.println= es una llamada al sistema.
+- Calificación :: 9
+
+** Alejandro Barreiro
+- Archivos :: [[./BarreiroAlejandro/tarea1.pdf][tarea1.pdf]]
+- Comentarios ::
+  - La llamada a tu función =escribir()= (dentro de =crearArchivo()=)
+    no es una llamada al sistema, sino que sólo un salto a otro punto
+    de tu programa. /Resulta/, sí, en varias llamadas al sistema
+    (porque hay varias llamadas dentro de =escribir()=), pero no es
+    una llamada al sistema por sí sólo
+  - Las verificaciones acerca de la existencia de un archivo
+    (=archivo.exists()=) en distintos puntos del programa, así como
+    =directoryToBeDeleted.listFiles()=, operan sobre esa abstracción
+    conocida como /directorio/ y, por tanto, son también llamadas al
+    sistema.
+- Calificación :: 9
+
+** Victor Barrera
+- Archivos :: [[./BarreraVictor/BarreraVictor.md][BarreraVictor.md]]
+- Comentarios ::
+  - Comentario repetitivo *include*
+  - Poner y quitar elementos en el /stack/ (esto es, llamar o retornar
+    de funciones) /normalmente/ no requieren de llamadas al sistema
+    (llega a ser necesario, por ejemplo, cuando compilas con el uso de
+    /canarios/... ¡Pero eso lo veremos más adelante!)
+- Calificación :: 10
+
+** Francisco Barrios
+- Archivos :: [[./BarriosFrancisco/Tarea 1.htm][Tarea 1.htm]], [[./BarriosFrancisco/Tarea 1_archivos/colorschememapping.xml][colorschememapping.xml]], [[./BarriosFrancisco/Tarea 1_archivos/filelist.xml][filelist.xml]], [[./BarriosFrancisco/Tarea 1_archivos/themedata.thmx][themedata.thmx]]
+- Comentarios ::
+  - Comentario repetitivo *include*.
+  - Si bien es correcto que =srand(time(NULL))= hace una llamada al
+    sistema, es por =time(NULL)= (consultar la hora actual). Más
+    adelante, =rand()%1000= puede resolverse por completo internamente.
+  - Muchas veces ponemos como ejemplo de llamada al sistema obtener o
+    liberar memoria... Pero ya veremos más adelante que, por
+    cuestiones de eficiencia, =malloc()= y =free()= pueden llamarse
+    sin causar llamadas al sistema.
+  - Las llamadas a =HeapSort()=, =quickSort()= y =bubbleSort()= son a
+    un archivo externo, sí. Pero como ya veremos más adelante, este
+    archivo no se abre cada vez, sino que es /mapeado a memoria/,
+    ahorrándote el costo en llamadas.
+- Calificación :: 10
+
+** Velasco Bryan
+- Archivos :: [[./BryanVelasco/Tarea 1.html][Tarea 1.html]]
+- Comentarios ::
+  - La intuición de que asignar memoria es una llamada al sistema es
+    buena, pero en este caso, =String input= lo maneja el compilador,
+    y reserva el espacio de forma estática al iniciar la ejecución de
+    =Main()=, no es una llamada al sistema. Si acaso (pero te refiero
+    a la nota que le hice a Francisco Barrios), la llamada al sistema
+    vendría al hacer una asignación /dinámica/, como la proveniente de
+    la familia de =malloc()=.
+  - Muy bueno con lo del =try= / =catch=: La llamada al sistema se
+    presentaría al /registrar/ el manejador de excepción.
+  - Veo que me marcaste únicamente el primer caso de llamada en tu
+    programa. ¡Muy bien hecho!
+- Calificación :: 10
+
+** Alfredo Correa
+- Archivos :: [[./CorreaAlfredo/tarea-1.html][tarea-1.html]]
+- Comentarios ::
+  - Comentario repetitivo *include*
+  - La declaración de tus variables =opcion=, =a=, =b= y =c= no son
+    llamadas al sistema: Son directivas al compilador, que reserva el
+    espacio necesario /al crear el archivo que contiene a tu
+    programa/, no en tiempo de ejecución.
+  - Marcaste de más un poco alegremente 😉 Las llamadas a función
+    =sumar()=, =restar()=, =multiplicar()=, =dividir()= no son
+    llamadas al sistema (ni siquiera considerando el cuerpo interno de
+    dichas funciones).
+  - La comparación =if(b!=0)= tampoco es una llamada al sistema.
+- Calificación :: 9
+
+** Jesús Davila
+- Archivos :: [[./DavilaJesus/Tarea1DavilaOrtegaJesusEduardo.pdf][Tarea1DavilaOrtegaJesusEduardo.pdf]]
+- Comentarios ::
+  - Todas las cadenas que imprimes (esto es, todas las llamadas a
+    =System.out.println()=) son llamadas al sistema.
+  - =archivo.exists()= verifica en el listado del directorio, por
+    tanto es una llamada al sistema.
+  - La creación dinámica de objetos (=new File()=, =new FileWriter()=)
+    /no necesariamente/ son llamadas al sistema: depende de si hay
+    /memoria asignada al proceso/ disponible o no. Sí, detalles
+    específicos con los que por ahora no espero que nos peleemos 😉
+    aunque iremos llegando a alguno de ellos.
+- Calificación :: 9
+
+** Axel Escalona
+- Archivos :: [[./EscalonaAxel/tarea1.pptx][tarea1.pptx]]
+- Comentarios ::
+  - Comentario repetitivo *consola limpia*
+  - Respecto a tu nota sobre el =switch= / =case=, te remito al
+    comentario repetitivo =control de flujo=. No estás llamando a
+    otros procesos, sino que a otras /funciones/, y todo eso es salto
+    interno.
+  - La invocación a =pow()= no es una llamada al sistema: Una vez que
+    el programa está en ejecución, la biblioteca (*no se dice
+    librería* en español) =math.h= está en el espacio de memoria, y
+    puedes llamar a sus funciones básicamente como si fueran parte de
+    tu código
+- Calificación :: 9
+
+** Giselle Espinosa
+- Archivos :: [[./EspinosaGiselle/Tarea1_EspinosaGiselle.pdf][Tarea1_EspinosaGiselle.pdf]]
+- Comentarios ::
+  - =scanf()= y =fflush()= son llamadas al sistema por las mismas
+    razones que =printf()=: Porque interactúan con un flujo de datos
+    externo (que podría ser un archivo o un dispositivo, da igual).
+  - Tu intuición con =malloc()= y =free()= es mayormente
+    correcta... Pero ya veremos más adelante que resulta /a veces/ en
+    una llamada al sistema (dependiendo de cuánta memoria libre haya
+    en un área específica).
+- Calificación :: 10
+
+** Yoav Galdamez
+- Archivos :: [[./GaldamezYoav/img20220217_21374244.pdf][img20220217_21374244.pdf]]
+- Comentarios ::
+  - Ojo: Marcas únicamente en verde las líneas con llamadas al sistema
+    tras línea, pero no indicas ni una vez por qué lo son (que es
+    parte de la consigna) ☹
+- Calificación :: 7.5
+
+** Christian Leyva
+- Archivos :: [[./LeyvaChristian/README.md][README.md]], [[./LeyvaChristian/Tarea1.html][Tarea1.html]]
+- Comentarios ::
+  - ¡Excelente presentación, felicidades y gracias!
+  - Comentario repetitivo *include*.
+  - Comentario repetitivo *consola limpia*
+- Calificación :: 10
+
+** Nieto Pamela
+- Archivos :: [[./PamelaNieto/Tarea 1.pdf][Tarea 1.pdf]]
+- Comentarios ::
+  - Declarar las variables que vas a usar no geenra llamadas al
+    sistema: puedes verlo como directivas al compilador, para que
+    reserve un espacio en el tamaño del stack de cada función (o en el
+    espacio global, si están declararadas en el nivel superior) para
+    estos datos; una vez en ejecución, estos espacios ya “están ahí” y
+    simplemente se utilizan.
+  - Las operaciones aritméticas no son llamadas al sistema, las puede
+    realizar directamente una computadora von Neumann pura.
+  - Tus =readln()= son llamadas al sistema, sí — pero no porque
+    utilice a una variable, sino porque maneja interacción con el
+    /mundo exterior/.
+- Calificación :: 9
+
+** Emilio Piña
+- Archivos :: [[./PiñaEmilio/Tarea1.pdf][Tarea1.pdf]]
+- Comentarios ::
+  - Las /declaraciones/ al inicio de tu clase =Radix= son indicaciones
+    para el compilador, y no se ejecutan (por tanto, no son llamadas
+    al sistema). Tienen como fin únicamente que el compilador pueda
+    prever el tamaño de las estructuras a crear (funciones u objetos),
+    y que exponga los símolos adecuados cuando sea llamado.
+  - Vale lo mismo para declarar la función declarando su =throws=: Son
+    para indicarle al compilador que debe poderle exigir a quien llame
+    esta función que tenga un =catch= acorde.
+  - nomás por si acaso: en tu página 3, del =switch(digito)=, las
+    llamadas la sistema son únicamente las distintas
+    =fw[n].write(completo)=, no los =case= ni =break= (comentario
+    repetitivo *control de flujo*)
+  - Pág. 3, la línea 145 (=findWithinHorizon()=) no me parece que
+    tenga una llamada al sistema. Las siguientes tres sí.
+  - Falta marcar algunos =new FileWriter=, =println()=, y
+    similares... pero me parece que el ejercicio demuestra que los
+    comprendiste bien.
+- Calificación :: 9
+
+** Brenda Pérez
+- Archivos :: [[./PérezBrenda/Llamadas-al-sistema.txt][Llamadas-al-sistema.txt]]
+- Comentarios ::
+  - Comentario repetitivo *include*
+  - Te faltó agregar las llamadas al sistema para la creación de los
+    cinco hilos (=new Thread()=), el que inicien su ejecución
+    (=corredor1.Start()=), y que el hilo inicial “descanse” por un
+    segundo (=Thread.Sleep(1000)=).
+    - Claro, siendo Java, es posible que estés usando hilos de
+      usuario... pero altamente improbable (además, estás usando
+      =System.Threading=)
+  - No sólo enviar información a consola requiere de una llamada al
+    sistema: también leer de ella (=Console.ReadKey()=).
+- Calificación :: 9
+
+** Oscar Ramos
+- Archivos :: [[./RamosOscar/llamadas al sistema.pdf][llamadas al sistema.pdf]], [[./RamosOscar/llamadas_al_sistema.pdf][llamadas_al_sistema.pdf]]
+- Comentarios ::
+  - Asumo que tus dos archivos son iguales (se ven muy parecidos).
+  - Ojo: Marcas únicamente en verde las líneas con llamadas al sistema
+    tras línea, pero no indicas ni una vez por qué lo son (que es
+    parte de la consigna) ☹
+  - Te faltó marcar un par de llamadas a =printf()= (aunque no le
+    hace, me queda claro que reconoces que =printf()= causa una
+    llamada al sistema)
+  - Tu programa es, de todos los que me subieron, el mejor ejemplo de
+    una /ráfaga de CPU/: En toda la primera página hay únicamente una
+    llamada al sistema: Puede ejecutarse sin requerir de ningún cambio
+    de contexto. Casi todos los programas presentados son más bien un
+    ejemplo de /ráfagas de entrada/salida/, porque requieren
+    constantemente interrumpir su ejecución.
+- Calificación :: 7.5
+
+** André Rosales
+- Archivos :: [[./RosalesAndré/tarea1.pdf][tarea1.pdf]]
+- Comentarios ::
+  - De acuerdo con las líneas que marcas, pero no con la razón por la
+    que explicas 😉
+
+    =cin= y =cout= están vinculados respectivamente a =STDIN= y
+    =STDOUT= (entrada y salida estándar). Los buffers ya están
+    “amarrados” desde el principio de la ejecución. Pero la llamada al
+    sistema ocurre cuando hay que indicarle al controlador de la
+    terminal, “no seas malito, asómate a ese buffer y aviéntaselo al
+    usuario para que lo pueda leer”.
+  - No puedo evitar apuntar a que en tu programa no estás preveyendo
+    la situación de excepción en caso de recibir un número mayor a
+    3999 😉
+- Calificación :: 10
+
+** Ricardo Ruelas
+- Archivos :: [[./RuelasRicardo/Tarea_1_RuelasViurquezRicardo.pdf][Tarea_1_RuelasViurquezRicardo.pdf]]
+- Comentarios ::
+  - Comentario repetitivo *include*
+  - Como tu programa ejemplo describe una interfaz gráfica, me es
+    difícil asegurar el flujo específico... /Creo/ que no hace falta
+    que marques como llamada al sistema cada elemento que va siendo
+    agregado a la interfaz (=Button=, =Label=, etc.), porque son más
+    bien llamadas a una biblioteca; me parece (como lo indicas en tu
+    última nota) que todos estos se “concretan” en una cadenita de
+    muchas llamadas al sistema en el momento de ceder el control a la
+    biblioteca gráfica, cuando llamas a =app.mainloop()=
+    - Ahora que... Esto mismo aplicaría a las otras operaciones que
+      marcas relativas al GUI: =messagebox.showinfo()=,
+      =root.resizable()=, =root.title()= son también únicamente
+      indicaciones a la biblioteca gráfica
+    - Ojo: El que tengas varias ventanas /no significa/ que tengas
+      varios procesos. =messagebox.showinfo= crea una nueva /ventana/,
+      no un nuevo proceso. Claro, eso se traduce en llamadas al
+      sistema, pero ocurre dentro del =mainloop=.
+  - Tampoco voy a resistir hacerte una simple recomendación sobre el
+    código 😉 La lógica para acomodar a tus botones en una matriz de
+    3×3 podría quedar más fácil si, en vez del =if= al final de la
+    página 1, crearas todos los botones con
+    =newbutton.grid(row = _/3, column = _%3)= (recuerda que estás
+    usando aritmética entera).
+    - Además, =seleccion_casilla()= podría simplificarse si en vez de
+      que =jugador= fuera 1 o 2, fuera =True= o =False=. En vez de
+      sumar o restar 1 al turno, indicas =jugador = !jugador=, y ya
+      cambiaste el turno. Los indicadores de botón los resuelves con
+      un condicional en línea... Y te ahorras otro poco de engorro
+      visual.
+  - ¡Te agradezco que me aventaras el reto de evaluar un programa un
+    poco diferente! 😉
+- Calificación :: 10
+
+** Jessica Zepeda
+- Archivos :: [[./ZepedaJessica/Tarea01_JessicaZepeda.pdf][Tarea01_JessicaZepeda.pdf]]
+- Comentarios ::
+  - ¡Me parece que identificaste muy bien las llamadas! Me permito
+    apuntar a que el constructor (=new=) y destructor (=.delete()=) de
+    tus objetos =File= (¿y =Scanner=? No lo conozco, pero me parece
+    que sí) son llamadas al sistema: Se convierten en =open()= y
+    =close()=.
+- Calificación :: 10
