@@ -30,3 +30,5 @@ y no voy a ser demasiado exigente. Voy a hacer comentarios respecto a
 lo que vea, pero la calificación puedo adelantarles que será tranquila
 😉
 
+**2022.02.24:** [Ya está lista la revisión y
+comentario](./revision.org) para todas sus entregas.

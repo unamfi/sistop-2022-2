@@ -1,0 +1,40 @@
+//programa  para contar un carácter pedida al usuario de un archivo  hecho por ALEJANDRO BAUTISTA LUIS EDUARDO
+
+#include<stdio.h>
+
+void main(){//llamada al sistema de inicio del programa
+
+FILE *f;
+
+char c,letra;
+int contador;
+
+printf("dame el caracter que deas contar \n");// llamada al sistema para mostrar en pantalla el texto
+
+scanf("%c",&letra);// llamada al sistema que deja a la espera de que el usuario introduzca un carcter desde el teclado
+
+contador=0;
+
+f=fopen("escritura.txt","r");//llamada al sistema para abrir el archivo solicitado
+
+c=fgetc(f);//creo que esta instruccion tambien es una llamada al sistema ya que copia el siguiente caracter del archivo 
+
+//considero que el siguiente ciclo while es una llamada al sistema ya que en cada ciclo hace una comparacion con entre 
+//el caracter que ingreso el usuario y cada uno de los caracteres del archivo
+
+while(c!=EOF){//ciclo while
+    if(letra==c){/*compara caracter por caracter con el caracter que ingreso el usuario
+            si son iguales el contador aumenta +1*/
+    contador=contador+1;
+    }
+    c=fgetc(f);
+
+
+}//fin del ciclo while
+
+//llamada al sistema para mostrar en pantalla el texto
+printf("el numero de veces que el archivo contiene el caracter '%c' es:%i  \n",letra,contador);
+
+fclose(f);//creo que esta llamada al sistema de cerrar el archivo libera el espacio en memoria 
+
+}// y por ultimo una llamada al sistema que indica el fin del programa
