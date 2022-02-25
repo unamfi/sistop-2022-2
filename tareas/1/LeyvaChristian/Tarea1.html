@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://portfolio.chrisley.codes/assets/img/TabIcon.ico">
+    <link rel="stylesheet" href="https://portfolio.chrisley.codes/assets/css/styles.min.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>Tarea1 SO Christian Leyva</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Poppins:ital,wght@0,300;0,400;1,600&display=swap');
+        *{
+            font-family: 'Poppins';
+            color: #222222;
+        }
+        ::-webkit-scrollbar{
+            width: .40rem ;
+        }
+        a{
+            color: #F24236 ;
+        }
+        a:hover{
+            color: #1C5D99 !important;
+        }
+        .space{
+            margin-top: 100px;
+        }
+        .code_bg{
+            margin: auto;
+            background-color: #f1f1f1;
+            box-sizing: content-box;
+            width: 60vw;
+            height: 70vh;
+            font-size: 15px;
+            overflow-y: auto;
+            overflow-x: auto;
+            border-radius: 25px;
+        }
+        .code{
+            font-family: 'Fira Code';
+        }
+        .code_bg a{
+            text-decoration: none;
+        }
+        .container_t1{
+            width: 60vw;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: content-box;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .instrucciones{
+            box-sizing: content-box;
+            padding-bottom: 20px;
+            width: 60vw;
+            margin: auto;
+        }
+        .instrucciones p{
+            text-align: justify;
+        }
+        .footer_t1{
+            background-color: #1C5D99 !important;
+            height: auto;
+        }
+        .footer_span{
+            color: white;
+            font-size: 15px;
+        }
+        .p_bg{
+            margin: 20px 0px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            padding-left: 25px;
+            padding-right: 25px;
+            padding-top: 1px;
+            padding-bottom: 15px;
+            background-color: #e6e3e3;
+        }
+        .footer_div{
+            margin: auto;
+            padding: 10px;
+            width: 75vw;
+            box-sizing: content-box;
+        }
+        h3{
+            color: #1C5D99;
+            font-weight: 600;
+            font-style: italic;
+            margin: 0;
+            padding-top: 10px;
+            padding-bottom: 5px;
+        }
+        @media (max-width: 768px) {
+            .space{
+                margin-top: 25px;
+            }
+            .code_bg{
+                width: 80vw;
+                font-size: 13px;
+            }
+            .instrucciones{
+                width: 80vw;
+            }
+            .container_t1{
+                width: 80vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header scroll-header" id="header">
+        <nav class="nav container" id="nav">
+            <!-- <a href="#" class="nav__logo"><embed src="assets/img/svg_negro.svg" height="20px" class="nav_logo"></a> -->
+            <a href="#" class="nav__logo">Tarea 1 Christian Leyva</a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list grid">
+                    <li class="nav__item">
+                        <a href="#instrucciones" class="nav__link">
+                            <i class="uil uil-sign-alt nav__icon"></i> Instrucciones
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#codigo" class="nav__link">
+                            <i class="uil uil-brackets-curly nav__icon"></i> Código
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#explicacion" class="nav__link">
+                            <i class="uil uil-file-edit-alt nav__icon"></i> Explicación
+                        </a>
+                    </li>
+                </ul>
+                <i class="uil uil-times nav__close nav__icon" id="nav-close"></i>
+            </div>
+            
+            <div class="nav_btns">
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="uil uil-apps"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="space"></div>
+
+    <h2 class="section__title" id="instrucciones">Instrucciones</h2>
+    <div class="instrucciones">
+        <p>El programa que analice fue un pequeño programa que tenía realizado en el lenguaje <b>Python</b>
+            el cual simplemente muestra un temporizador en la consola de ejecución del tiempo que el usuario le ingresa al inicio del mismo, asi como la hora en que el contador inicio y el contador termino.
+            <br> El código fuente mostrado a continuación contiene marcado de color <a href="#explicacion">ROJO</a> las instrucciones que <b>yo</b> considero que realizan <b>llamadas al sistema</b>, al dar <a href="#explicacion">click</a> en ellas te dirigirá a la explicación de porque yo considero que realiza una llamada al sistema.
+        </p>
+    </div>
+
+    <h2 class="section__title" id="codigo">Código</h2>
+    <br>
+    <div class="code_bg" >
+        <pre><code class="code">
+    import time
+    from datetime import datetime
+    from os import system
+    from os import <a href="#OSName">name as OSName</a>
+
+    def clear():
+        # nt -> Windows
+        if OSName == 'nt':
+            <a href="#clear">system('cls')</a>
+        else:
+            <a href="#clear">system('clear')</a>
+
+    def contador(tiempo_seg):
+        # Obtiene la hora actual
+        hora_inicio = <a href="#datetime">datetime.now()</a> 
+
+        while tiempo_seg:
+            mins, segs = divmod(tiempo_seg, 60)
+            tiempo_str = '{:02d}:{:02d}'.format(mins, segs)
+            # end \r -> Escribe en la misma linea.
+            <a href="#print">print</a>(tiempo_str, end='\r') 
+            time.<a href="#sleep">sleep(1)</a>
+            tiempo_seg -= 1
+        hora_final = <a href="#datetime">datetime.now()</a>
+        
+        <a href="#print">print</a>("¡Tiempo agotado!")
+        <a href="#print">print</a>("Hora inicio: {}".format(hora_inicio.strftime("%H:%M:%S")))
+        <a href="#print">print</a>("Hora termino: {}\n".format(hora_final.strftime("%H:%M:%S")))
+
+    def main():
+    <a href="#print">print</a>("Ingresa el tiempo del contador EN SEGUNDOS: ", end= '')
+        tiempo = int(<a href="#input">input()</a>)
+        clear()
+        mins, segs = divmod(tiempo, 60)
+        tiempo_str = '{:02d}:{:02d}'.format(mins, segs)
+        <a href="#print">print</a>("Contador de {} min.".format(tiempo_str))
+        contador(tiempo)
+
+    main()
+    </code></pre></div>
+    <br>
+    <h2 class="section__title" id="explicacion">Explicación</h2>
+    <div class="container_t1">
+        <div class="p_bg" id="OSName">
+            <h3>name as OSName</h3>
+            Considero que se realiza una llamada al sistema en esta declaración ya que la librería <b>os</b>
+            tiene que hacerla para obtener el nombre del sistema operativo que se esta utilizando, y se hace en esta 
+            linea ya que se esta declarando la variable <b>OSName</b> con este valor.
+        </div>
+        <div class="p_bg" id="clear">
+            <h3>system('cls') & system('clear')</h3>
+            En estas funciones se esta haciendo una llamada directa al sistema, ya que esta
+            le esta pasando una función que la consola del sistema debe ejecutar. <br>
+            En este caso esta ejecutando (dependiendo el sistema operativo) la función para limpiar la consola.
+        </div>
+        <div class="p_bg" id="print">
+            <h3>print()</h3>
+            En esta función pasaría algo similar a lo que vimos en clase con el ejemplo en C, el programa
+            haría una llamada a sistema enviando el texto que la consola del sistema debe mostrar.
+        </div>
+        <div class="p_bg" id="datetime">
+            <h3>datetime.now()</h3>
+            En la función <b>now()</b> de la librería datetime, considero que el programa debe de hacer
+            una llamada al sistema para obtener la hora del sistema (hora actual), mediante algún servició que ofrezca el sistema.
+        </div>
+        <div class="p_bg" id="sleep">
+            <h3>sleep()</h3>
+            sleep es una función que hace que como su nombre lo indica, el programa se <b>"duerma"</b> (suspenda) durante la cantidad
+            de tiempo que se le pase a esta de argumento, yo considero que la función hace una llamada al sistema para que
+            este se suspenda por la cantidad de tiempo que se le dio de parámetro.
+        </div>
+        <div class="p_bg" id="input">
+            <h3>input()</h3>
+            Input es la función en Python que le permite al programa obtener la entrada del usuario mediante
+            la consola del sistema, yo creo que la función debe hacer una llamada al sistema para
+            obtener la cadena que el usuario ingrese mediante la terminal.
+        </div>
+    </div>
+    <footer class="footer_t1">
+        <div class="footer_div">
+            <span class="footer_span">Tarea 1 Sistemas Operativos</span><br>
+            <span class="footer_span">Leyva Mercado Christian Alejandro</span><br>
+            <span class="footer_span">Semestre 2022-2</span>
+        </div>
+    </footer>
+
+</body>
+<script src="https://portfolio.chrisley.codes/assets/js/main.min.js"></script>
+</html>
