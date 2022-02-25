@@ -1,7 +1,7 @@
 # Develemos algunos mitos
 
 	Planteamiento: 2022.02.15
-	Entreta: 2022.02.24
+	Entrega: 2022.02.24
 
 En esta primera unidad comenzamos a estudiar qué es un sistema
 operativo y cómo *opera su magia*. Apenas vamos calentando
