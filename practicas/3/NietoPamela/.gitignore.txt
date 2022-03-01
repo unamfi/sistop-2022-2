@@ -1,0 +1,2 @@
+Programa Paralelismo C
+*.exe
