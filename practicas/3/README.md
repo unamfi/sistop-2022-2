@@ -1,13 +1,24 @@
 # Práctica 3: Ignorando archivos *innecesarios*
 
     Práctica creada el 2022.02.22
-	Entrega: 2022.03.01
+    Entrega: 2022.03.01
 
 Los sistemas de control de cambios están hechos para poder dar
 seguimiento a la historia de los archivos que forman parte de nuestro
 proyecto. Ahora bien, cuando desarrollamos software, trabajamos con
 conjuntos de datos, e incluso cuando escribimos prosa, es frecuente
 que se generen archivos *derivados* de nuestro trabajo.
+
+## Previo
+
+En caso de gcc en linux no este instalado, solo ejecuta el siguiente comando (comprobado en ubuntu)
+
+```bash
+sudo apt update
+sudo apt install build-essential
+```
+
+
 
 ## Presentando el problema
 
@@ -23,11 +34,11 @@ sencillo como un *hola mundo*. Tu programa se llama `hola.c`:
 Probaste el código, y funcionó correctamente:
 
     $ gcc hola.c
-	$ ls
-	a.out    hola.c
-	$ ./a.out
-	Hola mundo!
-	$
+    $ ls
+    a.out    hola.c
+    $ ./a.out
+    Hola mundo!
+    $
 
 (Sí, en Unix, el resultado de `gcc` queda en el archivo `a.out` si no
 explicitamos la salida con `-o`; en Windows probablemente esté en
@@ -39,16 +50,16 @@ revisas el estado actual:
 	$ git status
 	On branch main
 	Changes not staged for commit:
-      (use "git add <file>..." to update what will be committed)
+	  (use "git add <file>..." to update what will be committed)
 	  (use "git checkout -- <file>..." to discard changes in working directory)
-
+	
 		modified:   hola.c
-
-    Untracked files:
-      (use "git add <file>..." to include in what will be committed)
-
-    	a.out
-
+	
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+	
+		a.out
+	
 	no changes added to commit (use "git add" and/or "git commit -a")
 
 Pero... ¿Por qué está ahí `a.out`? Sencillamente, porque... ¡Está ahí!
@@ -77,19 +88,19 @@ Volviendo al caso descrito, creas el archivo .gitignore, y vuelves a
 pedir el estado:
 
     $ git status
-	On branch main
-	Changes not staged for commit:
+    On branch main
+    Changes not staged for commit:
       (use "git add <file>..." to update what will be committed)
-	  (use "git checkout -- <file>..." to discard changes in working directory)
-
-		modified:   hola.c
-
+      (use "git checkout -- <file>..." to discard changes in working directory)
+    
+    	modified:   hola.c
+    
     Untracked files:
       (use "git add <file>..." to include in what will be committed)
-
+    
     	.gitignore
-
-	no changes added to commit (use "git add" and/or "git commit -a")
+    
+    no changes added to commit (use "git add" and/or "git commit -a")
 
 Ahora sí, nos está mostrando únicamente los cambios que hicimos
 personalmente. Vamos a hacer dos *commits* separados, detallando la
