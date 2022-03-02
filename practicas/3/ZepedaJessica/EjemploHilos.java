@@ -1,5 +1,4 @@
-
-    public class EjemploHilos{
+  public class EjemploHilos{
         public static void main(String args[]){
             Table obj = new Table();//only one object
             MyThread1 t1=new MyThread1(obj);
@@ -40,3 +39,4 @@
         }  
     }  
       
+
