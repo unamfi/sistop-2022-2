@@ -1,7 +1,7 @@
 # Ejercicios de sincronización
 
-    Tarea creada: 2022.03.03
-	Entrega: 2022.03.10
+    Tarea creada: 2022.03.08
+	Entrega: 2022.03.15
 
 Vimos ya los principales patrones de sincronización empleando
 semáforos, y mencionamos también la existencia de otros (variables de
