@@ -1,0 +1,180 @@
++title: Proyecto 1 • Calificaciones y comentarios
+#+options: toc:nil
+
+* ¿Qué lineamientos empleo para calificar?
+
+  No puedo calificar a este “proyecto” a partir de criterios técnicos,
+  pues –como se los mencioné– es principalmente un /control de
+  lectura/, y decidí que todas las entregas tendrían 10.
+
+  Hago un par de comentarios sobr su expresión escrita y calidad de
+  entrega, que es lo único que puedo juzgar libre de ambigüedad... y
+  un tradicional punto débil que, desafortunadamente, cargan muchos
+  ingenieros hacia su vida profesional.
+
+* Open Source Firmware
+
+** Aldo Abad
+- Archivos :: [[./AbadAldo/mapaconceptual.pdf][mapaconceptual.pdf]]
+- Comentarios ::
+  - El mapa quedó un poco /ligerito/ de contenido para todo lo que
+    trea el artículo, ¿no te parece?
+- Calificación :: 10
+
+** Andrea Andrés
+- Archivos :: [[./AndresAndrea/Proyecto1_AndresAndrea.pdf][Proyecto1_AndresAndrea.pdf]]
+- Comentarios ::
+  - Buen resumen
+  - Tienes algunos dedazos bastante notorios (bookloader, tambiém,
+    inicilización...) . ¡Cuida un poco más ese aspecto en tus
+    entregas!
+- Calificación :: 10
+
+** Francisco Barrios
+- Archivos :: [[./BarriosFrancisco/proyecto1.drawio.pdf][proyecto1.drawio.pdf]]
+- Comentarios ::
+  - ¡Muy buen resumen! Muy completo, y señalando puntos clave de forma
+    muy útil para la comprensión
+  - Tal vez demasiado texto para un mapa mental... pero sí, son muchos
+    conceptos...
+- Calificación :: 10
+
+** Alfredo Correa
+- Archivos :: [[./CorreaAlfredo/Proyecto_1.jpg][Proyecto_1.jpg]]
+- Comentarios ::
+  - Tu resumen es muy claro y conciso. ¡Bien!
+- Calificación :: 10
+
+** Jesus Davila
+- Archivos :: [[./DavilaJesus/Proyecto1OpenSourceFirmware.jpg][Proyecto1OpenSourceFirmware.jpg]], [[./DavilaJesus/Proyecto1OpenSourceFirmware.pdf][Proyecto1OpenSourceFirmware.pdf]]
+- Comentarios ::
+  - Envías tu trabajo como dos archivos: Un JPG bastante pequeño para
+    la cantidad de información que lleva (1940x515) y un PDF de cuatro
+    páginas (y con varias etiquetas partidas por la mitad), pero que
+    incluyen... ¡la misma imagen en baja resolución, repartida entre
+    las cuatro!
+    - Resulta difícil leer parte de las etiquetas
+    - Hiciste el mapa mental con una herramienta capaz de representar
+      esto. ¡Revisa las opciones de exportación! No te creo que sea la
+      única posible.
+  - El mapa propiamente es bueno y está bastante completo,
+    pero... ¡cuida más este importante aspecto en tus entregas!
+- Calificación :: 10
+
+** Axel Escalona
+- Archivos :: [[./EscalonaAxel/proyecto1.pdf][proyecto1.pdf]]
+- Comentarios ::
+  - El mapa quedó un poco /ligerito/ de contenido para todo lo que
+    trea el artículo, ¿no te parece?
+- Calificación :: 10
+
+** Giselle Espinosa
+- Archivos :: [[./EspinosaGiselle/Proyecto1_ECG.jpg][Proyecto1_ECG.jpg]]
+- Comentarios ::
+  - A pesar de que el archivo gráfico que generaste es muy grande
+    (4202×2231), tiene mucho espacio en blanco, y las etiquetas de
+    texto son muy pequeñas; cuesta mucho traabjo leer el
+    texto. ¡Verifica que lo que generes tenga resolución adecuada!
+    - O mejor aún: Genera a formatos vectoriales, como SVG o PDF (sin
+      pasar por la "rasterización").
+  - Haces una excelente cobertura del tema. ¡Bien!
+- Calificación :: 10
+
+** Yoav Galdamez
+- Archivos :: [[./GaldamezYoav/T04_YFGP.png][T04_YFGP.png]]
+- Comentarios ::
+  - Buen resumen
+- Calificación :: 10
+
+** Christian Leyva
+- Archivos :: [[./LeyvaChristian/Proyecto1_SO_ChristianLeyva.pdf][Proyecto1_SO_ChristianLeyva.pdf]], [[./LeyvaChristian/README.md][README.md]]
+- Comentarios ::
+  - Buen resumen
+  - Noto que usaste una herramienta para generar /diagramas de flujo/
+    (¡puaj! 😉); dado que lo que presentas no es un diagrama de flujo,
+    usaste los símbolos bastante... liberalmente. Eso me descontroló
+    un poquito en la lectura, hasta que me dí cuenta que lo empleabas
+    únicamente como manera de enfatizar o llamar la atención hacia
+    aspectos particulares.
+    - Te sugiero evitar ese uso para símbolos ampliamente reconocidos;
+      /sacan de onda/ a quien lee tu trabajo.
+- Calificación :: 10
+
+** Emilio Piña
+- Archivos :: [[./PiñaEmilio/proyecto1.png][proyecto1.png]]
+- Comentarios ::
+  - Buen resumen
+  - Generaste un archivo de (relativamente) baja resolución
+    (1341×808). Mucho de lo que escribiste se ve borroso. ¡Verifica
+    que lo que generes tenga resolución adecuada!
+    - O mejor aún: Genera a formatos vectoriales, como SVG o PDF (sin
+      pasar por la "rasterización").
+- Calificación :: 10
+
+** André Rosales
+- Archivos :: [[./RosalesAndré/Proyecto1.png][Proyecto1.png]]
+- Comentarios ::
+  - Me gusta el detalle que presentas, tocas los puntos más técnicos
+    del artículo. ¡Muy bien!
+- Calificación :: 10
+
+** Ricardo Ruelas
+- Archivos :: [[./RuelasRicardo/OpenSourceFirmware.pdf][OpenSourceFirmware.pdf]]
+- Comentarios ::
+  - Es un buen resumen, aunque tal vez demasiado telegráfico
+    - Revísalo de nuevo. ¿Puedes recordar a qué hace referencia cada
+      etiqueta?
+- Calificación :: 10
+
+* C is not a Low-level Language
+
+** Enrique Albores
+- Archivos :: [[./AlboresEnrique/1645753517547.jpg][1645753517547.jpg]]
+- Comentarios ::
+  - El resumen es bueno — pero si lo ves como resumen, no tanto visto
+    como un mapa de conceptos
+    - Por ejemplo, bajo el encabezado "Emuladores rápidos de PDP-11"
+      no mencionas nada directamente acerca de por qué esta
+      arquitectura es tan cercana a C
+    - A veces nos toca /enmendarle la plana/ a los autores que leemos,
+      aunque sea en lo relativo a la organización del contenido 😉
+- Calificación :: 10
+
+** Luis Alejandro
+- Archivos :: [[./AlejandroLuis/proyecto1.png][proyecto1.png]]
+- Comentarios ::
+  - ¿Significan algo el color de los círculos? Intenté encontrarle
+    alguna coherencia temática... Sin éxito :(
+  - Buen resumen
+- Calificación :: 10
+
+** Carlos Alemán y Brenda Pérez
+- Archivos :: [[./AlemánFlores-PérezDuarte/Proyecto1_SO.pdf][Proyecto1_SO.pdf]]
+- Comentarios ::
+  - Buen resumen — pero haciendo un barrido lineal del artículo para
+    armarlo como mapa, les paso el mismo comentario que le hice a
+    Enrique Albores
+- Calificación :: 10
+
+** Alejandro Barreiro y Jessica Zepeda
+- Archivos :: [[./BarreiroAlejandro-ZepedaJessica/proy1.png][proy1.png]]
+- Comentarios ::
+  - ¡Muy buen resumen!
+- Calificación :: 10
+
+** Pamela Nieto
+- Archivos :: [[./PamelaNieto/Proteyecto 1, C no es un lenguaje de bajo nivel.jpg][Proteyecto 1, C no es un lenguaje de bajo nivel.jpg]]
+- Comentarios ::
+  - Buen resumen. Un poco más resumido de lo que yo habría querido
+    (pero no especifiqué nivel de detalle, así que no es culpa tuya
+    😉)
+- Calificación :: 10
+
+* Another level of indirection
+
+** Bryan Velasco Pachuca
+- Archivos :: [[./VelascoPachucaBryan/Proyecto 1 - Another level of indirection.pdf][Proyecto 1 - Another level of indirection.pdf]]
+- Comentarios ::
+  - ¡Muy buen resumen!
+- Calificación :: 10
+
