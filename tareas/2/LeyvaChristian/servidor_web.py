@@ -16,9 +16,9 @@ nueva_solicitud = threading.Semaphore(0)
 
 # Comienza la diversion --------------
 
-def Pagina(id:int):
+# Funcion que genera las solicitudes de paginas, va a haber un thread por cada nombre de pagina
+def Pagina(nombre):
     global fila_solicitudes
-    nombre = nombre_paginas[id]
     while True:
         time.sleep(3 * random.random())
         if random.random() < p_conexion:
@@ -27,7 +27,7 @@ def Pagina(id:int):
                 fila_solicitudes.append(nombre)
                 nueva_solicitud.release()
 
-# Jefe -> Reparte trabajo a los trabajadores
+# Jefe -> Listener que reparte trabajo a los trabajadores
 def Jefe():
     while True:
         print("Jefe: Esperando solicitudes...")
@@ -35,7 +35,9 @@ def Jefe():
         print("Jefe: Atendiendo solicitud...")
         semaforo_trabajadores.release()
 
-
+# Hilo que espera a que su jefe lo despierte para atender solicitudes
+# Nota: Se incluyo un tiempo de tardanza del trabajador para evitar 
+# que termine un hilo muy rapido y atienda mas solicitudes que los demas
 def Trabajador(id:int):
     global fila_solicitudes
     while True:
@@ -50,7 +52,7 @@ def Trabajador(id:int):
 
 def main():
     threading.Thread(target=Jefe).start()
-    for i in range(len(nombre_paginas)):
+    for i in nombre_paginas:
         threading.Thread(target=Pagina,args=[i]).start()
     for i in range(n_trabajadores):
         threading.Thread(target=Trabajador, args=[i]).start()
