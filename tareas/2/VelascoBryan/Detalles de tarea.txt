@@ -1,0 +1,12 @@
+Velasco Pachuca Bryan
+Problema a resolver: El servidor Web
+Lenguaje utilizado: Python 3
+Entorno utilizado: Spider
+¿Qué tengo que saber / tener / hacer para ejecutar su programa en mi computadora?: Dado que solo adjunto el .py se puede ejecutar directamente en consola con el comando python seguido por el nombre "tarea2.py"
+
+Desarrollo:
+Para que mi implementación funcionara tuve que utilizar un mutex y una señalización, el mutex para protejer la variable que especificaba cuantos trabajadores se encontraban disponibles y la señalización para que el jefe avisara a un trabajador que atendiera una conexión.
+En cuanto a refinamiento los trabajadores informan cuando son iniciados, se avisa cuando existen conexiones nuevas y se avisa cuando se contrata (crean nuevos hilos/instancias), además, traté de seguir una aquitectura similar a la que proveen servicios de computo en la 
+nube como Amazon Web Services con el Load Balancer, que se encarga de crear nuevas instancias cuando se comprueba que existe un pico en el consumo, no obstante, mi implementación cuenta con la desventaja que una vez creado el hilo este estará siempre en espera de conexiones,
+cuando en el Load Balancer si se detecta una reducción del tráfico las instancias son apagadas.
+Notese que cuando llegan cierto número de conexiones y se informa que solo está disponible un número menor, inmediatamente se contratan nuevos trabajadores para solucionar la demanda.
