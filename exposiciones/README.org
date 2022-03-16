@@ -11,12 +11,13 @@
   como lo refleja la rúbrica, obtiene una calificación un poco más alta)
   el que ustedes me planteen los temas de su interés.
 
-  |------------+------------------------+----------------------------+-------+------------+-----------+------------|
-  |      Fecha | Tema                   | Integrantes                | Video | Documentos | Preguntas | Evaluación |
-  |------------+------------------------+----------------------------+-------+------------+-----------+------------|
-  | 2022.03.08 | La arquitectura RISC-V | Víctor Miguel Barrera Peña |       |            |           |            |
-  |            | Cifrado (¡detallar!)   | Giselle Espinosa           |       |            |           |            |
-  |------------+------------------------+----------------------------+-------+------------+-----------+------------|
+  |------------+----------------------------+----------------------------+-------+------------+-----------+------------|
+  |      Fecha | Tema                       | Integrantes                | Video | Documentos | Preguntas | Evaluación |
+  |------------+----------------------------+----------------------------+-------+------------+-----------+------------|
+  | 2022.03.15 | La arquitectura RISC-V     | Víctor Miguel Barrera Peña |       |            |           |            |
+  | 2022.03.24 | Cifrado (¡detallar!)       | Giselle Espinosa           |       |            |           |            |
+  | 2022.03.29 | La máquina virtual de Java | Francisco Barrios López    |       |            |           |            |
+  |------------+----------------------------+----------------------------+-------+------------+-----------+------------|
   #+TBLFM: 
 
 * Rúbrica de evaluación
