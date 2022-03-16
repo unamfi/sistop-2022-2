@@ -1,0 +1,18 @@
+-Problema Resuelto: 
+ El cruce del rio
+
+-Lenguaje y entorno en el que lo desarrollaron:
+ Se desarrollo en el lenguaje de python y no requiere de un tratamiento
+ especial para que se ejecute.
+
+- La estrategia de sincronización (mecanismo/patrón):
+  Se utilizaron semaforos implementados como barreras y un multiplex
+    
+    Tres barreras,una de ellas se utilizo para que no dejara pasar más de 
+    dos hackers al mismo tiempo y la otra para que no dejara pasar mas de dos
+    serfs al mismo tiempo, Finalmente, la tercera se uso para que la balsa no 
+    transportara mas de 4 personas.
+
+    El multiplex se utilizo para representar la balsa.
+
+- No se implemento ningún refinamiento
