@@ -1,0 +1,15 @@
+Ruelas Viurquez Ricardo
+Galdamez Pozos Yoav Farid
+
+*Problema a resolver: Los alumnos y el asesor
+
+*Lenguaje y entorno: Python con un editor de texto y REPL para interpretación.
+
+Para ejecutar nuestro programa solamente es necesario interpretar y ejecutar el código anexado.
+
+*Estrategia de sincronización:
+Para este problema empleados distintas herramientas y estrategias para proteger las secciones según se requiriese. Estas estrategias tales como utilizar Multiplex, Apagadores entre otros, se detallan en el mismo código.
+
+*No se emplea ningún refinamiento.
+
+*Tras distintas revisiones y modificaciones hemos notado que el programa no se ejecuta debido al mal manejo de los hilos, ya que en primera instancia lo desarrollamos en pseudocódigo a partir de las ideas que teniamos pero llevado a la implementación no funcionó como se esperaba.
