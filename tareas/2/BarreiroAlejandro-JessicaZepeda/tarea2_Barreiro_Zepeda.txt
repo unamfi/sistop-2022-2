@@ -1,0 +1,22 @@
+Barreiro Valdez Alejandro
+Zepeda Baeza Jessica
+Tarea 2 
+
+				Ejercicio de Sincronización Cruce del Río
+
+1. Decidimos resolver el problema del Cruce del Río de los grupos Hackers y Serfs. Donde cada hilo representa a una persona de un grupo y el objetivo es subir 4 personas a una balsa de tal manera que puedan cruzar el río. La balsa debe estar equilibrada abordando cuatro personas de un grupo o dos y dos. 
+
+2. La solución se desarrolló en el lenguaje de programación Python y se ejecutó el archivo fuente .py desde terminal. Para esto es necesario contar con una versión 3.x de Python instalado. Una vez en la terminal tan sólo se incluye el comando python3 y la ruta del archivo .py para realizar la ejecución. 
+
+3. Se utilizaron tres patrones de sincronización para resolver el problema: un mutex, una barrera y dos colas. 
+El mutex sirve para las secciones críticas que modifican variables ya que se debe llevar un conteo del número de hackers y serfs que se van creando; en realidad, una gran parte de los procesos está envuelta en el mutex debido al uso de estas variables. 
+La barrera se inicializa con 4 y se utiliza para obtener los 4 hilos o personas que irán en una balsa y cruzarán el río juntos. La barrera hace que los hilos se esperen hasta ser 4 y entonces “abordar” todos juntos.
+Las dos colas sirven para llevar un orden de las dos clases de personas que hay y así “despertar” a la cantidad necesaria de personas que se necesitan en la balsa. 
+Todos los patrones de sincronización se emplearon con la biblioteca threading; el mutex y las colas se implementaron usando el objeto Semaphore con distintos argumentos iniciales y la barrera se implemento usando un objeto Barrier. 
+
+4. No se implementó ningún refinamiento.
+
+5. Encontramos que esta fue la manera que nos funcionó mejor pero aún hay aspectos por corregir.  
+En primera es que cuando ya pasaron 4 hilos y no se cumplió ninguna condición de balsa entonces necesita esperar la llegada de más hilos (que siempre son 4 hilos más) para completar las condiciones, aunque con un hilo más ya se haya cumplido una condición se espera hasta los 4 hilos para lanzar la balsa (lo que implica dejar hilos esperando un tiempo innecesario).  
+En este punto pueden suceder dos cosas: que se cumpla una o dos condiciones de balsa (ya que se tienen 8 hilos), si solo se cumple una, lanza la balsa y espera 4 hilos más para seguir cumpliendo condiciones. En el segundo caso donde se cumplen dos condiciones, se lanzan las balsas al mismo tiempo. Ya que se muestra el número de balsa lanzada en pantalla, el que se lancen dos balsas en paralelo a veces implica que se imprima dos veces el mismo número de balsa (aunque se trate de dos balsas diferentes). 
+La última duda que tuvimos fue que el “mutex” empleado no se está utilizando tal cual como un mutex ya que dentro de los procesos se hacen dos acquire() y sólo un release(). Aunque la implementación está bien, creemos que se trata de otro patrón y no de un mutex. 
