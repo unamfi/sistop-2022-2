@@ -1,0 +1,30 @@
+Problema: De gatos y ratones.
+
+- Tengo k gatos (e I ratones) en casa.
+- Les sirvo comida a mis gatos en m platos.
+- Gatos y ratones han llegado a un acuerdo para repartirse el
+  tiempo y comida pero tienen que convencerme que están haciendo
+  su trabajo
+- Los gatos pueden comer en sus m platos de comida.
+- Los ratones pueden comer en esos platos siempre y cuando
+  no sean vistos.
+- Si un gato ve a un ratón comiendo, se lo debe comer.
+- Los platos están puestos uno junto al otro.
+ - Solo un animal puede comer en un plato a la vez.
+ - Si un gato está comiendo y ve a un ratón que comienza a comer
+  de oitro plato, el gato se lo ve y se lo come.
+ - Por acuerdo de caballeros, los gatos no pueden acercarse
+  a los platos mientras haya ratones comiendo.
+"""
+
+Lenguaje: Python
+
+- Cree las variables hambreDeGato y hambreDeRaton que sirven para la probabilidad de cada cuando tienen hambre.
+- Cree las variables numeroDeGatos y numeroDeRatones para establecer el numero de estos individuos.
+- Cree una lista de platos y una variable p que es el tamaño de la lista.
+- Cree contadores gatosComiendo y ratonesComiendo que nos dicen cuantos de estos individuos están comiendo.
+- Solamente cree dos funciones gato() y raton().
+- Se implementa un torniquete que deja entrar a los ratones y gatos en cualquier orden.
+- Los platos tienen un semáforo para que solo un individuo esté comiendo en ese plato.
+- Los mutex ayudan en las comprobaciones dentro de las funciones, para saber si el gato va a comer,
+ para ver si hay ratones comiendo y si hay ratones vivos.
