@@ -11,11 +11,10 @@ mutexRadioTorreDeControl = Semaphore(0)
 andenPasajeros = Semaphore(10)
 andenMercancia = Semaphore(6)
 
-
 def avionComercial(ref:int):
     global pistaDeAviacion
     start = time()
-    print("\tAquí avión comercial No. " + str(ref) + ", solicita permiso para aterrizar.")
+    print("\t 🛩️  Aquí avión comercial No. " + str(ref) + ", solicita permiso para aterrizar.")
     comunicacion(ref)
     pistaDeAviacion.acquire()
     print("\tAvión " + str(ref) + " en tierra.")
@@ -74,33 +73,29 @@ def comunicacion(ref:int):
 
 def torreDeControl():
     global pistaDeAviacion, mutexRadioTorreDeControl,mutexRadioAvion, mensaje
-    print("**Aquí torre de control, iniciamos operaciones.**")
+    print("**🗼Aquí torre de control, iniciamos operaciones.**")
     while True:
         mutexRadioTorreDeControl.acquire()
-        print("**Aquí torre de control, avion No. " + str(mensaje) + " puede ocupar la pista**")
+        print("** 🗼 Aquí torre de control, avion No. {} puede ocupar la pista**".format(mensaje))
         pistaDeAviacion.release()
         mutexRadioAvion.release()
         
 
 def traficoAereo():
-    opcion = 0
     ref = 1
     while True:
         opcion = random.randint(0, 1)
         if opcion == 0 :
-            #print("Avion comercial " + str(ref) + " liberado")
             Thread(target = avionComercial, args= [ref]).start()
             ref += 1
             sleep(random.randrange(1,3))
         else:
-            #print("Avion carguero " + str(ref) + " liberado")
             Thread(target = avionCarguero, args = [ref]).start()
             ref +=1
             sleep(random.randrange(2,5))
 
-#Thread( target= traficoAereo, args=[]).start()
-Thread( target = torreDeControl, args=[]).start()
-traficoAereo()
+def main():
+    Thread( target = torreDeControl, args=[]).start()
+    traficoAereo()
 
-
-
+main()
