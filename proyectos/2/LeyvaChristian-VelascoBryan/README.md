@@ -22,3 +22,13 @@ Cuando un avión no puede aterrizar se deja volando en la zona de espera aérea 
 se deja esperando en la zona de espera terrestre.
 
 ### Consecuencias nocivas de la concurrencia:
+En un aeropuerto la peor situación de concurrencia se da cuando existe un excedente de tráfico aéreo que obliga a 
+los aviones a sobrevolar el aeropuerto o retrazar el despegue más de lo debido, incurriendo en retrasos o inclusive
+accidentes. Por esta razón una correcta administración de los espacios es primordial para cualquier torre de control.
+
+### Eventos concurrentes para los cuales el ordenamiento no resulte importante:
+Dado que el tiempo de permanencia de cada avión en el aeropuerto es una característica intrínseca de cada cargamento,
+el tiempo que estos tarden en despegar de nuevo generará un nuevo ordenamiento en los despegues, por ello su orden de 
+salida no resulta relevante.
+![image](https://user-images.githubusercontent.com/86135452/161141864-8bc4d680-b961-4b4f-a396-ce79ff8538c9.png)
+
