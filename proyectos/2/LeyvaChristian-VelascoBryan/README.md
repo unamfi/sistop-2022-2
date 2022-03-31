@@ -36,15 +36,22 @@ salida no resulta relevante.
 Los mecanismos de sincronización utilizados son los siguientes:
   - Rendezvous: El rendezvous fue utilizado para establecer una comunicación entre el avión y la torre de control y de
   esta manera asignarle la pista al avión.  
-  Declaración:  
+  #### Declaración:  
   ![image](https://user-images.githubusercontent.com/86135452/161147861-90406903-097f-4cc0-933d-9d3cae45edf0.png)  
-  Implementación: 
-  En método comunicacion():  
+  #### Implementación:  
+  ##### En método comunicacion():  
   ![image](https://user-images.githubusercontent.com/86135452/161148569-a7ce9d36-6c4d-40ca-beb8-84ce9f818189.png)  
-  En método torreDeControl():  
+  ##### En método torreDeControl():  
   ![image](https://user-images.githubusercontent.com/86135452/161148693-58b0fbe3-9809-44c3-a9b7-a6655466f131.png)  
-  - Mutex: El mutex fue utilizado para proteger la pista de aviación y que esta sea utilizada por más de un
+  - Mutex: El mutex fue utilizado para proteger la pista de aviación y que esta no sea utilizada por más de un avión,
+  evitando colisiones:
+  #### Declaración:  
+  ![image](https://user-images.githubusercontent.com/86135452/161149697-2da6a27f-7c53-4523-8353-bd3168931a43.png)
+  #### Implementación:  
+  La implementación se realizó prácticamente en todo el código y para no confudir, se mostrará su implementación en la
+  descripción algoritmica.
   - Multiplex:
+  - 
 ## Lógica de operación
 ### Identificación del estado compartido (variables o estructuras globales)
 ### Descripción algorítmica del avance de cada hilo/proceso
