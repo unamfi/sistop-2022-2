@@ -32,3 +32,15 @@ el tiempo que estos tarden en despegar de nuevo generará un nuevo ordenamiento 
 salida no resulta relevante.
 ![image](https://user-images.githubusercontent.com/86135452/161141864-8bc4d680-b961-4b4f-a396-ce79ff8538c9.png)
 
+## Documentación
+## Descripción de los mecanismos de sincronización empleados
+Los mecanismos
+## Lógica de operación
+### Identificación del estado compartido (variables o estructuras globales)
+### Descripción algorítmica del avance de cada hilo/proceso
+### Descripción de la interacción entre ellos (sea mediante los mecanismos de sincronización o de alguna otra manera)
+## Descripción del entorno de desarrollo, suficiente para reproducir una ejecución exitosa
+### ¿Qué lenguaje emplean? ¿Qué versión?
+### ¿Qué bibliotecas más allá de las estándar del lenguaje?
+### ¿Bajo qué sistema operativo / distribución lo desarrollaron y/o probaron?
+## Ejemplos o pantallazos de una ejecución exitosa
