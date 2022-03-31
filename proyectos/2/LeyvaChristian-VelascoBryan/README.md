@@ -44,14 +44,22 @@ Los mecanismos de sincronización utilizados son los siguientes:
   ##### En método torreDeControl():  
   ![image](https://user-images.githubusercontent.com/86135452/161148693-58b0fbe3-9809-44c3-a9b7-a6655466f131.png)  
   - Mutex: El mutex fue utilizado para proteger la pista de aviación y que esta no sea utilizada por más de un avión,
-  evitando colisiones:
+  evitando colisiones.
   #### Declaración:  
-  ![image](https://user-images.githubusercontent.com/86135452/161149697-2da6a27f-7c53-4523-8353-bd3168931a43.png)
+  ![image](https://user-images.githubusercontent.com/86135452/161149697-2da6a27f-7c53-4523-8353-bd3168931a43.png)  
   #### Implementación:  
   La implementación se realizó prácticamente en todo el código y para no confudir, se mostrará su implementación en la
   descripción algoritmica.
-  - Multiplex:
-  - 
+  - Multiplex: El multiplex fue utilizado para determinar la cantidad de aviones que podían utilizar los andenes de pasajeros o mercancía.
+  #### Declaración:  
+  ![image](https://user-images.githubusercontent.com/86135452/161150299-f0c42395-b9a1-4cdd-9f51-b74b0feb94a2.png)  
+  #### Implementación:  
+  ##### En método descarga():  
+  ![image](https://user-images.githubusercontent.com/86135452/161150410-2f6c318f-9555-4f0d-80fc-b4404e59d06a.png)  
+  ##### En método carga():  
+  ![image](https://user-images.githubusercontent.com/86135452/161150483-ecb92c7a-0964-4db1-a372-5b48a3a86285.png)  
+
+
 ## Lógica de operación
 ### Identificación del estado compartido (variables o estructuras globales)
 ### Descripción algorítmica del avance de cada hilo/proceso
