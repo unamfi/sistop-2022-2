@@ -2,7 +2,7 @@
 #Aeropuerto Felipe Ángeles#
 from threading import Semaphore, Thread
 from time import sleep, time
-import random
+import random, Interfaz
 
 pistaDeAviacion = Semaphore(0)
 mutexRadioAvion = Semaphore(1)
