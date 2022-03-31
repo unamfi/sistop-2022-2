@@ -30,11 +30,15 @@ accidentes. Por esta razón una correcta administración de los espacios es prim
 Dado que el tiempo de permanencia de cada avión en el aeropuerto es una característica intrínseca de cada cargamento,
 el tiempo que estos tarden en despegar de nuevo generará un nuevo ordenamiento en los despegues, por ello su orden de 
 salida no resulta relevante.
-![image](https://user-images.githubusercontent.com/86135452/161141864-8bc4d680-b961-4b4f-a396-ce79ff8538c9.png)
 
 ## Documentación
 ## Descripción de los mecanismos de sincronización empleados
-Los mecanismos
+Los mecanismos de sincronización utilizados son los siguientes:
+  - Rendezvous: El rendezvous fue utilizado para establecer una comunicación entre el avión y la torre de control y de
+  esta manera asignarle la pista al avión.
+  ![image](https://user-images.githubusercontent.com/86135452/161147861-90406903-097f-4cc0-933d-9d3cae45edf0.png)
+  - Mutex: El mutex fue utilizado para proteger la pista de aviación y que esta sea utilizada por más de un
+  - Multiplex:
 ## Lógica de operación
 ### Identificación del estado compartido (variables o estructuras globales)
 ### Descripción algorítmica del avance de cada hilo/proceso
