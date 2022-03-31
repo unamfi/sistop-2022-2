@@ -45,3 +45,6 @@ def createGUI():
 
 def only_numbers(char):
     return char.isdigit()
+
+
+createGUI()
