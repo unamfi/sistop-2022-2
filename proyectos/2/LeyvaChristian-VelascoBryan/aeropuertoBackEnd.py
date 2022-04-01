@@ -17,7 +17,7 @@ def avionComercial(ref:int):
     print("\t 🛩️  Aquí avión comercial No. " + str(ref) + ", solicita permiso para aterrizar.")
     comunicacion(ref)
     pistaDeAviacion.acquire()
-    print("\tAvión " + str(ref) + " en tierra.")
+    print("\tAvión comercial " + str(ref) + " en tierra.")
     descargaPAX(ref)
     cargaPAX(ref)
     #Avión en zona de espera terrestre
@@ -41,7 +41,7 @@ def cargaPAX(ref:int):
 def avionCarguero(ref:int):
     global pistaDeAviacion
     start = time()
-    print("\tAquí avión carguero No. " + str(ref) + ", solicita permiso para aterrizar.")
+    print("\t 🛩️ Aquí avión carguero No. " + str(ref) + ", solicita permiso para aterrizar.")
     comunicacion(ref)
     pistaDeAviacion.acquire()
     print("\tAvión carguero No. " + str(ref) + " en tierra.")
