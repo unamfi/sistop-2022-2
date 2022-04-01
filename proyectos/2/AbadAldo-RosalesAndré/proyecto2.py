@@ -58,9 +58,9 @@ def comensal(num):
         haciendoSobremesa -= 2
         mutex.release()
     
-    # Si el comensal se sentó solo y nadie llegó a acompañarlo, mejor irse (caso especial)
+    # No hay restricciones para que el comensal se retire, por lo que simplemente deja su lugar y se va
     else:
-        print("Comensal #%d se ha quedado solo... mejor irse" % num)
+        print("Comensal #%d no se ve obligado a quedarse... mejor irse" % num)
         haciendoSobremesa -= 1
         mutex.release()
     
@@ -89,7 +89,7 @@ def retirarse(num):
 # por parte del usuario. No consideramos que fuese necesario hacerlo más "robusto".
 
 print("### Proyecto 2: Una situación cotidiana parelizable ###")
-print("\n Bienvenido! Este programa modela el comportamiento en un comedor Japonés en dónde se considera de mala educación dejar a alguien solo en la mesa. Para más detalles favor de revisar la documentación adjunta. ")
+print("\n Bienvenido! Este programa modela el comportamiento en un comedor social en dónde se considera de mala educación dejar a alguien solo en la mesa. Para más detalles favor de revisar la documentación adjunta. ")
 menu = {'1':"Indicar el número de comensales", '2':"Salir"}
 
 while bandera:
@@ -110,7 +110,8 @@ while bandera:
         for i in range(instancias):
             threading.Thread(target=comensal, args=[i]).start()
         
-        time.sleep(instancias*.41)
+        time.sleep(instancias*.25)
+        
         print("Trabajo terminado...\n")
     elif seleccion == '2':
         print("Gracias por ejecutarme!")
