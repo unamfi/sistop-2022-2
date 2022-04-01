@@ -54,4 +54,5 @@ def retirarse(num):
     print("Comensal #%d retirándose..." %num)
     time.sleep(random.random() / 100)
 
-
+for i in range(6):
+    threading.Thread(target=comensal, args=[i]).start()
