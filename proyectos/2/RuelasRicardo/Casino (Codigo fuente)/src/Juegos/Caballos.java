@@ -51,7 +51,7 @@ public class Caballos implements IFichas{
      */
     ManejoArchivos gestor;
     
-    Thread t1 = new Thread(new Runnable() { 
+    Thread mover = new Thread(new Runnable() { 
             @Override
             public void run() 
             { 
@@ -62,7 +62,20 @@ public class Caballos implements IFichas{
                     e.printStackTrace(); 
                 } 
             } 
-        }); 
+        });
+    
+    Thread verificar = new Thread(new Runnable() { 
+            @Override
+            public void run() 
+            { 
+                try { 
+                    verificarCaballos();
+                } 
+                catch (InterruptedException e) { 
+                    e.printStackTrace(); 
+                } 
+            } 
+        });
     
     public Caballos(){
         tablero = new String[4][50];
@@ -148,7 +161,8 @@ public class Caballos implements IFichas{
         
         while(bandera){
             llenar();
-            ganador = moverCaballos();
+            moverCaballos();
+            ganador = verificarCaballos();
             dibujar();
             try{
                 Thread.sleep(500);
@@ -191,10 +205,9 @@ public class Caballos implements IFichas{
     }
     /**
      * Calcula la cantidad de espacios que se mueve cada caballo en cada iteracion y  revisa si alguno de los caballos ha llegado a la meta, esta cantidad es aleatoria. 
-     * Por medio de los hilos, fungiendo como un mutex garantizamos que todos los caballos se hayan movido para poder verificar si alguno ha ganado.
      * @return Un entero que indica al caballo ganador o 0 si la carrera aún no ha terminado.
      */
-    private int moverCaballos() throws InterruptedException {
+    private void moverCaballos() throws InterruptedException {
         synchronized (this){
             c1 += rnd.nextInt(2)+1;
             c2 += rnd.nextInt(2)+1;
@@ -205,28 +218,38 @@ public class Caballos implements IFichas{
             tablero[1][c2] = "╦";
             tablero[2][c3] = "╬";
             tablero[3][c4] = "█";
-
+            
+            notify();
         }
+    }
+    
+    /**
+     *
+     * Por medio de los hilos, fungiendo como un mutex garantizamos que todos los caballos se hayan movido para poder verificar si alguno ha ganado.
+     * @return Un entero que indica al caballo ganador o 0 si la carrera aún no ha terminado.
+     */
+    private int verificarCaballos() throws InterruptedException {
+        synchronized (this){
+            // Se verifica si algún caballo ha llegado a la meta
+            if(c1 >= 47){
+                bandera = false;
+                return 1;   
+            }
+            else if(c2 >= 47){
+                bandera = false;
+                return 2;
+            }
+            else if(c3 >= 47){
+                bandera = false;
+                return 3;
+            }
+            else if(c4 >= 47){
+                bandera = false;
+                return 4;
+            }
         
-        // Se verifica si algún caballo ha llegado a la meta
-        if(c1 >= 47){
-            bandera = false;
-            return 1;   
+            return 0;
         }
-        else if(c2 >= 47){
-            bandera = false;
-            return 2;
-        }
-        else if(c3 >= 47){
-            bandera = false;
-            return 3;
-        }
-        else if(c4 >= 47){
-            bandera = false;
-            return 4;
-        }
-        
-        return 0;
     }
     /**
      * Inicializa cada una de las filas de la pista de carreras en cada iteracion.
