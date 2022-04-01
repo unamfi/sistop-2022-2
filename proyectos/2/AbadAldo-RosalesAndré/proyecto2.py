@@ -6,8 +6,8 @@ import random
 
 comiendo = 0
 haciendoSobremesa = 0
-listoParaIrse = Semaphore(0)
-mutex = Semaphore(1)
+listoParaIrse = threading.Semaphore(0)
+mutex = threading.Semaphore(1)
 
 def comensal(num):
     
@@ -44,9 +44,14 @@ def comensal(num):
 
 def obtenerComida(num):
     print("Comensal #%d consiguiendo comida..." % num)
+    time.sleep(random.random() / 100)
 
 def comer(num):
     print("Comensal #%d comiendo..." % num)
+    time.sleep(random.random() / 100)
 
 def retirarse(num):
     print("Comensal #%d retirándose..." %num)
+    time.sleep(random.random() / 100)
+
+
