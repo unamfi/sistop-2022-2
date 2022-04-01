@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  *Clase principal, contiene el menu de inicio de sesión y registro de ususarios, desde esta se hacen todos los llamados a la clase sistema.
- * @author Ricardo Ruelas, Yoav Galdamez, Rodrigo Tapia
+ * @author Ricardo Ruelas
  */
 public class Principal {
     /**
