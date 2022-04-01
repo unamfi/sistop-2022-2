@@ -21,8 +21,8 @@ def metrobus_llega():
 	mutex.acquire()
 	n = min(esperando, 10)
 	metrobus = threading.Barrier(n)
-	#for i in range(n):
-		#abordo.acquire()
+	for i in range(n):
+		abordo.acquire()
 
 	esperando = max(esperando-10, 0)
 	mutex.release()
@@ -38,12 +38,23 @@ def pasajeros_abordan():
 
 	metrobus.wait()
 	abordar()
-	#abordo.release()
+	abordo.release()
 
 
 while True:
-	print("Llegada de metrobus")
-	threading.Thread(target = metrobus_llega(), args = ()).start()
-	for i in range(15):
-		print("Pasajero %d" % i)
-		threading.Thread(target = pasajeros_abordan(), args = ()).start()
+	os.system('clear')
+	n = random.randint(1, 15)
+	print("Llegada de %d pasajero(s)" % n)
+	for i in range(n):
+		threading.Thread(target = pasajeros_abordan()).start()
+
+	n = random.randint(1, 2)
+	print("Llegada de %d metrobus" % n)
+	for i in range(n):
+		threading.Thread(target = metrobus_llega()).start()
+
+	print("Personas esperando: %d" % esperando)
+
+	if(input("Pulsar enter para continuar. Ingresar q para salir: ") == 'q'):
+		break;
+
