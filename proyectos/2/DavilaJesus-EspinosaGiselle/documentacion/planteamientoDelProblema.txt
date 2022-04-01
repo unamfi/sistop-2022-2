@@ -1,0 +1,13 @@
+1.- Problema: El programador malicioso
+
+Un programador que esta a punto de ser despedido decide hacer algo para evitarlo, para lograr su cometido este programador decidio crear errores dentro del codigo que estaban desarrollando, pero hay un gran problema, ya que si su jefe lo ve mientras trabaja el puede descubrir que el es quien realiza los errores del codigo, para evitar esto el programador sale de la sala cada vez que su jefe viene hacia la sala y este no entra hasta que el jefe se retire por completo de la misma, este programador tiene colegas los cuales no se enteran de que es lo que sucede con el y tampoco le importa ellos solo se dedican a corregir los errores que encuentran, pero nuestro programador malicioso tiene un problema de ansiedad, ya que si este ve que quedan pocos errores(menos de 5) se siente incomodo y para evitar estar incomo este suelta un error en los servidores que causa una alarma la cual sus colegas van a atender en conjunto, esto debido a que sus colegas creen que la union hace la fuerza, cuando estos se van por completo de la sala el programador malicioso empieza a agregar errores de manera más rapida y bloquea la puerta, una vez que sus compañeros empiezan a regresar estos notan este bloqueo, y el programador malicioso para que sus compañeros no fueran a avisar al jefe de este error libera la puerta cuando hay más de 4 colegas espernado afuera.
+
+2.- Problemas de concurrencia:
+Hay que controlar cuando esta adentro el programador no este el jefe y viceversa.
+Hay que controlar que cuando este la alarma se vallan los colegas todos juntos
+Hay que controlar como se bloquea y desbloquea el acceso a la sala
+Hay que controlar el orden de ciertos eventos: como que primero se abre la puerta y luego sale.
+Hay que controlar la midificacion de las variables de condicion.
+
+3.- Ordenamiento relativo irrelevante
+En este problema resulta irrelevante el orden en el que ingresen los actores solo nos interesan sus propias restricciones.
