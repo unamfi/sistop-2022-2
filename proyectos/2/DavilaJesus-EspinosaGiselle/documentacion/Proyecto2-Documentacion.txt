@@ -1,0 +1,81 @@
+Proyecto 2.
+De Davila Ortega Jesus Eduardo y Espinosa Cortez Giselle
+
+Desarrollado en:
+Python 3.8.10
+Ubuntu 20.04.4 LTS
+Para la interfaz se utilizo el modulo curses, ya incluido en python y utilizable si se encuentra en un sistema basado en Linux.
+
+Instrucciones para el usuario:
+Al ejecutar menuEjecutable.py en la terminal, se observará un menu. En este si se presiona '1' se pone la descripción del problema, si se presiona '2' se lanzarán los hilos de ejecucion y se mostrara una visualizacion de como avanza el programa, asi como texto que describe lo que pasa en pantalla. Para salir de cualquiera de los dos opciones del menu se utiliza 's', mientras que para salir del programa se debe de presionar la letra 'q' y estar en el menú principal.
+
+NOTA!!!: Al salir de la ejecucion los hilos seguiran en ejecucion, por ello es recomendable si desea una ejecucion limpia salga del programa y vuelva a ejecutarla.
+
+DOCUMENTACIÓN
+
+En el archivo planteamientoDelProblema.txt se describe a fondo el problema planteado.
+
+MECANISMOS DE SINCRONIZACIÓN
+Para la resolución de este problema se utilizaron distintas estructuras de semaforos (s) y variables de condicion (vc). Éstos y los métodos de los hilos se encuentran en codigoFuncionamiento.py, y se describen a continuación.
+
+salidaProg(s). Señal de salida del programador hacia el jefe para que este pueda entrar.
+
+alertaApagada(s). Señal de apagado de la alarma para que el jefe deje de supervisar la alarma sonando.
+
+puertaMagnetica(s) Torniquete de entrada a la sala e impide el ingreso a mas de uno a la sala.
+
+mutex(s) Protector de la variable de condicion numErrores.
+
+mutex2(s) Protector de las variables de condicion de colegasPresentes y colegasEsperando.
+
+puedeEntrar(s). Apagador para evitar que el programador malicioso este en la sala a la vez que el jefe.
+
+barrReparacion(s). Barrera que hace que todos los colegas vallan a reparar a la vez el problema.
+
+colegasPresentes(vc). Contador de colegas dentro de la sala y que se encuentran reparando errores.
+
+colegasEsperando(vc). Contador de colegas esperando el ingreso en la sala y al llegar al numero de 4 la puerta se desbloquea.
+
+numErrores(vc). Contador de errores totales que tiene el programa.
+
+activarAlarma(vc). Booleano que sirve como advertencia para que los colegas salgan de la sala y vallan a reparar el error presentado.
+
+jefeCamino(vc). Booleano que ayuda al programador a salir en tiempo para el ingreso del jefe.
+
+Tambien se cuenta con puertaCerrada, programadorMali, jefePresente que son booleanos que nos ayudan con el manejo de la interfaz y sus actualizaciones.
+
+DESCRIPCIÓN DE LOS HILOS Y SU INTERACCIÓN
+Es importante que se lea las veces que se considere necesarias para su correcto funcinamiento.
+
+NOTA1!!!: Cada escritura de una variable de condicion se realiza dentro de un mutex dependiendo de cual le corresponde.
+
+NOTA2!!!: Se utilizaran los terminos 'adquirir' y 'liberar' para represenar las funciones acquire y release que realizan los semáforos respectivamente.
+
+jefe: El hilo del jefe se encuentra dentro de un ciclo y dentro de este se encuentra una condicion la cual dependera de si la alarma esta activada o desactivada.
+Si la alarma se encuentra activada el hilo mandara un mensaje de que el jefe esta llendo a ver la alarma y despues esperara para adquirir el semáforo de alertaApagada.
+Si la alarma se encuentra desactivada el hilo se dormira un tiempo aleatorio y despues procedera a ir a la sala para esto primero adquiere el semáforo de puedeEntrar y despues cambia el booleano de jefeCamino a True para alertar al programador malicioso, despues espera para poder adquirir el semáforo de salidaProg, posteriormente entra a la sala para lo cual adquiere el semáforo de puertaMagnetica y casi inmediatamente despues libera el mismo semáfor, despues se pone a dormir al hilo para simular el tiempo de entrada a la sala, asi mismo despues de su entrada este se queda a supervisar el trabajo de los colegas para esto se volvio a usar un sleep de tiempo aleatorio para cuando se despierta el hilo procede a salir de la sala para lo cual adquiere el semáforo de puertaMagnetica y despues lo libera para despues actualizar el booleano de jefeCaminoa false y libera el semáforo de puedeEntrar.
+
+colega: El hilo colega lo primero que hace cuando se crea es ingresar a la sala para lo cual adquiere el semáforo de puertaMagnetica y dentro de este semáforo adquiere el mutex2 para poder sumar uno en la variable colegas presentes, posteriormente libera el mutex2 y despues libera el semáforo puertaMagnetica. Al ingresar por primera vez en la sala estos ingresan en un ciclo y dentro de este se encuentra una condición la cual dependera del estado de la alarma.
+Si la alarma se encuentra desactivada el colega se pondra a dormir un tiempo aleatorio más grande que el del programador malicioso, posteriormente adquirira el mutex para poder modificar el valor de la variable numErrores disminuyendolo en uno despues de realizar esto liberara el mutex.
+Si la alarma esta activada este saldra inmediatamente de la sala para esto adquirira el torniquete de puertaMagnetica y despues adquirira el mutex2 para modificar el valor de colegasPresentes disminuyendolo en 1, a continuacion liberara el mutex2 y posteriormente liberara la puerta magnetica y esperara en una barrera hasta que todos los colegas salgan de la sala, cuando todos esten fuera estos podran avanzar a solucionar el problema, despues este se dormira un tiempo aleatorio y en cuanto despierte adquirira el mutex2 y comprobara si la alarma sigue prendida en caso de ser verdadero apagara la alarma y liberara el semáforo de alertaApagada, posteriormente este libera el mutex2 y regresa a la sala, cuando regresa adquiere el mutex2 para sumar en 1 a la variable colegasEsperando y despues libera el mutex2 y adquiere el torniquete puertaMagnetica, cuando lo adquiere el hilo tambien adquiere el mutex2 para sumar en 1 a la variable colegasPresentes y a disminuir en 1 a la variable colegasEsperando y al final libera el mutex2.
+
+progMalicioso: El hilo programador se encuentra dentro de un ciclo y dentro hay diferentes condiciones.
+Si el numero de errores es menor a 5 este activa la alarma y este entra en un ciclo mientras la sala no este vacia, en este ciclo se manda a dormir el hilo y despues se adquiere el mutex para sumar uno a la variable numErrores despues de realizar la operacion se libera el mutex, cuando la sala se encuentra vacia este adquiere el torniquete puertaMagnetica y despues mientras que los colegas esperando no sea mayor a 4 o el numero de errores no sea mayor a 20 estara dentro de un ciclo el cual le hace estar dormido mucho menos tiempo y despertando adquiere el mutex para incrementar en 1 los errores y despues de la operación este libera el mutex, cuando se rompe el ciclo este libera el torniquete puertaMagnetica para que sus compañeros ingresen
+Si el la variable jefeCamino es igual a True primero sale de la sala adquiriendo el torniquete puertaMagnetica y despues liberandolo, una vez afuera actualiza programadorMali a False y libera el semáforo salidaProg, despues intenta adquirir el apagador puedeEntrar, cuando lo adquiere este entra dentro de la sala adquiriendo el torniquete puertaMagnetica y una vez adentro lo libera, y despues libera el apagador puedeEntrar.
+El ultimo comprotamiento es el por defecto y este es que se pone a dormir al hilo por un tiempo aleatorio y cuando se despierta adquiere el mutex y aumenta en 1 la variable numErrores, una vez aumentado se libera el mutex.
+
+actualizarPantalla: se describe en la siguiente sección.
+
+Funcionamiento de la interfaz de usuario y la sincronización con los hilos del programa:
+
+La interfaz de usuario se encuentra en menuEjecutable.py. Consiste del método menu. Este utiliza el módulo curses para mostrar un menú, desde el que se puede seleccionar leer el problema o lanzar a los hilos y observar la simulación.
+
+Para manejar la interfaz de usuario, se utilizaron semáforos y variables. No deben confundirse con los semáforos descritos anteriormente, utilizados para resolver el problema propuesto; estos semáforos sirven únicamente para comunicar a los hilos con la interfaz. Los semáforos y variables se encuentran en interfaz.py y son los siguientes:
+
+senalHilos y senalActu: Son señalizadores entre los actores y la interfaz. senalHilos es adquirido por la interfaz y espera a que un actor le señalice que debe hacer una actualización a la pantalla. senalActu es adquirido por un hilo después de liberar senalHilos, y es liberado por la interfaz una vez que realizó la actualización de la pantalla.
+
+escena: Es una lista de 10 cadenas. El primero sirve para poner el valor de las variables de numErrores y colegasPresentes. Las ocho posteriores sirven para describir visualmente el estado actual del escenario, mientras la decima tiene la descripción textual del evento más reciente. 
+
+En codigoFuncionamiento.py se agrega el siguiente método:
+
+refrescarPantalla: Método llamado por los hilos para indicarle a la interfaz que debe actualizar la pantalla. Se revisa el estado de las variables puertaCerrada, jefePresente, programadorMali para decidir cómo se debe mostrar a las cadenas de la lista grafico. Al terminar, se libera a senalHilos para señalizar a la interfaz que debe actualizarse, y se adquiere a senalActu para esperar a que termine de actualizar la pantalla.
