@@ -4,6 +4,7 @@ import threading
 import time
 import random
 
+bandera = True
 comiendo = 0
 haciendoSobremesa = 0
 listoParaIrse = threading.Semaphore(0)
@@ -60,5 +61,34 @@ def retirarse(num):
     print("Comensal #%d retirándose..." %num)
     time.sleep(random.random() / 100)
 
-for i in range(4):
-    threading.Thread(target=comensal, args=[i]).start()
+
+print("### Proyecto 2: Una situación cotidiana parelizable ###")
+print("\n Bienvenido! Este programa modela el comportamiento en un comedor Japonés en dónde se considera de mala educación dejar a alguien solo en la mesa. Para más detalles favor de revisar la documentación adjunta. ")
+menu = {'1':"Indicar el número de comensales", '2':"Salir"}
+
+while bandera:
+    
+    print("\nPor favor, selecciona alguna de las siguientes opciones:\n")
+    opciones = menu.keys()
+    sorted(opciones)
+
+    for opcion in opciones:
+        print (opcion, ".- ", menu[opcion])
+
+    seleccion = input("\nOpción elegida: ")
+
+    if seleccion == '1':
+        
+        instancias =int(input("Dime, ¿Con cuántos comensales quieres que trabaje?: "))
+        print("Entendido, comenzando...\n")
+        for i in range(instancias):
+            threading.Thread(target=comensal, args=[i]).start()
+        
+        time.sleep(instancias*.41)
+        print("Trabajo terminado...\n")
+    elif seleccion == '2':
+        print("Gracias por ejecutarme!")
+        bandera = False
+
+    else:
+        print("Opción incorrecta, intenta nuevamente")
