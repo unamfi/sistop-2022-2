@@ -1,44 +1,45 @@
 import threading
 import time
+import random
+import os
 
-pasajeros = 0
-mutex = threading.Semaphore(1) #Utilizado para acceder a pasajeros
-multiplex = threading.Semaphore(10) #Para que no haya más de 50 pasajeros en la zona de abordaje
-metrobus = threading.Semaphore(1) #
-metrobusLleno = threading.Semaphore(0)
+esperando = 0
+mutex = threading.Semaphore(1)
+metrobus = threading.Barrier(1)
+abordo = threading.Semaphore(0)
 
-def partir():
-	print("El metrobús ha partido.")
+def partir(n):
+	print("El metrobús ha partido. Pasajeros: %d" % n)
+
+def abordar():
+	global esperando
+	print("El pasajero está llegando. Esperando: %d" % esperando)
 
 def metrobus_llega():
-	global pasajeros
-	metrobus.release()
+	global esperando
 
 	mutex.acquire()
+	n = min(esperando, 10)
+	metrobus = threading.Barrier(n)
+	#for i in range(n):
+		#abordo.acquire()
 
-	if pasajeros > 0:
-		metrobusLleno.acquire()
-		partir()
-
+	esperando = max(esperando-10, 0)
 	mutex.release()
+
+	partir(n)
 
 def pasajeros_abordan():
-	global pasajeros
+	global esperando
 
-	multiplex.acquire()
 	mutex.acquire()
-
-	pasajeros += 1
-
+	esperando += 1
 	mutex.release()
-	metrobus.acquire()
-	multiplex.release()
 
-	pasajeros -= 1
-	if pasajeros == 0:
-		metrobusLleno.release()
-	else:
-		metrobus.release()
+	metrobus.wait()
+	abordar()
+	#abordo.release()
+
 
 while True:
 	print("Llegada de metrobus")
