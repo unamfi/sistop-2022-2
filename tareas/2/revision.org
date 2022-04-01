@@ -1,0 +1,240 @@
+* De gatos y ratones
+
+** Alfredo Correa
+- Documentación :: [[./CorreaAlfredo/informacion.txt][informacion.txt]]
+- Archivos :: [[./CorreaAlfredo/deGatosYRatones.py][deGatosYRatones.py]]
+- Problema desarrollado :: De gatos y ratones
+- Código funcional :: ✓
+- Comentarios ::
+  - Me parece curioso cómo manejas el caso de un gato se coma a un
+    ratón, en el primer =if= de =raton()=.
+    - Si se comen al primer ratón, sólo disminuyes en 1 tanto a
+      =ratonesComiendo= como a =numeroDeRatones=, pero el ratón sigue
+      comiendo.
+    - Sólo cuando =numeroDeRatones == 0= metes un =sleep(10000)= — ¡y
+      ojo! ¡Apenas después de los 10000 segundos liberas el mutex!
+    - (¿por qué no salir del hilo? ¿Que cómo sales? =return()= es tu
+      respuesta más directa)
+  - Obtienes a ambos mutexes, =mutex_hambreRaton= y
+    =mutex_hambreGato=, durante el tiempo completo útil del
+    =while=. Esto lleva a la inanición (¡literal!): Puedes tener
+    cientos de platos, pero sólo utilizarás un máximo de 2 a la vez
+    (en caso de que haya un gato y un ratón comiendo al mismo tiempo).
+    - Probablemente convendría obtener el mutex en cuestión al
+      manipular las variables contador, liberarlo, y después comer...
+    - También: En tu modelado, el tiempo que te toma comer de un plato
+      es de prácticamente 0 (imprimes =comienza a comer=, aumenas
+      =gatosComiendo= o =ratonesComiendo=, y de inmediato =terminó de
+      comer=). ¡No da espacio para un /juego/ divertido! 😉
+- Calificación :: 8
+
+* El cruce del río
+
+** Aldo Abad, André Rosales
+- Documentación :: [[./AbadAldo-RosalesAndré/reporte escrito.pdf][reporte escrito.pdf]]
+- Archivos :: [[./AbadAldo-RosalesAndré/problema_bote.py][problema_bote.py]]
+- Problema desarrollado :: El cruce del río
+- Código funcional :: ✗
+- Comentarios ::
+  - ¡Ojo con la ortografía! Una balsa puede *zarpar*... pero no sé qué
+    sea /sarpar/
+  - ¡Muy bien por probar con el uso de las variables de condición! Sin
+    embargo, así como lo presentan no funcionaría
+    - Recuerden que una variable de condición tiene que /esperar con
+      un mutex/: Tendrían que hacer =listosParaPartir.wait(mutex)=.
+  - Como bien indican, en Python no existe =Barrier.signal()=,
+    pero... ¿Y para qué lo necesitan? Si utilizan barreras, ya tienen
+    certeza de que van a entrar en grupos de 2. ¿Será que lo que
+    estaban buscando... no es una barrera? ☺
+    - Si tienes una barrera en la cual hay algún hilo esperando y le
+      das =reset()=, tienes que manejar la excepción
+      =threading.BrokenBarrierError= en cada uno de los hilos afectados.
+  - La razón por la que el código no avanza más allá del /hacker/ #0 y
+    el /serf/ #0 es que ambas funciones inician obteniendo un mutex
+    (=llega_hacker= y =llega_serf=) que no sueltan hasta haberse
+    sentado cómodamente en la balsa, evaluado la situación, y
+    posiblemente iniciado el viaje
+    - Sencillamente no puede entrar el segundo de ninguno ☹
+- Calificación :: 7
+
+** Flores Alemán, Brenda Pérez
+- Documentación :: [[./AlemánFlores_PérezBrenda/EjercicioBalsa.txt][EjercicioBalsa.txt]]
+- Archivos :: [[./AlemánFlores_PérezBrenda/EjercicioBalsa.py][EjercicioBalsa.py]]
+- Problema desarrollado :: El cruce del río
+- Código funcional :: ✓
+- Comentarios ::
+  - ¡Nunca había visto este enfoque al resolver este problema! Deja
+    que todos suban, y si quedan 3/1, la balsa los /retacha/
+    - Aunque en realidad... No se /comunica de vuelta/ la decisión de
+      retacharlos a cada uno de los que son bajados, sólo se dej para
+      la siguiente vuelta
+  - Pero me parece que cumple satisfactoriamente con el
+    planteamiento.
+- Calificación :: 10
+
+** Alejandro Barreiro, Zepeda Jessica
+- Documentación :: [[./BarreiroAlejandro-JessicaZepeda/tarea2_Barreiro_Zepeda.txt][tarea2_Barreiro_Zepeda.txt]]
+- Archivos :: [[./BarreiroAlejandro-JessicaZepeda/cruce_rio_Barreiro_Zepeda.py][cruce_rio_Barreiro_Zepeda.py]]
+- Problema desarrollado :: El cruce del río
+- Código funcional :: ✓
+- Comentarios ::
+  - ¡Muy bien! Una implementación diferente de lo que veo habitualmente
+  - Se me hizo raro el comportamiento en que obligan a esperar a que
+    lleguen múltiplos de cuatro personas, para ir intentando la
+    asignación, como lo mencionan al final del texto — pero es
+    completamente valido.
+  - Mencionan que a veces el sistema reporta al mismo número de balsa
+    dos veces. ¡Es el caso exacto en que hay que meter un mutex!
+    - Si generan un =balsa_num_mutex=threading.Semaphore(1)=, y en
+      =navegar()= hacen la impresión y suma dentro de un =with
+      balsa_num_mutex:=, protegen a =balsa_num= de accesos
+      concurrentes.
+  - Respecto a la duda de si es un mutex u otro patrón: Me parece que
+    el uso de =mutex= no tiene ningún efecto. Si está inicializado con
+    1, y se libera (=release()=) siempre antes de obtenerlo
+    (=acquire()=), y únicamente se adquiere cuando se trata del
+    =lider=... Creo que nunca llega a ser menor a 0 (y es como si no
+    estuviera ahí).
+- Calificación :: 9
+
+** Jesus Davila y Giselle Espinosa
+- Documentación :: [[./DavilaJesusyEspinosaGiselle/DavilaJesusyEspinosaGiselle.txt][DavilaJesusyEspinosaGiselle.txt]]
+- Archivos :: [[./DavilaJesusyEspinosaGiselle/El_Cruce_del_Rio.py][El_Cruce_del_Rio.py]]
+- Problema desarrollado :: El cruce del río
+- Código funcional :: ✓
+- Comentarios ::
+  - Cuando vi que inicializaban =num_hackers= y =num_serfs= a 5, creí
+    que el programa terminaría rápido... ¡Pero no! Ambos quedan en un
+    =while True= 😉
+    - El planteamiento del problema habla de cruzar /en un sentido/,
+      ¡recuerden la importancia de ceñirse a implementar lo que piden
+      los requisitos!
+  - Implementación corta y clara. ¡Bien!
+    - Me parece que emplearon algunas construcciones de más, como
+      tener tanto =barr_barca= como =barr_inicia= para controlar a fin
+      de cuentas la misma acción... Pero no /estorba/ 😉
+- Calificación :: 10
+
+** Lucero De La Cruz y Emilio Piña
+- Archivos :: [[./DeLaCruzLuceroPiñaEmilio/tarea2.py][tarea2.py]]
+- Problema desarrollado :: El cruce del río
+- Código funcional :: 
+- Comentarios ::
+- Calificación :: 
+
+** Axel Escalona
+- Documentación :: [[./EscalonaAxel/README.md][README.md]]
+- Archivos :: [[./EscalonaAxel/rio.py][rio.py]]
+- Problema desarrollado :: El cruce del río
+- Código funcional :: 
+- Comentarios ::
+- Calificación :: 
+
+* El elevador
+
+** Francisco Barrios
+- Archivos :: [[./BarriosFrancisco/elevador.py][elevador.py]]
+- Problema desarrollado :: Elevador
+- Código funcional :: casi-✓
+- Comentarios ::
+  - Las instrucciones de entrega mencionan explícitamente que debes
+    incluir un archivo de texto con varios puntos ☹
+  - Tu program emplea sintaxis obsoleta (Python 2), como la llamada a
+    =print= sin paréntesis. Te sugiero fuertemente adoptar una versión
+    utilizada actualmente.
+  - Como te lo comenté en la consulta previa, considero importante que
+    no sólo utilices mecanismos de sincronización entre las diferentes
+    =persona()=, sino que también entre en juego la =caja()= del elevador
+    - ¿Qué pasa si la =caja()= se comienza a mover a otro piso cuando
+      una =persona()= decide subir a ella?
+    - ¿Qué le impone un ritmo máximo de /rebote/ al elevador? En tu
+      versión, sube y baja a toda velocidad por todos los pisos de la
+      Facultad. ¡Estoy seguro de que Protección Civil tendrá algo que
+      decir al respecto! ☹
+  - ¿Cuál es la función del =torniquete= al inicio del =while True= de
+    =persona()=? Como platicamos, el =torniquete= funciona
+    particularmente cuando hay algún mecanismo de control — algo que
+    ayude a determinar si se mantiene abierto o cerrado.
+  - Tu solución cae en un antipatrón que... si bien no es espera
+    activa, se le parece /demasiado/:
+    #+begin_src python
+      while piso_actul != piso_de_persona:
+        time.sleep(0.01)
+    #+end_src
+    - El mecanismo correcto sería que la =caja()= enviara un mensaje
+      (señalización) a las =persona()= que estuvieran formadas en las
+      diferentes colas por piso.
+- Calificación :: 7
+
+* Los alumnos y el asesor
+
+** Yoav Galdamez, Ricardo Ruelas
+- Documentación :: [[./GaldamezYoav-RuelasRicardo/Documentacion.txt][Documentacion.txt]]
+- Archivos :: [[./GaldamezYoav-RuelasRicardo/Alumnos_Asesor.py][Alumnos_Asesor.py]]
+- Problema desarrollado :: Los alumnos y el asesor
+- Código funcional :: ✗
+- Comentarios ::
+  - En tu implementación, todas las preguntas comienzan sí-o-sí por
+    despertar al asesor
+    - En el planteamiento dice que se va a dormir /cuando no hay
+      alumnos por atender/. Pero si hay un alumno con varias dudas, tu
+      asesor se va a quedar dormido entre pregunta y pregunta.
+  - No entiendo el uso doble de tu semáforo =responder=. Por un lado,
+    lo usas como un torniquete (pero mencionas como comentario
+    "Enviamos la señal..."), y por otro lado, lo usas para que el
+    alumno le diga al profesor que todavía =dudas!=0=.
+    - Cuando un alumno trae varias dudas, no vuele a mandar
+      =despertar_asesor=, así que queda en bloqueo mutuo.
+  - Al iniciar cada ciclo en =alumno()= obtienes =cubiculoProfesor=,
+    =mutex_alumnos= y =alumnos=. ¿Seguro que vas a anidar /tres/
+    regiones de exclusión mutua una dentro de la otra?
+  - El programa no funciona, porque al iniciar esperas por varios
+    semáforos que inicializaste en cero. Si modifico
+    =alumnos=threading.Semaphore(1)= veo que me manda un error porque
+    intentas imprimir cuántos alumnos hay en el cubículo, usando
+    =len(alumnos)=... Pero =alumnos= es un semáforo, ¡no una lista
+    que pueda ser impresa!
+- Calificación :: 6
+
+* El servidor Web
+
+** Christian Leyva
+- Documentación :: [[./LeyvaChristian/README.md][README.md]]
+- Archivos :: [[./LeyvaChristian/servidor_web.py][servidor_web.py]]
+- Problema desarrollado :: El servidor Web
+- Código funcional :: ✓
+- Comentarios ::
+  - Me parece muy bien resuelto. ¡Bien!
+  - Jé, nomás me llamó la atención — un servidor Web normalmente va
+    atendiendo (/sirviendo/) diferentes recursos (archivos,
+    documentos, o /verbos/ y acciones) locales, no sitios remotos como
+    los que conforman a =nombre_paginas=
+    - Pero no importa, son sólo etiquetas 😉
+  - Respecto al refinamiento: Para poder llevar información de
+    contabilidad, los =Trabajador()= tendrían que notificar al
+    =Jefe()= qué página entregaron y cuánto tiempo les tomó, para que
+    éste llevara la información acumulada. En este caso, sólo estás
+    reportando a la salida estándar
+    - Esto únicamente me da evidencia de que el =Trabajador()= sabe
+      qué información tiene que cumplir
+    - No te doy el refinamiento como cubierto... ¡pero no te
+      preocupes! De todos modos obtienes tu...
+- Calificación :: 10
+
+** Bryan Velasco
+- Documentación :: [[./VelascoBryan/Detalles de tarea.txt][Detalles de tarea.txt]]
+- Archivos :: [[./VelascoBryan/tarea2.py][tarea2.py]]
+- Problema desarrollado :: El servidor Web
+- Código funcional :: ✓
+- Comentarios ::
+  - ¡Muy bien resuelto!
+  - No llegué a ver que se activara el refinamiento para el inicio de
+    trabajadores nuevos cuando =disponibles<=0=, pero me parece
+    correcta y bien pensada.
+    - Respecto a lo que dices que te faltó, que los trabajadores ya no
+      necesarios liberen sus recursos: cuando tienes el
+      =mutexDisponibles= al final de =trabajador()=, podrías revisar
+      si =disponibles > umbral=, y si hay demasiados trabajadores
+      disponibles, irte a tu casa (=return=) en vez de aumentar
+      =disponibles=.
+- Calificación :: 10

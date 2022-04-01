@@ -11,13 +11,17 @@
   como lo refleja la rúbrica, obtiene una calificación un poco más alta)
   el que ustedes me planteen los temas de su interés.
 
-  |------------+----------------------------+----------------------------+-------+------------+-----------+------------|
-  |      Fecha | Tema                       | Integrantes                | Video | Documentos | Preguntas | Evaluación |
-  |------------+----------------------------+----------------------------+-------+------------+-----------+------------|
-  | 2022.03.15 | La arquitectura RISC-V     | Víctor Miguel Barrera Peña |       |            |           |            |
-  | 2022.03.24 | Cifrado (¡detallar!)       | Giselle Espinosa           |       |            |           |            |
-  | 2022.03.29 | La máquina virtual de Java | Francisco Barrios López    |       |            |           |            |
-  |------------+----------------------------+----------------------------+-------+------------+-----------+------------|
+  |------------+----------------------------------------------+-----------------------------+-----------------------------------------+------------|
+  |      Fecha | Tema                                         | Integrantes                 | Documentos                              | Evaluación |
+  |------------+----------------------------------------------+-----------------------------+-----------------------------------------+------------|
+  | 2022.03.22 | La arquitectura RISC-V                       | Víctor Miguel Barrera Peña  |                                         |            |
+  | 2022.03.29 | Disco Duro Cifrado ¿Datos Seguros?           | Giselle Espinosa            | [[./EspinosaGiselle/Dinvestigaciondocx.pdf][Documento de texto]], [[./EspinosaGiselle/cifradoDelDiscoDuro.pptx][Presentación (pptx)]] |            |
+  | 2022.03.29 | La máquina virtual de Java                   | Francisco Barrios López     |                                         |            |
+  | 2022.03.31 | Sistemas operativos de tiempo real           | André Rosales               |                                         |            |
+  | 2022.04.05 | Hashes, colisiones de hashes, utilidad       | Bryan Velasco Pacheco       |                                         |            |
+  | 2022.04.07 | La evolución de los buses de memoria         | Jesús Eduardo Dávila Ortega |                                         |            |
+  | 2022.04.19 | Particularidades de los dispositivos móviles | Christian Leyva             |                                         |            |
+  |------------+----------------------------------------------+-----------------------------+-----------------------------------------+------------|
   #+TBLFM: 
 
 * Rúbrica de evaluación
