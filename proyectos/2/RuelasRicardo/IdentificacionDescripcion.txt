@@ -1,0 +1,7 @@
+Identificación y descripción del problema:
+
+1. En una plataforma de casino online se tiene el problema en un juego de carrera de caballos, debido a que el movimiento de estos se da de manera concurrente, de forma que al verificar cual caballo ha sido el primero en finalizar podemos caer en que se hara la comparación con uno que podría haber terminado después.
+
+2. Las consecuencias se verían en que la plataforma no sería realmente justa y las personas que realizaran sus apuestas no tendrían la seguridad de si su caballo fue el primero en terminar o el primero en ser verificado. Esto es lo que se busca controlar.
+
+3. Tenemos diversos eventos tales como la impresión en pantalla del tablero (en mi caso, debido a que mi implementación gráfica fue desde cero y a partir de mi imaginación) que no tienen problema en su ejecución concurrente, ya que estos al final solo se muestran en pantalla cuando ya han sido calculados previamente y acomodados.
