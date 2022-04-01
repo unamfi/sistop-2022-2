@@ -42,6 +42,11 @@ def comensal(num):
 
     retirarse(num)
 
+def obtenerComida(num):
+    print("Comensal #%d consiguiendo comida..." % num)
 
+def comer(num):
+    print("Comensal #%d comiendo..." % num)
 
-
+def retirarse(num):
+    print("Comensal #%d retirándose..." %num)
