@@ -1,0 +1,37 @@
+Materia: Sistemas Operativos
+Nombre profesor: Gunnar Eyal Wolf Iszaevich
+Semestre: 2022-2
+Proyecto 2: Una situación paralelizable
+Fecha de entrega: 31/03/2022
+Integrantes:
+	▪Alemán Flores Carlos Eduardo
+	▪ Pérez Duarte Brenda Elizabeth
+
+
+Descripción de los mecanismos de sincronización empleados
+	-Se hizo uso de semáforos, barreras y mutex, además de los hilos
+Lógica de operación
+	Identificación del estado compartido (variables o estructuras globales)
+		-Como estrucctura global se utilizó un arreglo bidimensional en el que se incluían los camiones y las cajas en estos
+	Descripción algorítmica del avance de cada hilo/proceso
+		-Se comienza con el hilo de los camiones, en el cuál se invoca a una función llamada
+		"llenado", la cual llena los camiones con las cajas y agregar estas cajas a la
+		lista lst_cajas, la cual, al regresar a "camiones", después de pasar la barrera, nos
+		ayudará a comprobar el estado de los camiones y saber si podemos continuar a "salida"
+		donde mostramos la salida de los camiones y vacíamos las cajas de estos, para
+		que finalmente regresen al origen y vuelvan a ser llenados.
+	Descripción de la interacción entre ellos (sea mediante los mecanismos de sincronización o de alguna otra manera)
+		Se hace uso de 2 semáforos, un mutex y una barrera, comenzando con el mutex el que nos
+		ayuda a llenar los camiones de manera individual, posteriormente se usa la barrera
+		con la cual sabremos que se va a esperar al llenado de los camiones para continuar con 
+		el semaforo "salida_camion" y que nos indicará el paso a "salida" en donde vamos a 
+		adquirir el semáforo de salida_camión y el mutex_cajas, esto para poder vaciar los camiones,
+		una vez vaciados se libera el mutex para continuar la ejecución.
+Descripción del entorno de desarrollo, suficiente para reproducir una ejecución exitosa
+	¿Qué lenguaje emplean? ¿Qué versión?
+		Python 3.7.9
+	¿Qué bibliotecas más allá de las estándar del lenguaje?
+		Se usó threading, time y random
+	¿Bajo qué sistema operativo / distribución lo desarrollaron y/o probaron?
+		Windows 10
+Ejemplos o pantallazos de una ejecución exitosa

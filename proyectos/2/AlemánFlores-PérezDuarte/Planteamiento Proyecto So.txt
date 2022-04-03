@@ -1,0 +1,19 @@
+⚫ Enunciado del problema:
+
+En una empresa vendedora de hilo, la distribución de dicho material se realiza diariamente con 
+6 camiones con cargamentos de 500 Kilos, cada caja pesa 100 kilos, los 6 camiones entregan a un 
+mismo comprador.
+Los camiones no parten hasta que los 6 camiones esten llenos y listos.
+Se considera que los camiones después de realizar la entrega regresan a su destino (regresan 
+directamente a la empresa), para esperar a los demás camiones y llenar los 6 camiones al mismo 
+tiempo con su respectivo cargamento de 500 kilos y partir nuevamente a entregar a su destino.
+
+⚫ ¿Dónde pueden verse las consecuencias nocivas de la concurrencia? ¿Qué eventos queremos controlar?
+Las consecuencias podrían verse en la parte de las entregas, ya que como la compra fue realizada
+por un cliente y solo 1, no es prudente u óptimo que los cargamentos lleguen separador y a 
+cualquier hora, lo que queremos es que el cliente obtenga la mercancia completa al mismo tiempo
+y a la misma hora. También controlar las horas de salida y llegada de la empresa al destino de 
+entrega, y del destino de entrega a la empresa.
+⚫ ¿Hay eventos concurrentes para los cuales el ordenamiento relativo no resulta importante?
+No, es importante que se mantenga un ordenamiento en los hilos, porque están relacionados unos
+con otros.
