@@ -15,7 +15,7 @@
   |      Fecha | Tema                                         | Integrantes                 | Documentos                              | Evaluación |
   |------------+----------------------------------------------+-----------------------------+-----------------------------------------+------------|
   | 2022.03.22 | La arquitectura RISC-V                       | Víctor Miguel Barrera Peña  |                                         |            |
-  | 2022.03.29 | Disco Duro Cifrado ¿Datos Seguros?           | Giselle Espinosa            | [[./EspinosaGiselle/Dinvestigaciondocx.pdf][Documento de texto]], [[./EspinosaGiselle/cifradoDelDiscoDuro.pptx][Presentación (pptx)]] |            |
+  | 2022.03.29 | Disco Duro Cifrado ¿Datos Seguros?           | Giselle Espinosa            | [[./EspinosaGiselle/Dinvestigaciondocx.pdf][Documento de texto]], [[./EspinosaGiselle/cifradoDelDiscoDuro.pptx][Presentación (pptx)]] | [[./EspinosaGiselle/evaluacion.org][Evaluación]] |
   | 2022.03.29 | La máquina virtual de Java                   | Francisco Barrios López     |                                         |            |
   | 2022.03.31 | Sistemas operativos de tiempo real           | André Rosales               |                                         |            |
   | 2022.04.05 | Hashes, colisiones de hashes, utilidad       | Bryan Velasco Pacheco       |                                         |            |
