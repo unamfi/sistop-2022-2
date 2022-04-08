@@ -1,0 +1,611 @@
+#+title: Proyecto 2 • Calificaciones y comentarios
+#+options: toc:nil
+
+** Aldo Abad, André Rosales
+- Título :: El comedor social
+- Documentación :: [[./AbadAldo-RosalesAndré/Proyecto 2 AbadAldo-RosalesAndré (reporte).pdf][Proyecto 2 AbadAldo-RosalesAndré (reporte).pdf]]
+- Archivos :: [[./AbadAldo-RosalesAndré/proyecto2.py][proyecto2.py]]
+- Interfaz :: Conversacional (línea de comando)
+- Comentarios ::
+  - Me gusta lo que implementaron... Pero le faltó un poco de
+    elaboración/complejidad para ser un proyecto excelente ☹
+  - La interacción importante se presenta únicamente en el último de
+    los ciclos. ¿Se les ocurre alguna manera en que pudiera crearse
+    una interacción más interesante? Tal vez... ¿que el comedor
+    constara de muchas mesas de hasta 4 personas, y en cada una se
+    presentara la misma situación?
+  - Me sorprendió el =time.sleep(instancias*.25)=: Me parecía que al
+    darle una gran cantidad de comensales (100) /algo/ se quedaba
+    /atorado/. ¡No! Sólo tuve que esperar 25 segundos a que terminara
+    este =sleep()=. ¿Qué lógica tiene?
+    - ... ¿Tal vez el hilo principal debería esperar a que salga el
+      último antes de cerrar el changarro?
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |      1.5 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Historial en Git       |        10 |        |     0.67 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |       2. |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     9.02 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Carlos Alemán Flores, Brenda Pérez Duarte
+- Título :: Los camiones de carga
+- Documentación :: [[./AlemánFlores-PérezDuarte/Documentación Proyecto2 SO.pdf][Documentación Proyecto2 SO.pdf]], [[./AlemánFlores-PérezDuarte/DocumentaciónProyecto2SO.txt][DocumentaciónProyecto2SO.txt]], [[./AlemánFlores-PérezDuarte/Evidencia Parte 1.jpg][Evidencia Parte 1.jpg]], [[./AlemánFlores-PérezDuarte/Evidencia Parte 2.jpg][Evidencia Parte 2.jpg]], [[./AlemánFlores-PérezDuarte/Evidencia Parte 3.jpg][Evidencia Parte 3.jpg]], [[./AlemánFlores-PérezDuarte/Planteamiento Proyecto So.txt][Planteamiento Proyecto So.txt]]
+- Archivos :: [[./AlemánFlores-PérezDuarte/proyecto_v1.py][proyecto_v1.py]], [[./AlemánFlores-PérezDuarte/proyecto_v2.py][proyecto_v2.py]], [[./AlemánFlores-PérezDuarte/proyecto_v3.py][proyecto_v3.py]], [[./AlemánFlores-PérezDuarte/proyecto_versionFinal.py][proyecto_versionFinal.py]]
+- Interfaz :: Bitácora de acciones a terminal (no interactivo)
+- Comentarios ::
+  - ¡Estos es Git! No tiene sentido tener versiones consecutivas del
+    desarrollo
+    - Los cuatro archivos de código que entregan deberían llevar el
+      mismo nombre (digamos, =proyecto.py=). Lo mismo para la
+      documentación.
+    - Si resulta necesario /volver/ a una versión previa, basta con
+      hacer =git checkout= al /commit/ en cuestión. Además, facilita
+      el ir evaluando el desarrollo, con un simple =git diff= (que
+      lleva de la mano las versiones de /todos los archivos/ del proyecto)
+  - Por legibilidad, les sugiero /caminar las listas/ de una manera
+    más flexible y clara. En vez de verificar manualmente que todas
+    las cajas de todos los camiones estén vacías o llenas (líneas 18,
+    35, 44), podría hacerse:
+    #+begin_src python
+    faltan = False
+    for camion in range(num_camiones):
+        if len(lst_cajas[camion]) < cajas_x_camion:
+	    faltan = True
+	    break
+    if not(faltan):
+        salida_camion.release()
+    #+end_src python
+    O algo por el estilo. Son más líneas, sí, pero creo que es
+    bastante más legible, ¿no? Y les permite reaccionar mejor en caso
+    de que la empresa compre un camión adicional o reduzca su flotilla.
+  - No creo que haga falta que _cada hilo_ verifique que se cumplen
+    las condiciones. En realidad, bastaría con que uno lo hiciera, y
+    soltara la barrera para todos los demás (que simplemente saldrían,
+    sin perder el tiempo en verificar lo que ya se sabe)
+  - =caja_en_camion= no se usa (únicamente se incrementa, nunca se
+    decrementa).
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.67 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |       7.5 |        |     0.50 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.34 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         0 |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.84 |
+| Historial en Git       |       7.5 |        |     0.50 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.75 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.75 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |      8.1 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Alejandro Barreiro, Jessica Zepeda
+- Título :: La parada del Metrobús
+- Documentación :: [[./BarreiroAlejandro-ZepedaJessica/proyecto_so.pdf][proyecto_so.pdf]]
+- Archivos :: [[./BarreiroAlejandro-ZepedaJessica/proy2.py][proy2.py]]
+- Interfaz :: Bitácora de acciones a terminal (no interactivo). Cada
+  vez que hay un evento de llegada de metrobús, la bitácora se detiene
+  y espera a un /enter/ (durante la espera tampoco llegan más
+  pasajeros).
+- Comentarios ::
+  - ¿Qué sentido tiene un =Barrier(1)= que lo diferencie de un
+    =Semaphore(1)=?
+  - Hay un error en el código (que de todos modos funciona): Cuando
+    crean un hilo, hay que darle a =threading.Thread= la /referencia/
+    a la función (llamarla sólo por su nombre — =pasajeros_abordan= o
+    =metrobus_llega=. Ustedes llamaron a la función
+    (=threading.Thread(target = pasajeros_abordan()).start()= y
+    =threading.Thread(target = metrobus_llega()).start()=), lo cual
+    tiene por efecto... Que las llamadas se serializan (el programa no
+    presenta concurrencia real).
+    - Le hice la modificación, y funcionó correctamente ☺
+    - Incluso rompe con el molesto ordenamiento escricto que
+      presentaba
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.16 |
+| Creatividad            |         5 |        |     0.33 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.84 |
+| Historial en Git       |        10 |        |     0.67 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |       2. |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     8.51 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Francisco Barrios
+- Título :: Amazon Go: Las tiendas del futuro
+- Documentación :: [[./BarriosFrancisco/Imagenes/Cliente.png][Cliente.png]], [[./BarriosFrancisco/Imagenes/Ejecucion.png][Ejecucion.png]], [[./BarriosFrancisco/Imagenes/Grupo_sale.png][Grupo_sale.png]], [[./BarriosFrancisco/Imagenes/Proveedor.png][Proveedor.png]], [[./BarriosFrancisco/Imagenes/Variables.png][Variables.png]], [[./BarriosFrancisco/Imagenes/compra_grupal.png][compra_grupal.png]], [[./BarriosFrancisco/Imagenes/espera_a_los_demas.png][espera_a_los_demas.png]], [[./BarriosFrancisco/README.md][README.md]], [[./BarriosFrancisco/documentacion.md][documentacion.md]]
+- Archivos :: [[./BarriosFrancisco/tienda.py][tienda.py]]
+- Interfaz :: Bitácora de acciones a terminal (no interactivo), con
+  interactividad para parametrizar la ejecución al inicio. Indicación
+  visual (indentación) del momento de interacción de cada línea.
+- Comentarios ::
+  - ¡Te metiste en /camisa de once varas/ con lo de los grupos! Es
+    parte del planteamiento que te impusiste, sí, peo me parece que te
+    complicó mucho la lógica. Evalúo exceptuando ese punto
+    (especificando cero grupos en la tienda), creo que de todos modos
+    es un programa interesante.
+    - Creo que parte del problema es que generas grupos con cupos más
+      allá del total de clientes
+  - La densidad de tus comentarios va disminuyendo conforme bajas por
+    el programa 🙃
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       2. |
+| Cumplimiento           |        10 |        |     2.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.67 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |        10 |        |     0.67 |
+| Interfaz usuario       |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Historial en Git       |        10 |        |     0.67 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.75 |
+| Estructura             |       7.5 |        |     0.75 |
+| Nomenclatura           |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     9.44 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Alfredo Correa
+- Título :: Los burócratas y los papeles desordenados
+- Documentación :: [[./CorreaAlfredo/Documentacion.pdf][Documentacion.pdf]]
+- Archivos :: [[./CorreaAlfredo/proyecto_2_entregable.py][proyecto_2_entregable.py]]
+- Interfaz :: Bitácora de acciones a terminal (no interactivo)
+- Comentarios ::
+  - Me gusta tu idea de generar nombres aleatorios. Pero... ¡Para qué
+    repetir lo que alguien más ya inventó! Te sugiero revisar [[https://pypi.org/project/Faker/][la
+    biblioteca =Faker= de Python]]. Tiene cosas muy bonitas, como la
+    capacidad de indicarle un determinado /locale/ (dialecto). El
+    ejemplo, con el /locale/ correspondiente a México (=es_MX=):
+    #+begin_src python
+      Python 3.9.10 (main, Feb 22 2022, 13:54:07) 
+      [GCC 11.2.0] on linux
+      Type "help", "copyright", "credits" or "license" for more information.
+      >>> import faker
+      >>> f = faker.Faker('es_MX')
+      >>> for i in range(10):
+      ...   print('%s, que trabaja en «%s», que está en %s' % (f.name(), f.company(), f.city()))
+      ... 
+      Blanca Fajardo, que trabaja en «Toledo, Casárez y Reynoso», que está en San Jorge Luis los bajos
+      Mónica Chacón González, que trabaja en «Sevilla-Ochoa y Asociados», que está en San Gabriel los altos
+      Catalina Santiago, que trabaja en «Despacho Navarro, Miramontes y Barrera», que está en San Alberto los altos
+      Dr. Rolando Coronado, que trabaja en «Roybal y Trejo S.C.», que está en San Elsa de la Montaña
+      Mtro. José María Lira, que trabaja en «Velásquez, Camarillo y Palomino», que está en Vieja Sudán
+      José Luis Yeni Gracia Alcaraz, que trabaja en «Chacón-Hurtado S.A.», que está en Vieja República Popular Democrática de Corea
+      Yuridia Gonzalo Flórez Gil, que trabaja en «Curiel y Ceballos A.C.», que está en Vieja Guinea Ecuatorial
+      Carmen Aldo Gamez, que trabaja en «Industrias Piña y Velásquez», que está en Nueva Georgia
+      Alma Lorena Hurtado, que trabaja en «Despacho Valadez, Ocasio y Cabrera», que está en San Alma los altos
+      Sr(a). José Carrero, que trabaja en «Paz-Correa e Hijos», que está en San Mauricio los altos
+      >>> 
+    #+end_src
+  - A nivel estilo/claridad: Te sugiero que si vas a tener muchas
+    “cosas” relacionadas, las agrupes en un arreglo o diccionario. Por
+    ejemplo, sería sensato que tener un único =mutex_monto= y un único
+    =monto=, ambos con subínidces =[0,1,2,3,4]= (o 1–5, si te parece
+    más claro, aunque es buena práctica acostumbrarse a contar desde
+    cero 😉) Pero... Particularmente con tus montículos: Puedes
+    reemplazar tus líneas 37 a 63 con únicamente:
+    #+begin_src python
+      import string
+      monticulos = {}
+      for letra in list(string.ascii_lowercase):
+	  monticulos[letra] = []
+    #+end_src
+    Y de paso, te ahorras el tenerte que estar fijando en detalles
+    simplemente /feos/, como el de tu variable llamada =letra_i=
+    (línea 45) contra el estilo de todo el resto de tu código...
+    - Del mismo modo, a la hora de procesar los diferentes montones,
+      todas las comparaciones que haces en tu función
+      =clasificar_letra_monto_1()= (líneas 485–892 (‼) ) pueden
+      simplificarse en 1/26 de su longitud
+  - Hay un error en el código (que de todos modos funciona): Cuando
+    crean un hilo, hay que darle a =threading.Thread= la /referencia/ a
+    la función (llamarla sólo por su nombre — como lo haces en
+    =crear_Nombres=. En todas las demás instancias de
+    =threading.Thread= /llamaste/ a las función (p.ej. =persona_2 =
+    threading.Thread(target = repartir_monto(personas_generadas))=, lo
+    cual tiene por efecto... Que las llamadas se serializan (el
+    programa no presenta concurrencia real). Recuerda que para pasar la
+    lista de argumentos usas el parámetro =args= con una lista:
+    =persona_2 = threading.Thread(target = repartir_monto,
+    args = [personas_generadas])=
+  - el programa /inunda/ de información, la interfaz usuario no te
+    lleva a comprender el avance. El problema que planteas podría
+    estar muy bonito de /dibujar/ con barras de diferente longitud
+    para cada uno de los montones desordenados y para cada uno de los
+    ordenados...
+  - Creaste nueve diferentes semáforos, pero sólo usas cinco
+    =mutex_crear_lista=, =mutex_repartir=, =mutex_monto_1=,
+    =mutex_imprimir_desordenado=, =mutex_imprimir_ordenado= (y el
+    último, sólo lo subes, nunca lo bajas).
+
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       1. |
+| Cumplimiento           |         5 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |       1. |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |         0 |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |      1.5 |
+| Documentación expresa  |       7.5 |        |     0.50 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.34 |
+| Historial en Git       |         0 |        |     0.00 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |       7.5 |        |     0.75 |
+| Nomenclatura           |       7.5 |        |     0.75 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     6.34 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Jesus Davila, Giselle Espinosa
+- Título :: El programador malicioso
+- Documentación :: [[./DavilaJesus-EspinosaGiselle/READNAME.txt][READNAME.txt]], [[./DavilaJesus-EspinosaGiselle/documentacion/Proyecto2-Documentacion.txt][Proyecto2-Documentacion.txt]], [[./DavilaJesus-EspinosaGiselle/documentacion/planteamientoDelProblema.txt][planteamientoDelProblema.txt]], [[./DavilaJesus-EspinosaGiselle/documentacion/ColegasEsperandoPuertaCerrada.jpeg][ColegasEsperandoPuertaCerrada.jpeg]], [[./DavilaJesus-EspinosaGiselle/documentacion/ColegasIngresando.jpeg][ColegasIngresando.jpeg]], [[./DavilaJesus-EspinosaGiselle/documentacion/DescripciondelProblema.jpeg][DescripciondelProblema.jpeg]], [[./DavilaJesus-EspinosaGiselle/documentacion/FuncionamientoNormal.jpeg][FuncionamientoNormal.jpeg]], [[./DavilaJesus-EspinosaGiselle/documentacion/JefePresente.jpeg][JefePresente.jpeg]], [[./DavilaJesus-EspinosaGiselle/documentacion/PuertaCerrada.jpeg][PuertaCerrada.jpeg]], [[./DavilaJesus-EspinosaGiselle/documentacion/pantallaTitulo.jpeg][pantallaTitulo.jpeg]]
+- Archivos :: [[./DavilaJesus-EspinosaGiselle/codigo/codigoFuncionamiento.py][codigoFuncionamiento.py]], [[./DavilaJesus-EspinosaGiselle/codigo/interfaz.py][interfaz.py]], [[./DavilaJesus-EspinosaGiselle/codigo/menuEjecutable.py][menuEjecutable.py]]
+- Interfaz :: TUI (interfaz usuario textual) basada en menúes, dibujo
+  con texto
+- Comentarios ::
+  - ¡Buenísimo que manejen VCs!
+  - La documentación es muy detallada, y describe muy bien lo que
+    ocurre en el programa. Sin embargo, les recomiendo fuertemente
+    usar saltos de línea cuando escriben texto plano; los invito a ver
+    [[https://github.com/unamfi/sistop-2022-2/blob/main/proyectos/2/DavilaJesus-EspinosaGiselle/documentacion/Proyecto2-Documentacion.txt][cómo se ve su documentación desde Web]], y si la ven desde la
+    terminal encontrarán que es igualmente difícil de leer — y
+    desmerece el (¡buen!) esfuerzo que le pusieron.
+    - ¿No les gustan los acentos? No los usan casi nunca ☹ Eso
+      dificulta la lectura y, nuevamente, desmerece el
+      resultado. Falta cortar algunas frases demasiado largas, por lo
+      menos con una coma, para facilitar la lectura.
+    - Se les escaparon varios dedazos menores.
+    - En la documentación faltó explicitar cómo se lanza el
+      programa. También, están incluyendo varios /pantallazos/
+      (supongo que satisface el requisito de “presentar ejemplos de
+      invocación”), pero no están referenciados desde ningún lugar.
+    - ¡Muy buena ejecución! La dejé andando un rato, y... me llamó la
+      atención que a veces, cuando los programadores /normales/ le
+      ganan al malicioso... ¡Llega a haber hasta -3 errores! 😉
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       2. |
+| Cumplimiento           |        10 |        |     2.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     2.01 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |        10 |        |     0.67 |
+| Interfaz usuario       |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.84 |
+| Documentación expresa  |       7.5 |        |     0.50 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Historial en Git       |        10 |        |     0.67 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |       2. |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     9.86 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Lucero De La Cruz, Emilio Piña
+- Título :: Los tacos de canasta del Champion
+- Documentación :: [[./DelaCruzLuceroPiñaEmilio/CapturaEJECUCIONEXITOSA.PNG][CapturaEJECUCIONEXITOSA.PNG]], [[./DelaCruzLuceroPiñaEmilio/README.md][README.md]]
+- Archivos :: [[./DelaCruzLuceroPiñaEmilio/Proyecto2DelaCruzLuceroPiñaEmilio.py][Proyecto2DelaCruzLuceroPiñaEmilio.py]]
+- Interfaz :: Bitácora de acciones a terminal (no interactivo)
+- Comentarios ::
+  - (respecto a la documentación) → Los hilos frecuentemente/requieren
+    de/ mecanismos de sincroinzación, no /son/ mecanismos de
+    sincronización.
+  - Mencionan el problema de quedarse esperando y llegar tarde a
+    clase. Sin embargo, si generan un nuevo hilo en promedio cada 2.5
+    segundos (espaciados por un =time.sleep(5 * random.random())=,
+    línea 65), y cada uno de ellos espera (con =mutex= en la mano) por
+    otros ≅2.5 segundos (línea 26), y el champion toma aproximadamente
+    2.5 segundos en atenderlo (línea 45)... Se van acumulando; la cola
+    crece aproximadamente en 15 hilos por minuto ☹
+  - Les sugiero invertir el anidamiento del =try= y del =while=
+    (líneas 63/64): Si un hilo falla en lanzarse, el =except= atrapa
+    el error /fuera del ciclo/, y no llegarían nunca más clientes ☹
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |      1.5 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.34 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         0 |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.67 |
+| Historial en Git       |         5 |        |     0.33 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |       2. |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     8.01 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Axel Escalona
+- Título :: La fábrica de laptops
+- Documentación :: [[./EscalonaAxel/proyecto2.pdf][proyecto2.pdf]]
+- Archivos :: [[./EscalonaAxel/laptops.py][laptops.py]]
+- Interfaz :: Bitácora de acciones a terminal (no interactivo después
+  de indicar el número de laptops a fabricar)
+- Comentarios ::
+  - Está bien proteger de más (¡es mejor que proteger de menos!), pero
+    creo que el mutex que más usas, =mutex_imprimir=, es innecesario
+  - Usas algunos semáforos que identificas (nombras) mutexes en
+    realidad únicamente para la señalización, ¿no? Particularmente,
+    =mutex_terminado=
+  - Los que identificas como /torniquetes/ no son eso — son también
+    señalizaciones. Sí, dentro de una condicional, pero no responden a
+    la construcción /adquirir/liberar/ que caracteriza a los torniquetes.
+
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |      1.5 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.67 |
+| Historial en Git       |         5 |        |     0.33 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.75 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.75 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     8.43 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Yoav Galdamez
+- Título :: Ruta de micros
+- Documentación :: [[./GaldamezYoav/A.jpg][A.jpg]], [[./GaldamezYoav/Proyecto2.pdf][Proyecto2.pdf]], [[./GaldamezYoav/Proyecto2.txt][Proyecto2.txt]]
+- Archivos :: [[./GaldamezYoav/Micros.py][Micros.py]]
+- Interfaz :: Invocación y parámetros desde GUI (tkInter); en
+  operación, bitácora de acciones a región de texto en el GUI
+- Comentarios ::
+  - ¡Muy bueno que estructures a tus actores usando orientación a
+    objetos! Cuando tienes estructuras de datos complejas, ayuda mucho
+    hacerlo de esta manera.
+    - Pero podría extenderse un poquito: ¿Por qué no hiciste que
+      =paradaSube()= y =paradaBaja()= fueran parte de tu clase
+      =Parada=? ¿O una clase =Base= con =filaBase()=? ¿O una clase
+      =Ruta=, que conjuntara a todas las =Parada=, como está ahora,
+      pero más... “limpio”
+  - Haces un buen control de situaciones inesperadas (microbuses o
+    paradas demasiado bajos o negativos), aunque el programa se sigue
+    /espantando/ si le doy un tipo de datos no-comparable (p.ej. una
+    cadena de texto en vez de un número).
+
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       0. |
+| Cumplimiento           |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.67 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.34 |
+| Historial en Git       |         0 |        |     0.00 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.75 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.75 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     6.77 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Christian Leyva, Bryan Velasco
+- Título ::Un día en el aeropuerto Felipe Ángeles
+- Documentación :: [[./LeyvaChristian-VelascoBryan/Documentación proyecto 2.pdf][Documentación proyecto 2.pdf]], [[./LeyvaChristian-VelascoBryan/assets/background.png][background.png]]
+- Archivos :: [[./LeyvaChristian-VelascoBryan/Grafico.py][Grafico.py]], [[./LeyvaChristian-VelascoBryan/aeropuertoBackEnd.py][aeropuertoBackEnd.py]]
+- Interfaz :: Bitácora de acciones a terminal, indentando para indicar
+  visualmente el tipo de mensaje (no interactivo); hay un GUI
+  (tkInter), pero no es funcional ☹
+- Comentarios ::
+  - ¡Gracias por documentar cuál de los dos es la resolución
+    /funcional/! Les doy de todos mods crédito por la IU desarrollada.
+  - Excelente documentación, muestran a detalle y referenciando el
+    código todo lo que describen.
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       2. |
+| Cumplimiento           |        10 |        |     2.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.67 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.84 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Historial en Git       |        10 |        |     0.67 |
+| Directorio de proyecto |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |       2. |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |        10 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     9.52 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+** Ricardo Ruelas
+- Título :: Casino
+- Documentación :: [[./RuelasRicardo/Casino (Codigo fuente)/dist/README.TXT][README.TXT]], [[./RuelasRicardo/Casino (Programa)/README.TXT][README.TXT]], [[./RuelasRicardo/Documentacion.pdf][Documentacion.pdf]], [[./RuelasRicardo/IdentificacionDescripcion.txt][IdentificacionDescripcion.txt]]
+- Archivos :: [[./RuelasRicardo/Casino (Codigo fuente)/build.xml][build.xml]], [[./RuelasRicardo/Casino (Codigo fuente)/build/built-jar.properties][built-jar.properties]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Excepciones/DatosIncorrectos.class][DatosIncorrectos.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Excepciones/FueraDeRango.class][FueraDeRango.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Juegos/Caballos$1.class][Caballos$1.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Juegos/Caballos$2.class][Caballos$2.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Juegos/Caballos.class][Caballos.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Juegos/IFichas.class][IFichas.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/ManejoArchivos/ManejoArchivos.class][ManejoArchivos.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Menu/Principal.class][Principal.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Menu/Sistema.class][Sistema.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Miembros/Miembro.class][Miembro.class]], [[./RuelasRicardo/Casino (Codigo fuente)/build/classes/Miembros/MiembroDiamond.class][MiembroDiamond.class]], [[./RuelasRicardo/Casino (Codigo fuente)/dist/Casino.jar][Casino.jar]], [[./RuelasRicardo/Casino (Codigo fuente)/manifest.mf][manifest.mf]], [[./RuelasRicardo/Casino (Codigo fuente)/nbproject/build-impl.xml][build-impl.xml]], [[./RuelasRicardo/Casino (Codigo fuente)/nbproject/genfiles.properties][genfiles.properties]], [[./RuelasRicardo/Casino (Codigo fuente)/nbproject/private/config.properties][config.properties]], [[./RuelasRicardo/Casino (Codigo fuente)/nbproject/private/private.properties][private.properties]], [[./RuelasRicardo/Casino (Codigo fuente)/nbproject/private/private.xml][private.xml]], [[./RuelasRicardo/Casino (Codigo fuente)/nbproject/project.properties][project.properties]], [[./RuelasRicardo/Casino (Codigo fuente)/nbproject/project.xml][project.xml]], [[./RuelasRicardo/Casino (Codigo fuente)/save/mbr.obj][mbr.obj]], [[./RuelasRicardo/Casino (Codigo fuente)/save/usr.obj][usr.obj]], [[./RuelasRicardo/Casino (Codigo fuente)/src/Excepciones/DatosIncorrectos.java][DatosIncorrectos.java]], [[./RuelasRicardo/Casino (Codigo fuente)/src/Excepciones/FueraDeRango.java][FueraDeRango.java]], [[./RuelasRicardo/Casino (Codigo fuente)/src/Juegos/Caballos.java][Caballos.java]], [[./RuelasRicardo/Casino (Codigo fuente)/src/Juegos/IFichas.java][IFichas.java]], [[./RuelasRicardo/Casino (Codigo fuente)/src/ManejoArchivos/ManejoArchivos.java][ManejoArchivos.java]], [[./RuelasRicardo/Casino (Codigo fuente)/src/Menu/Principal.java][Principal.java]], [[./RuelasRicardo/Casino (Codigo fuente)/src/Menu/Sistema.java][Sistema.java]], [[./RuelasRicardo/Casino (Codigo fuente)/src/Miembros/Miembro.java][Miembro.java]], [[./RuelasRicardo/Casino (Codigo fuente)/src/Miembros/MiembroDiamond.java][MiembroDiamond.java]], [[./RuelasRicardo/Casino (Programa)/Casino.jar][Casino.jar]], [[./RuelasRicardo/Casino (Programa)/save/mbr.obj][mbr.obj]], [[./RuelasRicardo/Casino (Programa)/save/usr.obj][usr.obj]]
+- Interfaz :: Basado en menú; avance de los hilos (competencia de
+  caballos) genera una animación basada en texto.
+- Comentarios ::
+  - Tengo que reconocer que me “sacó de onda” un proyecto tan
+    claramente tomado de proyectos anteriores. Pero ya con las
+    indicaciones que me das en la documentación, lo doy completamente
+    por bueno, y hasta lo agradezco 😀
+    - Sin embargo... Me dificulta un poco comprender bien a bien qué
+      es lo que hiciste y hasta dónde tengo que evaluar ☹
+  - Entregaste un directorio con los archivos =*.class= ya
+    compilados. Les comenté ya, yo lo que quiero es poder calificar a
+    partir de /código fuente/, no de ver la ejecución. no me indicas
+    cómo compilar el código
+    - Si bien tu documentación menciona cómo ejecutar el archivo
+      global comprimido (=java -jar Casino.jar=), me tocó a mi
+      encontrar que tenía en realidad que ejecutar =java
+      Menu.Principal= después de compilar...
+    - Y claro, me toca averiguar y copiar tus bases de datos al
+      directorio actual
+  - Más de uno de ustedes emplea un /comando de sistema/ para limpiar
+    la pantalla (que serían, como apuntas, =clear= o =cls=,
+    dependiendo del SO). ¡No, eso no hay que hacerlo! La ejecución de
+    un binario externo genera /cientos/ de llamadas al sistema (no
+    exagero). Mejor envía la cadena ANSI para limpiar la consola →
+    ="\033[H\033[2J"= (aunque parezca magia negra)
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       0. |
+| Cumplimiento           |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |      1.5 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Documentación expresa  |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.33 |
+| Historial en Git       |         5 |        |     0.33 |
+| Directorio de proyecto |         5 |        |     0.33 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.75 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.75 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     6.59 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/2 ; f-2::@19$4=@2+@4+@8+@12+@16
