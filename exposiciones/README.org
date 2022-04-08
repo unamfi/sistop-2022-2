@@ -21,6 +21,9 @@
   | 2022.04.05 | Hashes, colisiones de hashes y actualidad    | Bryan Velasco Pacheco       | [[./VelascoBryan/Trabajo escrito Hashes, colisiones de hashes y actualidad.pdf][Trabajo escrito (pdf)]], [[./VelascoBryan/Presentacion Hashes colisiones de hashes y actualidad.pdf][Presentación (pdf)]] [[./VelascoBryan/Hashes colisiones de hashes y actualidad.pptx][Presentación (pptx)]] | [[./VelascoBryan/evaluacion.org][Evaluación]] |
   | 2022.04.07 | La evolución de los buses de memoria         | Jesús Eduardo Dávila Ortega | [[./DavilaJesus/Doc_Los_Buses_De_Memoria.docx][Documento de texto (docx)]], [[./DavilaJesus/Los_Buses_de_Memoria.pptx][Presentación (pdf)]]                 |            |
   | 2022.04.19 | Particularidades de los dispositivos móviles | Christian Leyva             |                                                               |            |
+  | 2022.04.21 | Sistemas operativos mínimos para la nube     | Alejandro Barreiro          |                                                               |            |
+  | 2022.04.26 | Sinkhole                                     | Emilio Piña                 |                                                               |            |
+  | 2022.04.28 | Desduplicación de sistemas de archivos       | Jessica Zepeda              |                                                               |            |
   |------------+----------------------------------------------+-----------------------------+---------------------------------------------------------------+------------|
   #+TBLFM: 
 
