@@ -1,4 +1,4 @@
-+title: Proyecto 1 • Calificaciones y comentarios
+#+title: Proyecto 1 • Calificaciones y comentarios
 #+options: toc:nil
 
 * ¿Qué lineamientos empleo para calificar?

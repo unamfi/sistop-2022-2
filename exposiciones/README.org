@@ -11,17 +11,20 @@
   como lo refleja la rúbrica, obtiene una calificación un poco más alta)
   el que ustedes me planteen los temas de su interés.
 
-  |------------+----------------------------------------------+-----------------------------+-----------------------------------------+------------|
-  |      Fecha | Tema                                         | Integrantes                 | Documentos                              | Evaluación |
-  |------------+----------------------------------------------+-----------------------------+-----------------------------------------+------------|
-  | 2022.03.22 | La arquitectura RISC-V                       | Víctor Miguel Barrera Peña  |                                         |            |
-  | 2022.03.29 | Disco Duro Cifrado ¿Datos Seguros?           | Giselle Espinosa            | [[./EspinosaGiselle/Dinvestigaciondocx.pdf][Documento de texto]], [[./EspinosaGiselle/cifradoDelDiscoDuro.pptx][Presentación (pptx)]] |            |
-  | 2022.03.29 | La máquina virtual de Java                   | Francisco Barrios López     |                                         |            |
-  | 2022.03.31 | Sistemas operativos de tiempo real           | André Rosales               |                                         |            |
-  | 2022.04.05 | Hashes, colisiones de hashes, utilidad       | Bryan Velasco Pacheco       |                                         |            |
-  | 2022.04.07 | La evolución de los buses de memoria         | Jesús Eduardo Dávila Ortega |                                         |            |
-  | 2022.04.19 | Particularidades de los dispositivos móviles | Christian Leyva             |                                         |            |
-  |------------+----------------------------------------------+-----------------------------+-----------------------------------------+------------|
+  |------------+----------------------------------------------+-----------------------------+---------------------------------------------------------------+-------------------------------------------------------------|
+  |      Fecha | Tema                                         | Integrantes                 | Documentos                                                    | Evaluación                                                  |
+  |------------+----------------------------------------------+-----------------------------+---------------------------------------------------------------+-------------------------------------------------------------|
+  | 2022.03.22 | La arquitectura RISC-V                       | Víctor Miguel Barrera Peña  |                                                               |                                                             |
+  | 2022.03.29 | Disco Duro Cifrado ¿Datos Seguros?           | Giselle Espinosa            | [[./EspinosaGiselle/Dinvestigaciondocx.pdf][Documento de texto (pdf)]], [[./EspinosaGiselle/cifradoDelDiscoDuro.pptx][Presentación (pptx)]]                 | [[./EspinosaGiselle/evaluacion_compañeros.pdf][Evaluación y opiniones de los compañeros]], [[./EspinosaGiselle/evaluacion.org][Evaluación global]] |
+  | 2022.03.29 | La máquina virtual de Java                   | Francisco Barrios López     |                                                               |                                                             |
+  | 2022.03.31 | Sistemas operativos de tiempo real           | André Rosales               | [[./RosalesAndré/RTOS - Presentación.pdf][Presentación]]                                                  | [[./RosalesAndré/evaluacion_alumnos.pdf][Evaluación y opiniones de los compañeros]], [[./RosalesAndré/evaluacion.org][Evaluación global]] |
+  | 2022.04.05 | Hashes, colisiones de hashes y actualidad    | Bryan Velasco Pacheco       | [[./VelascoBryan/Trabajo escrito Hashes, colisiones de hashes y actualidad.pdf][Trabajo escrito (pdf)]], [[./VelascoBryan/Presentacion Hashes colisiones de hashes y actualidad.pdf][Presentación (pdf)]] [[./VelascoBryan/Hashes colisiones de hashes y actualidad.pptx][Presentación (pptx)]] | [[./VelascoBryan/evaluacion_alumnos.pdf][Evaluación y opiniones de los compañeros]], [[./VelascoBryan/evaluacion.org][Evaluación global]] |
+  | 2022.04.07 | La evolución de los buses de memoria         | Jesús Eduardo Dávila Ortega | [[./DavilaJesus/Doc_Los_Buses_De_Memoria.docx][Documento de texto (docx)]], [[./DavilaJesus/Los_Buses_de_Memoria.pptx][Presentación (pdf)]]                 | [[./DavilaJesus/evaluacion_alumnos.pdf][Evaluación y opiniones de los compañeros]]                                                            |
+  | 2022.04.19 | Particularidades de los dispositivos móviles | Christian Leyva             |                                                               |                                                             |
+  | 2022.04.21 | Sistemas operativos mínimos para la nube     | Alejandro Barreiro          |                                                               |                                                             |
+  | 2022.04.26 | Sinkhole                                     | Emilio Piña                 |                                                               |                                                             |
+  | 2022.04.28 | Desduplicación de sistemas de archivos       | Jessica Zepeda              |                                                               |                                                             |
+  |------------+----------------------------------------------+-----------------------------+---------------------------------------------------------------+-------------------------------------------------------------|
   #+TBLFM: 
 
 * Rúbrica de evaluación
