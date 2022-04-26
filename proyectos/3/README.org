@@ -1,0 +1,100 @@
+#+title: Asignación de memoria en un sistema real
+#+options: toc:nil num:nil
+
+#+begin_src yaml
+Planteamiento: 2022.04.26
+Entrega: 2022.05.08
+#+end_src
+
+# Pueden [[./calificaciones.org][consultar los comentarios y calificaciones del proyecto aquí]].
+
+Todos los sistemas operativos de uso general al día de hoy utilizan un
+modelo de memoria basado en la /paginación/, y /casi/ siempre (si le
+concedemos la excepción a uno que otro sistemas construidos para el
+/tiempo real duro/) memoria virtual.
+
+Vamos a ver qué tanto podemos aprender u obtener de esta
+información. Este proyecto buscará llevarlos a demostrar sus
+conocimientos al extraer información de la memoria de procesos
+reales.
+
+** Reimplementación de =pmap=
+
+En Linux, les he mostrado que hay varias maneras para obtener la
+información de la asignación de memoria a un proceso. En clase usamos
+por conveniencia la salida de =pmap=.
+
+Trabajemos tan cerca como se pueda de la información /cruda/, tal como
+nos las da el sistema operativo: Quiero que me presenten con una
+implementación básica y un poquito ampliada /hecha por ustedes/ de
+=pmap=.
+
+Sugiero que usen como fuente para implementarlo la información que nos
+da Linux en =/proc/${PID}/maps= y =/proc/${PID}/smaps=. (donde con
+=${PID}= indico el ID del proceso que estemos analizando). Su programa
+debe recibir como entrada el mapa de memoria de /cualquier proceso/
+(al que tenga permiso de lectura, naturalmente), y entregar:
+
+- Identificación de las secciones en memoria, indicando el tamaño de
+  cada una de ellas. Además de las regiones /clásicas/ que estudiamos,
+  les pido que indiquen claramente las regiones correspondientes a
+  /bibliotecas de sistema/ y a otros /archivos mapeados a memoria/.
+
+- Representación visual de la memoria del proceso. Naturalmente, no
+  espero que sea a escala (a fin de cuentas, ¿cómo se vería un proceso
+  de apenas 4MB ante la inmensidad de un espacio de direccionamiento
+  de 48 bits? 😉
+
+  La representación visual puede ser a partir de algo [[./ejemplo/repr_visual_bash_rpi0][como mi ejemplo]]
+  (ver un poquito más adelante para mayores detalles. Pero... ¡Échenle
+  creatividad! Pueden generar una imagen (dando mucha mayor
+  resolución), presentar cada sección con un color distinto, etc.
+
+  Ojo, mi ejemplo está construido a partir de procesar los archivos
+  [[./ejemplo/maps_bash_rpi0.txt][maps_bash_rpi0.txt]] y [[./ejemplo/smaps_bash_rpi0.txt][smaps_bash_rpi0.txt]], que fueron obtenidos en
+  una Raspberry Pi 0. Menciono esto porque es una plataforma de /32
+  bits/ — Y se nota cuando ven las direcciones.
+
+*** Puede serles de utilidad...
+
+Para reimplementar =pmap=, puede resultarles conveniente leer el
+[[https://gitlab.com/procps-ng/procps/-/blob/master/pmap.c][código fuente en C de pmap]]. Su lectura, a pesar de ser código fuente
+productivo en C con cosa de 20 años de antigüedad, no está demasiado
+más allá de lo que espero de ustedes 😉.
+
+Pueden referirse a la [[https://github.com/mmalecki/procps/blob/86073c3b5145fd7596a74642a15b9ad38ea488c2/pmap.c][primera versión funcional de =pmap=]] (de octubre
+de 2002), pero no garantizo que siga funcionando: es posible que el
+formato de la información provista por Linux haya cambiado.
+
+** ¿Qué entregar?
+
+Les pido que entreguen quiero un /programa ejecutable/ en el lenguaje
+que más les acomode, al cual yo le indique un PID, y me genere un mapa
+como [[./donde_en_la_memoria/repr_visual_bash_rpi0][el que les doy como ejemplo]].
+
+Como siempre, les pido que acompañen al programa con documentación,
+presentando tanto los puntos que consideren relevantes para un
+/usuario final/ como aquellos útiles para que un /compañero
+desarrollador/ comprenda su código y pueda contribuir al desarrollo
+(sí, ese /compañero desarrollador/ soy yo 😉)
+
+** ¿Cómo se califica?
+
+- Entrega de un programa que intente resolver el planteamiento ⇒ 50%
+  - De entrada: Cuenten con el 30%
+  - Incluye documentación con autores, estrategia, requisitos, etc. ⇒ 20%
+- Puedo ejecutarlo (de ser necesario, compilarlo) /sin modificación
+  alguna/ ⇒ 10%
+- Calidad del reconocimiento de las regiones de memoria ⇒ 10%
+  - Texto, datos, heap, stack, bibliotecas, espacios vacíos... ¿Alguna
+    hipótesis para las regiones que yo marqué como «?»?
+- Representación visual ⇒ Hasta 15%
+  - Similar a mi ejemplo, 10%
+  - Salida a color, gráfica, interactiva con algún detalle
+    /interesante/, 5%
+- Universalidad ⇒ 15%
+  - Funciona con mis archivos de ejemplo, 5%
+  - Funciona con procesos cualquiera de mi sistema, sean sencillos o
+    complejos, 5% (les adelanto: voy a probarlo con =bash=, algún
+    programa escrito en =Python=, Chromium, Firefox y alguno más)
+  - Funciona en equipos de 32 o 64 (ok, 48) bits sin problemas, 5%
