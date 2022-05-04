@@ -39,16 +39,16 @@ def ObtenerPmap(textoLargo:str):
 
 def getnPaginas(valor,unidad):
     if unidad == 'kb':
-        return valor/4
+        return str(valor/4)
     
     if unidad == 'mb':
-        return (valor*1000)/4
+        return str((valor*1000)/4)
     
     if unidad == 'gb':
-        return (valor*1000000)/4
+        return str((valor*1000000)/4)
     
     if unidad == 'tb':
-        return (valor*1000000000)/4
+        return str((valor*1000000000)/4)
 
 def getUso(mapeo,permisos):
     if mapeo == '[stack]':
@@ -77,8 +77,13 @@ def getUso(mapeo,permisos):
 # Se obtiene el Uso y el num de paginas
 def PulirPMap(Pmap:list):
     for line in Pmap:
-        line['paginas'] = getnPaginas(line['size'],line['sizeUnit'])
+        line['paginas'] = getnPaginas(int(line['size']),line['sizeUnit'])
         line['uso'] = getUso(line['mapeo'], line['permisos'])
+
+def MostrarPMap(Pmap:list):
+    print("|  Uso      |De pág.|A pág. | Tamaño |Núm. páginas|Perm| Uso o mapeo ")
+    for line in Pmap:
+        print(line['uso'] + '\t' + line['desde'] + '\t' + line['hasta'] + '\t' + line['paginas'] + '\t' + line['permisos']+ '\t'  + line['mapeo'])
 
 def main():
     
@@ -95,8 +100,6 @@ def main():
         return
     Pmap = ObtenerPmap(textoMap)
     PulirPMap(Pmap)
-
-
-    print(Pmap)
+    MostrarPMap(Pmap)
 
 main()
