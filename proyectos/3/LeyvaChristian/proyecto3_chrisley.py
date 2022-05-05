@@ -114,6 +114,11 @@ def main():
     Pmap = ObtenerPmap(textoMap)
     PulirPMap(Pmap)
     # Para mostrar de manera 'bonita' el Pmap, se utiliza la biblioteca tabulate
-    print(tabulate(Pmap,headers="firstrow"))
+    print(tabulate(Pmap,headers="firstrow",tablefmt='fancy_grid'))
+
+    # A partir de aqui se comienza la realizacion de la tabla en html con formato chido
+    tabla_html = tabulate(Pmap,headers="firstrow",tablefmt='html')
+
+    
 
 main()
