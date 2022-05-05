@@ -41,7 +41,6 @@ while(1):
         print("║"+' Uso/Mapeo')
 
         for linea in contenido:
-            print(linea)
             #Separamos los datos de cada linea en una lista
             #Esta separación se hara por espacios en blanco
             datosSeparados = linea.split()
