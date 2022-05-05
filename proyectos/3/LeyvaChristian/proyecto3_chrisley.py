@@ -2,6 +2,7 @@
 
 import sys
 import re
+from tabulate import tabulate # ⚠️ Intalacion necesaria - Biblioteca para imprimir en consola de forma tabular.
 
 # Obtiene el PID el cual se pasa como argumento
 def getArgs():
@@ -20,6 +21,20 @@ def ObtenerPmap(textoLargo:str):
     lineasPMAP = textoLargo.splitlines()
     salida = []
     i = 0
+    # print("|  Uso      |De pág.|A pág. | Tamaño |Núm. páginas|Perm| Uso o mapeo ")
+
+    # Se inicializa el diccionario con los titulos de las columnas para ser mostradas mas adelante en consola
+    out ={}
+    out['uso'] = 'Uso'
+    out['desde'] = 'De pág.'
+    out['hasta'] = 'A pág.'
+    out['size'] = 'Tamaño'
+    out['sizeUnit'] = ''
+    out['paginas'] = 'Paginas'
+    out['permisos'] ='Permisos'
+    out['mapeo'] = 'Uso o mapeo'
+    salida.append(out)
+    
     while i < len(lineasPMAP):
         out = {}
         primera = lineasPMAP[i].split(' ')
@@ -39,7 +54,7 @@ def ObtenerPmap(textoLargo:str):
 
 def getnPaginas(valor,unidad):
     if unidad == 'kb':
-        return str(valor/4)
+        return str(int(valor/4))
     
     if unidad == 'mb':
         return str((valor*1000)/4)
@@ -77,14 +92,12 @@ def getUso(mapeo,permisos):
 # Se obtiene el Uso y el num de paginas
 def PulirPMap(Pmap:list):
     for line in Pmap:
+        # Se salta la primera iteracion con los titulos de las columnas
+        if 'uso' in line:
+            continue
         line['paginas'] = getnPaginas(int(line['size']),line['sizeUnit'])
         line['uso'] = getUso(line['mapeo'], line['permisos'])
-
-def MostrarPMap(Pmap:list):
-    print("|  Uso      |De pág.|A pág. | Tamaño |Núm. páginas|Perm| Uso o mapeo ")
-    for line in Pmap:
-        print(line['uso'] + '\t' + line['desde'] + '\t' + line['hasta'] + '\t' + line['paginas'] + '\t' + line['permisos']+ '\t'  + line['mapeo'])
-
+    
 def main():
     
     try:
@@ -100,6 +113,7 @@ def main():
         return
     Pmap = ObtenerPmap(textoMap)
     PulirPMap(Pmap)
-    MostrarPMap(Pmap)
+    # Para mostrar de manera 'bonita' el Pmap, se utiliza la biblioteca tabulate
+    print(tabulate(Pmap,headers="firstrow"))
 
 main()
