@@ -6,8 +6,8 @@ color_uso = {
     "Stack":"\033[31mStack\033[m",
     "Datos":"\033[34mDatos\033[m",
     "Texto":"\033[35mTexto\033[m",
-    "Bib Datos":"\033[36mBib \033[34mDatos\033[m",
-    "Bib Texto":"\033[36mBib \033[35mTexto\033[m",
+    "Bib Datos":"\033[36mBib->\033[34mDatos\033[m",
+    "Bib Texto":"\033[36mBib->\033[35mTexto\033[m",
     "Vacio":"Vacio",
     "Mapeo Anon.":"\033[33mMapeo Anon.\033[m",
     "Sys. Calls":"\033[33mSys. Calls\033[m",
@@ -97,32 +97,61 @@ def obtener_ruta(datosSeparados):
 
 #Funcion que obtiene el uso de memoria
 def obtener_uso(datosSeparados):
+    #Obtenemos los permisos para saber si el tipo de uso es de Reserva
     permisos = obtener_permisos(datosSeparados)
+
+    #Obtenemos la ruta para analizar a que pertenece el uso de memoria
     ruta = obtener_ruta(datosSeparados)
+    
+    uso = ''
+    es_heap = False
+    origen = None
 
     if('/' in ruta):
         if('x' in permisos):
-            return 'Texto'
+            uso = 'Texto'
         elif(not ('r' in permisos) and not('w' in permisos)):
-            return 'Reserva'
+            uso = 'Reserva'
         else:
-            return 'Datos'
+            uso = 'Datos'
     elif(ruta == '[stack]'):
-        return 'Stack'
+        uso = 'Stack'
     elif(ruta == '[heap]'):
-        return 'Heap'
+        uso = 'Heap'
     elif(ruta == '[anon]'):
-        return 'Mapeo Anon.'
+        uso = 'Mapeo Anon.'
     elif(ruta == '[vsyscall]'):
-        return 'Sys. Calls'
+        uso = 'Sys. Calls'
     elif(ruta == '[vdso]'):
-        return 'Sys. Calls'
+        uso = 'Sys. Calls'
     elif(ruta == '[vvar]'):
-        return 'Kernel Vars.'
+        uso = 'Kernel Vars.'
     elif(ruta == 'Vacio'):
-        return '...'
+        uso = '...'
     else:
-        return ruta
+        uso = ruta
+
+    #Si explicitamente nos indica que es Heap encendemos la bandera
+    if(uso == 'Heap'):
+        es_heap = True
+
+    #Si no se muestra realmente el heap, analizamos su origen
+    if(not es_heap and '/' in ruta and origen == None):
+        origen = ruta
+
+    #Si la ruta es como tal una ruta y esta no es igual que el origen
+    #entonces concluimos que pertenece a heap
+    if('/' in ruta and ruta != origen):
+        es_heap = True
+
+    #Si tenemos un heap ímplicito entonces el uso de Texto y Datos va a cambiar
+    if(es_heap):
+        if(uso == 'Texto'):
+            uso = 'Bib Texto'
+        if(uso == 'Datos'):
+            uso = 'Bib Datos'
+
+    return uso
 
 
 #Proceso principal del programa (permite realizar varias consultas)
@@ -150,6 +179,7 @@ while(1):
             #Esta separación se hara por espacios en blanco
             datosSeparados = linea.split()
             uso = obtener_uso(datosSeparados)
+            
             print("║"+color_uso.get(uso,uso).center(26))
 
         #Una vez mostrado el contenido de memoria formateamos el final de la tabla
