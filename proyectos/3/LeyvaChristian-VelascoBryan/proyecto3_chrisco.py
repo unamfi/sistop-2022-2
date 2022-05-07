@@ -1,8 +1,13 @@
 # Proyecto 3 Christian Leyva
+# Para instalar las bibliotecas necesarias utilizar los siguientes comandos:
+# pip install tabulate
+# pip install w3lib
 
 import sys
 import re
 from tabulate import tabulate # ⚠️ Intalacion necesaria - Biblioteca para imprimir en consola de forma tabular.
+from PmapToHTML_chrisco import *
+import webbrowser
 
 # Obtiene el PID el cual se pasa como argumento
 def getArgs():
@@ -10,9 +15,8 @@ def getArgs():
 
 def leerMAP(PID):
     ruta = "/proc/"+PID + "/smaps"
-    archivoMap = open(ruta, 'r')
-    textoMap = archivoMap.read()
-    archivoMap.close()
+    with open(ruta, 'r') as archivoMap:
+        textoMap = archivoMap.read()
     return textoMap
 
 # Se obtiene y arregla dentro de una lista la informacion proporcionada por el 
@@ -117,8 +121,11 @@ def main():
     print(tabulate(Pmap,headers="firstrow",tablefmt='fancy_grid'))
 
     # A partir de aqui se comienza la realizacion de la tabla en html con formato chido
-    tabla_html = tabulate(Pmap,headers="firstrow",tablefmt='html')
-
+    filename = "Pmap_PID_" + PID + ".html"
+    crearHTML(PID,createPmapHTML(Pmap),filename)
     
+    # Se abre automáticamente el archivo generado:
+    # Si no se desea que se abra automáticamente puede comentar la siguiente linea:
+    webbrowser.open_new_tab(filename)
 
 main()

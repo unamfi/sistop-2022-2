@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/img/TabIcon.ico">
+    <link rel="stylesheet" href="assets/css/chrisframe.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>Proyecto 3 SO Christian Leyva</title>
+</head>
+<body>
+    <header class="header scroll-header" id="header">
+        <nav class="nav container" id="nav">
+            <!-- <a href="#" class="nav__logo"><embed src="assets/img/svg_negro.svg" height="20px" class="nav_logo"></a> -->
+            <a href="#" class="nav__logo">Proyecto 3: Asignación de memoria en un sistema real</a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list grid">
+                    <li class="nav__item">
+                        <a href="#instrucciones" class="nav__link">
+                            <i class="uil uil-sign-alt nav__icon"></i> Instrucciones
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#pmap" class="nav__link">
+                            <i class="uil uil-brackets-curly nav__icon"></i> Mapa generado
+                        </a>
+                    </li>
+                </ul>
+                <i class="uil uil-times nav__close nav__icon" id="nav-close"></i>
+            </div>
+            
+            <div class="nav_btns">
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="uil uil-apps"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="space"></div>
+
+    <h2 class="section__title" id="instrucciones">Instrucciones</h2>
+    <div class="instrucciones">
+        <p>
+            Este archivo HTML fue generado a partir de el archivo <i>proyecto3_chrisco.py</i> con la tabla de la asignación de memoria del proceso <a>{PID}</a> mostrada en consola, sin embargo
+            en este archivo se cuenta con <a>añadidos</a> para mejorar y hacer mas bonita la lectura de la misma.
+            <br>La tabla inferior 👇🏽 cuenta con <a href="#instrucciones">links</a> los cuales explican algunos elementos de la tabla.
+            <br>Al momento de dar click en uno de los links, se debe abrir un modal explicando el elemento. Prueba dando click <a href="#modal-prueba" class="trigger-modal">AQUÍ! 👈🏽</a>
+        </p>
+    </div>
+
+    <h2 class="section__title" id="pmap">Mapa generado en el PID <a href="#pmap">{PID}</a> </h2>
+
+    <div class="table__container">
+        {TABLA}
+    </div>
+
+    <!-- MODALES -->
+    <!-- Prueba -->
+    <div class="services__modal" id="modal-prueba">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Perfecto!</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-check-circle services__modal-icon"></i>
+                    <p>Comprendiste el uso de la página.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Stack -->
+    <div class="services__modal" id="stack">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Stack</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <!-- <i class="uil uil-check-circle services__modal-icon"></i> -->
+                    <p>Este uso es el de las funciones y variables locales del sistema.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Bibliotecas -->
+    <div class="services__modal" id="lib">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Biblioteca</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <!-- <i class="uil uil-check-circle services__modal-icon"></i> -->
+                    <p>En esta paginación se esta accediendo a las bibliotecas del sistema ubicadas en el directorio /lib.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer_t1">
+        <div class="footer_div">
+            <span class="footer_span"><a href="https://github.com/unamfi/sistop-2022-2/tree/main/proyectos/3">Proyecto 3: Asignación de memoria en un sistema real</a></span><br>
+            <span class="footer_span">Sistemas Operativos</span><br>
+            <span class="footer_span"><a href="https://github.com/Chrisley304" target="_blank">Leyva Mercado Christian Alejandro</a></span><br>
+            <span class="footer_span"><a href="https://github.com/bryan-velasco" target="_blank">Velasco Pachuca Bryan</a></span><br>
+            <span class="footer_span">Semestre 2022-2</span>
+        </div>
+    </footer>
+
+</body>
+<script src="assets/js/chrisframe.min.js"></script>
+<script src="assets/js/main.js"></script>
+</html>
