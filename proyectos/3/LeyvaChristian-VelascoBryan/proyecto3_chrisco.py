@@ -1,10 +1,8 @@
 # Proyecto 3 Christian Leyva
 # Para instalar las bibliotecas necesarias utilizar los siguientes comandos:
 # pip install tabulate
-# pip install w3lib
 
 import sys
-import re
 from tabulate import tabulate # ⚠️ Intalacion necesaria - Biblioteca para imprimir en consola de forma tabular.
 from PmapToHTML_chrisco import *
 import webbrowser
@@ -75,23 +73,23 @@ def getUso(mapeo,permisos):
     elif mapeo == '[heap]':
         return "Heap"
     elif mapeo == '[anon]':
-        return 'Mapeo Anonimo'
+        return 'Anónimo'
     elif mapeo in ('[vdso]', '[vsyscall]', '[vectors]'):
         return "Llamada al Sistema"
     elif mapeo == '[vvar]':
-        return 'Var Kernel'
+        return 'Var -> Kernel'
     elif mapeo == "":
-        return "vacio"
-    elif permisos[0].lower() == 'r' and permisos[2].lower() == "x" and "lib" in mapeo:
+        return "vació"
+    elif permisos[0].lower() == 'r' and permisos[2].lower() == "x" and "/lib" in mapeo:
         return "Bib→Texto"
     elif permisos[0].lower() == 'r' and "lib" in mapeo:
         return "Bib→Datos"
-    elif permisos[0].lower() == 'r' and permisos[2].lower() == "x" and "/usr/bin" in mapeo:
+    elif permisos[0].lower() == 'r' and permisos[2].lower() == "x" and "/bin" in mapeo:
         return "Texto"
-    elif permisos[0].lower() == 'r' and "/usr/bin" in mapeo:
+    elif permisos[0].lower() == 'r' and "/bin" in mapeo:
         return "Datos"
     else:
-        return '???'
+        return 'Desconocido'
 
 # Se obtiene el Uso y el num de paginas
 def PulirPMap(Pmap:list):
