@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Poppins:ital,wght@0,300;0,400;1,600&display=swap');
+*{
+    font-family: 'Poppins';
+    color: #222222;
+}
+::-webkit-scrollbar{
+    width: .40rem ;
+}
+a{
+    color: #F24236 ;
+}
+a:hover{
+    color: #1C5D99 !important;
+}
+.space{
+    margin-top: 100px;
+}
+.code_bg{
+    margin: auto;
+    background-color: #f1f1f1;
+    box-sizing: content-box;
+    width: 60vw;
+    height: 70vh;
+    font-size: 15px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border-radius: 25px;
+}
+.code{
+    font-family: 'Fira Code';
+}
+.code_bg a{
+    text-decoration: none;
+}
+.container_t1{
+    width: 60vw;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: content-box;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/* .instrucciones{
+    box-sizing: content-box;
+    width: 60vw;
+    margin: auto;
+} */
+.instrucciones p{
+    text-align: justify;
+}
+.footer_t1{
+    background-color: #0A253E !important;
+    height: auto;
+}
+.footer_span{
+    color: white;
+    font-size: 15px;
+}
+.p_bg{
+    margin: 20px 0px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 1px;
+    padding-bottom: 15px;
+    background-color: #e6e3e3;
+}
+.footer_div{
+    margin: auto;
+    margin-top: 25px;
+    padding: 10px;
+    width: 75vw;
+    box-sizing: content-box;
+}
+h3{
+    color: #1C5D99;
+    font-weight: 600;
+    font-style: italic;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+@media (max-width: 768px) {
+    .space{
+        margin-top: 25px;
+    }
+    .code_bg{
+        width: 80vw;
+        font-size: 13px;
+    }
+    .instrucciones{
+        width: 80vw;
+    }
+    .container_t1{
+        width: 80vw;
+    }
+}
+
+/* CSS Proyecto 3 */
+
+.section__title{
+    padding: 15px 0;
+}
+
+.table__container{
+    margin: auto;
+    background-color: #f1f1f1;
+    box-sizing: content-box;
+    width: 80vw;
+    height: 70vh;
+    font-size: 15px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border-radius: 25px;
+}
+
+.table__container table{
+    width: 100%;
+    padding: 20px;
+}
+table, th, td{
+    border-bottom: 1px solid rgb(207, 203, 203);
+    text-align: center !important;
+}
+
+.section{
+    padding-bottom: 0;
+}
+
+@media screen and (min-width: 768px){
+    .section {
+        padding: 4rem 0 2rem;
+    }
+}
