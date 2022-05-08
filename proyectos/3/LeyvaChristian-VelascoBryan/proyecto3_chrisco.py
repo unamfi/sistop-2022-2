@@ -77,7 +77,7 @@ def getUso(mapeo,permisos):
     elif mapeo in ('[vdso]', '[vsyscall]', '[vectors]'):
         return "Llamada al Sistema"
     elif mapeo == '[vvar]':
-        return 'Var -> Kernel'
+        return 'Procesos Var (Kernel)'
     elif mapeo == "":
         return "vació"
     elif permisos[0].lower() == 'r' and permisos[2].lower() == "x" and "/lib" in mapeo:

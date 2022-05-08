@@ -79,7 +79,7 @@
 
             <ul class="services__modal-services grid">
                 <li class="services__modal-service">
-                    <!-- <i class="uil uil-check-circle services__modal-icon"></i> -->
+                    <i class="uil uil-info-circle services__modal-icon"></i>
                     <p>Este uso es el de las funciones y variables locales del sistema.</p>
                 </li>
             </ul>
@@ -93,7 +93,7 @@
 
             <ul class="services__modal-services grid">
                 <li class="services__modal-service">
-                    <!-- <i class="uil uil-check-circle services__modal-icon"></i> -->
+                    <i class="uil uil-info-circle services__modal-icon"></i>
                     <p>En esta paginación se esta accediendo a las bibliotecas del sistema ubicadas en el directorio /lib.</p>
                 </li>
             </ul>
@@ -107,8 +107,68 @@
 
             <ul class="services__modal-services grid">
                 <li class="services__modal-service">
-                    <!-- <i class="uil uil-check-circle services__modal-icon"></i> -->
-                    <p>PENDIENTE</p>
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>Segmento de memoria que no tiene un tamaño constante antes de la compilación, el cual es controlado dinámicamente por el programador.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Llamada al sistema -->
+    <div class="services__modal" id="syscall">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Llamada al sistema</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <p>vDSO significa <i>"virtual dynamic shared object"</i> la cual es una pequeña biblioteca 
+                        que el kernel mapea automaticamente en el espacio compartido de aplicaciones.</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p> Muchas llamadas al sistema que proporciona el kernel utilizan el código de espacio de 
+                        usuario por lo que las llamadas al sistema pueden dominar el rendimiento general.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Llamada al sistema -->
+    <div class="services__modal" id="vvar">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Procesos Var (Kernel)</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>Con el objetivo de implementar algunas llamadas al sistema en especifico, el kernel
+                        mapea algunos datos para el usuario.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Permisos -->
+    <div class="services__modal" id="permisos">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Permisos de archivos</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <p>En UNIX los permisos dentro de los archivos se representan con 3 Letras:</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-book-open services__modal-icon"></i>
+                    <p> <strong> r:</strong> read -> lectura</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-pen services__modal-icon"></i>
+                    <p> <strong> w:</strong> write -> escritura (en archivos: permiso de modificar, en directorios: permiso de crear archivos en el dir.)</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-browser services__modal-icon"></i> 
+                    <p> <strong> x</strong> execution -> ejecución</p>
                 </li>
             </ul>
         </div>
@@ -116,7 +176,7 @@
 
     <footer class="footer_t1">
         <div class="footer_div">
-            <span class="footer_span"><a href="https://github.com/unamfi/sistop-2022-2/tree/main/proyectos/3">Proyecto 3: Asignación de memoria en un sistema real</a></span><br>
+            <span class="footer_span"><a href="https://github.com/unamfi/sistop-2022-2/tree/main/proyectos/3" target="_blank">Proyecto 3: Asignación de memoria en un sistema real</a></span><br>
             <span class="footer_span">Sistemas Operativos</span><br>
             <span class="footer_span"><a href="https://github.com/Chrisley304" target="_blank">Leyva Mercado Christian Alejandro</a></span><br>
             <span class="footer_span"><a href="https://github.com/bryan-velasco" target="_blank">Velasco Pachuca Bryan</a></span><br>

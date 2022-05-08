@@ -13,6 +13,10 @@ def getPlantilla():
 def createPmapHTML(Pmap:list):
     Pmap_HTML = Pmap.copy()
     for line in Pmap_HTML:
+        # Titulos:
+        if line['permisos'] == 'Permisos':
+            line['permisos'] = crearTrigger('Permisos','permisos')
+        # Usos
         if line['uso'] == "Stack":
             line['uso'] = crearTrigger('Stack','stack')
         elif line['uso'] ==  "Heap":
@@ -21,8 +25,8 @@ def createPmapHTML(Pmap:list):
             line['uso'] = crearTrigger('Anónimo','anonymous')
         elif line['uso'] == "Llamada al Sistema":
             line['uso'] = crearTrigger('Llamada al sistema','syscall')
-        elif line['uso'] == 'Var -> Kernel':
-            line['uso'] = crearTrigger('Var','var')
+        elif line['uso'] == 'Procesos Var (Kernel)':
+            line['uso'] = crearTrigger('Procesos Var (Kernel)','vvar')
     return Pmap_HTML
 
 def remplazarTokens(plantilla:str,PID,Pmap):
