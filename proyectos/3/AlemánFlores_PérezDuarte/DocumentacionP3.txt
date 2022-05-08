@@ -1,0 +1,22 @@
+Autores: Aleman Flores Carlos Eduardo
+	    Pérez Duarte Brenda Elizabeth
+
+Estrategias para la resolución del problema:
+-Se analiza la información proporcionada por el archivo /proc/PID/maps
+-Una vez analizado el archivo se hace uso de manejo de archivos en python para separar la información en 
+ bloques útiles
+-Se usan funciones de formato como el padding y colores para una mejor presentación
+
+Método de uso:
+python3 ${nombre del archivo} ${PID}
+
+
+Se declara la librería sys y una variable que es una lista que guarda elementos del sistema. 
+Se imprimen las secciones que se mostrarán y declaramos una bandera para para determinar la primer línea,
+está bandera es de uso único.
+Tenemos más variables que determinarán lo siguiente:
+-Proc es una lista que almacena las subcadenas de la línea divida por la función split
+-Con tam el tamaño restando las direcciones en las que se encuentra. 
+-Y con pag el número de paginas.
+Dentro del proceso if se determina la sección en memoria.
+Y al final se imprime dicha información con el color que es determinado de acuerdo a su sección en memoria
