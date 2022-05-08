@@ -145,6 +145,8 @@ def obtener_uso(datosSeparados):
     return uso
 
 
+#Funcion que permite obtener la direccion con el formato deseado
+#eliminando los 0's innecesarios en la última dirección
 def obtener_direccion(datosSeparados):
     partes = datosSeparados[0].split('-')
     primer_parte = partes[0]
@@ -159,6 +161,33 @@ def obtener_direccion(datosSeparados):
             direccion += segunda_parte[i]
 
     return direccion
+
+
+#Función para obtener el numero de páginas
+def obtener_pags(datosSeparados):
+    partes = datosSeparados[0].split('-')
+    primer_parte = partes[0]
+    segunda_parte = partes[1]
+
+    num_pag = int(segunda_parte,16) - int(primer_parte,16)
+
+    return num_pag
+
+
+#Función para obtener el tamaño de la memoria    
+def obtener_tamanio(num_pag):
+        tam = 4*num_pag
+        unidades = ['KB','MB','GB','TB','PB','EB','ZB','YB','BB']
+        contUnidad = 0
+
+        while( (tam / 1024) >= 1 ):
+            contUnidad += 1
+            tam = tam/1024
+
+        tamTxt = str(round(tam,1)) + unidades[contUnidad]
+
+        return tamTxt    
+
 
 #Proceso principal del programa (permite realizar varias consultas)
 while(1):
@@ -184,11 +213,16 @@ while(1):
             #Separamos los datos de cada linea en una lista
             #Esta separación se hara por espacios en blanco
             datosSeparados = linea.split()
+
+            #Obtenemos los diferentes datos de la línea en iteración
             uso = obtener_uso(datosSeparados)
             direccion = obtener_direccion(datosSeparados)
+            num_pag = obtener_pags(datosSeparados)
+            tamTxt = obtener_tamanio(num_pag)
             
             print("║"+color_uso.get(uso,uso).center(26),end='')
-            print("║"+direccion.center(26+1))
+            print("║"+direccion.center(26+1),end='')
+            print("║"+tamTxt.center(12))
 
         #Una vez mostrado el contenido de memoria formateamos el final de la tabla
         mostrar_pie()
