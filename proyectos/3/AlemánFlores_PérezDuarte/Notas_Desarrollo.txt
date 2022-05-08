@@ -1,0 +1,7 @@
+Notas de desarrollo:
+
+El programa fue desarrollado con la versión de Python 3.7.9 con el IDE Thonny.
+
+Se realizaron pruebas en una máquina Linux version 5.14.0-kali4-amd64 y Linux version 5.16.0-kali6-686-pae
+
+Las secciones de memoria no identificadas están en color blanco debido a que fueron probadas en una terminal con fondo obscuro, puede no ser tan perceptible en una terminal de fondo claro.
