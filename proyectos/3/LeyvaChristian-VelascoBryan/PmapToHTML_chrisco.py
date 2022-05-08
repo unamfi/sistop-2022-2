@@ -16,6 +16,10 @@ def createPmapHTML(Pmap:list):
         # Titulos:
         if line['permisos'] == 'Permisos':
             line['permisos'] = crearTrigger('Permisos','permisos')
+        if line['uso'] == 'Uso':
+            line['uso'] = crearTrigger('Uso','uso')
+        if line['paginas'] == 'Paginas':
+            line['paginas'] = crearTrigger('Paginas','paginas')
         # Usos
         if line['uso'] == "Stack":
             line['uso'] = crearTrigger('Stack','stack')
