@@ -23,7 +23,7 @@ Dejamos este ejemplo por si por alguna razón el programa falla y no muestra la 
 
 ## Documentación
 ---
-La documentación la puede encontrar en el archivo [Documentacion proyecto 3.pdf](./Documentacion proyecto 3.pdf).
+La documentación la puede encontrar en el archivo [Documentacion proyecto 3.pdf](./Documentacion%20proyecto%203.pdf).
 
 ## Algunas puntos a destacar:
 
