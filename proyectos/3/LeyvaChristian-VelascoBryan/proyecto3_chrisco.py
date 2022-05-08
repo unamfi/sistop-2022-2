@@ -1,4 +1,4 @@
-# Proyecto 3 Christian Leyva
+# Proyecto 3 Christian Leyva y Bryan Velasco
 # Para instalar las bibliotecas necesarias utilizar los siguientes comandos:
 # pip install tabulate
 
@@ -79,7 +79,7 @@ def getUso(mapeo,permisos):
     elif mapeo == '[vvar]':
         return 'Procesos Var (Kernel)'
     elif mapeo == "":
-        return "vació"
+        return "vacío"
     elif permisos[0].lower() == 'r' and permisos[2].lower() == "x" and "/lib" in mapeo:
         return "Bib→Texto"
     elif permisos[0].lower() == 'r' and "lib" in mapeo:
