@@ -145,6 +145,21 @@ def obtener_uso(datosSeparados):
     return uso
 
 
+def obtener_direccion(datosSeparados):
+    partes = datosSeparados[0].split('-')
+    primer_parte = partes[0]
+    segunda_parte = partes[1]
+
+    direccion = ''
+    if (len(datosSeparados[0]) >= 25):
+        for i in range(12):
+            direccion += primer_parte[i]
+        direccion += '-'
+        for i in range(12):
+            direccion += segunda_parte[i]
+
+    return direccion
+
 #Proceso principal del programa (permite realizar varias consultas)
 while(1):
     pid = input("\nIngresa el PID ('s' para salir): ")
@@ -170,9 +185,10 @@ while(1):
             #Esta separación se hara por espacios en blanco
             datosSeparados = linea.split()
             uso = obtener_uso(datosSeparados)
+            direccion = obtener_direccion(datosSeparados)
             
             print("║"+color_uso.get(uso,uso).center(26),end='')
-            print("║"+datosSeparados[0].center(26+1))
+            print("║"+direccion.center(26+1))
 
         #Una vez mostrado el contenido de memoria formateamos el final de la tabla
         mostrar_pie()
