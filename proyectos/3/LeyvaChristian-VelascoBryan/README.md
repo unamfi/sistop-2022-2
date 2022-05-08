@@ -16,7 +16,7 @@ Donde el {PID} es el que se desea mapear. Por ejemplo
 python3 proyecto3_chrisco 9
 ```
 
-Y al mismo tiempo puede ver un ejemplo de salida de esta ejecución con el PID 9 [aquí](https://chrisley304.github.io/sistop-2022-2/proyectos/3/EJEMPLO_Pmap_PID_9.html) el cual es el archivo *EJEMPLO_Pmap_PID_9.html* hosteado con Github Pages :octocat: en nuestro repo.
+Y al mismo tiempo puede ver un ejemplo de salida de esta ejecución con el PID 9 [aquí](https://chrisley304.github.io/sistop-2022-2/proyectos/3/LeyvaChristian-VelascoBryan/EJEMPLO_Pmap_PID_9.html) el cual es el archivo *EJEMPLO_Pmap_PID_9.html* hosteado con Github Pages :octocat: en nuestro repo.
 
 Dejamos este ejemplo por si por alguna razón el programa falla y no muestra la salida correctamente, sin embargo no esperamos que suceda pero por si las dudas jaja 😀.
 
