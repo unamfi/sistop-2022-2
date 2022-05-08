@@ -6,8 +6,8 @@ color_uso = {
     "Stack":"\033[31mStack\033[m",
     "Datos":"\033[34mDatos\033[m",
     "Texto":"\033[35mTexto\033[m",
-    "Bib Datos":"\033[36mBib->\033[34mDatos\033[m",
-    "Bib Texto":"\033[36mBib->\033[35mTexto\033[m",
+    "BibD":"\033[36mBib Datos\033[m",
+    "BibT":"\033[37mBib Texto\033[m",
     "Vacio":"Vacio",
     "Mapeo Anon.":"\033[33mMapeo Anon.\033[m",
     "Sys. Calls":"\033[33mSys. Calls\033[m",
@@ -15,6 +15,7 @@ color_uso = {
     "Reserva":"\033[33mReserva\033[m"
 }
 
+paso_heap = False
 
 #Función que permite dar un formato a cosas generales de la salida
 def mostrar_encabezado():
@@ -104,8 +105,7 @@ def obtener_uso(datosSeparados):
     ruta = obtener_ruta(datosSeparados)
     
     uso = ''
-    es_heap = False
-    origen = None
+    global paso_heap
 
     if('/' in ruta):
         if('x' in permisos):
@@ -133,23 +133,14 @@ def obtener_uso(datosSeparados):
 
     #Si explicitamente nos indica que es Heap encendemos la bandera
     if(uso == 'Heap'):
-        es_heap = True
-
-    #Si no se muestra realmente el heap, analizamos su origen
-    if(not es_heap and '/' in ruta and origen == None):
-        origen = ruta
-
-    #Si la ruta es como tal una ruta y esta no es igual que el origen
-    #entonces concluimos que pertenece a heap
-    if('/' in ruta and ruta != origen):
-        es_heap = True
+        paso_heap = True
 
     #Si tenemos un heap ímplicito entonces el uso de Texto y Datos va a cambiar
-    if(es_heap):
+    if(paso_heap):
         if(uso == 'Texto'):
-            uso = 'Bib Texto'
+            uso = 'BibT'
         if(uso == 'Datos'):
-            uso = 'Bib Datos'
+            uso = 'BibD'
 
     return uso
 
@@ -180,7 +171,8 @@ while(1):
             datosSeparados = linea.split()
             uso = obtener_uso(datosSeparados)
             
-            print("║"+color_uso.get(uso,uso).center(26))
+            print("║"+color_uso.get(uso,uso).center(26),end='')
+            print("║"+datosSeparados[0].center(26+1))
 
         #Una vez mostrado el contenido de memoria formateamos el final de la tabla
         mostrar_pie()
