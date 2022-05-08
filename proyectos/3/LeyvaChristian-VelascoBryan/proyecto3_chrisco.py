@@ -105,7 +105,7 @@ def main():
     try:
         PID = getArgs()
     except:
-        print("\nERROR:\n\tPor favor ingresa el PID del proceso a leer. \nEjemplo de ejecución:\n\n\tpython3 proyecto3_chrisley.py {PID}\n")
+        print("\nERROR:\n\tPor favor ingresa el PID del proceso a leer. \nEjemplo de ejecución:\n\n\tpython3 proyecto3_chrisco.py {PID}\n")
         return
     
     try:
