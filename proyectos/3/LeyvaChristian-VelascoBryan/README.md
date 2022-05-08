@@ -3,7 +3,6 @@
 Hola profesor, este es nuestro proyecto 3, este README es para aclarar la estructura de los archivos.
 
 ## Ejecución
----
 
 Para ejecutar el proyecto tiene que utilizar la siguiente linea en la terminal:
 
@@ -22,7 +21,7 @@ Y al mismo tiempo puede ver un ejemplo de salida de esta ejecución con el PID 9
 Dejamos este ejemplo por si por alguna razón el programa falla y no muestra la salida correctamente, sin embargo no esperamos que suceda pero por si las dudas jaja 😀.
 
 ## Documentación
----
+
 La documentación la puede encontrar en el archivo [Documentacion proyecto 3.pdf](./Documentacion%20proyecto%203.pdf).
 
 ## Algunas puntos a destacar:
