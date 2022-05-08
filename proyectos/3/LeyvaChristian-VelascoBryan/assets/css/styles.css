@@ -40,12 +40,11 @@ a:hover{
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.instrucciones{
+/* .instrucciones{
     box-sizing: content-box;
-    /* padding-bottom: 20px; */
     width: 60vw;
     margin: auto;
-}
+} */
 .instrucciones p{
     text-align: justify;
 }
@@ -123,5 +122,14 @@ h3{
 table, th, td{
     border-bottom: 1px solid rgb(207, 203, 203);
     text-align: center !important;
+}
 
+.section{
+    padding-bottom: 0;
+}
+
+@media screen and (min-width: 768px){
+    .section {
+        padding: 4rem 0 2rem;
+    }
 }

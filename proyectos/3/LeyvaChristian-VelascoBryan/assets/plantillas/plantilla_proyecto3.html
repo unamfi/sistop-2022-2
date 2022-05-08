@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="assets/css/chrisframe.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <title>Proyecto 3 SO Christian Leyva</title>
+    <title>Proyecto 3 SO Bryan Velasco & Christian Leyva</title>
 </head>
 <body>
     <header class="header scroll-header" id="header">
@@ -39,22 +39,24 @@
         </nav>
     </header>
     <div class="space"></div>
-
-    <h2 class="section__title" id="instrucciones">Instrucciones</h2>
-    <div class="instrucciones">
-        <p>
-            Este archivo HTML fue generado a partir de el archivo <i>proyecto3_chrisco.py</i> con la tabla de la asignación de memoria del proceso <a>{PID}</a> mostrada en consola, sin embargo
-            en este archivo se cuenta con <a>añadidos</a> para mejorar y hacer mas bonita la lectura de la misma.
-            <br>La tabla inferior 👇🏽 cuenta con <a href="#instrucciones">links</a> los cuales explican algunos elementos de la tabla.
-            <br>Al momento de dar click en uno de los links, se debe abrir un modal explicando el elemento. Prueba dando click <a href="#modal-prueba" class="trigger-modal">AQUÍ! 👈🏽</a>
-        </p>
+    <section class="section container" id="instrucciones">
+        <h2 class="section__title">Instrucciones</h2>
+        <div class="instrucciones">
+            <p>
+                Este archivo HTML fue generado a partir de el archivo <i>proyecto3_chrisco.py</i> con la tabla de la asignación de memoria del proceso <a>{PID}</a> mostrada en consola, sin embargo
+                en este archivo se cuenta con <a>añadidos</a> para mejorar y hacer mas bonita la lectura de la misma.
+                <br>La tabla inferior 👇🏽 cuenta con <a href="#instrucciones">links</a> los cuales explican algunos elementos de la tabla.
+                <br>Al momento de dar click en uno de los links, se debe abrir un modal explicando el elemento. Prueba dando click <a href="#modal-prueba" class="trigger-modal">AQUÍ! 👈🏽</a>
+            </p>
+    </section>
     </div>
 
-    <h2 class="section__title" id="pmap">Mapa generado en el PID <a href="#pmap">{PID}</a> </h2>
-
-    <div class="table__container">
-        {TABLA}
-    </div>
+    <section class="section" id="pmap">
+        <h2 class="section__title" >Mapa generado en el PID <a href="#pmap">{PID}</a> </h2>
+        <div class="table__container">
+            {TABLA}
+        </div>
+    </section>
 
     <!-- MODALES -->
     <!-- Prueba -->

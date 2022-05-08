@@ -59,13 +59,13 @@ def getnPaginas(valor,unidad):
         return str(int(valor/4))
     
     if unidad == 'mb':
-        return str((valor*1000)/4)
+        return str(int((valor*1000)/4))
     
     if unidad == 'gb':
-        return str((valor*1000000)/4)
+        return str(int((valor*1000000)/4))
     
     if unidad == 'tb':
-        return str((valor*1000000000)/4)
+        return str(int((valor*1000000000)/4))
 
 def getUso(mapeo,permisos):
     if mapeo == '[stack]':
