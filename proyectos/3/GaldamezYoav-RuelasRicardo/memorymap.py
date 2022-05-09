@@ -25,7 +25,7 @@ espacio_memoria_32 = 13
 espacio_tamanio = 12
 espacio_numpags = 15
 espacio_permisos = 5
-espacio_usomapeo = 11
+espacio_usomapeo = 55
 
 
 #Funcion que comprueba si la memoria es de 32 o 64 bits
@@ -287,6 +287,11 @@ while(1):
         #Variable booleana que nos indica si la memoria es de 32 o 64 bits
         es_64 = comprobar_tamanio(memoria_aux[0])
 
+        if(es_64):
+            espacio_memoria = espacio_memoria_64
+        else:
+            espacio_memoria = espacio_memoria_32
+
         #Se muestra el encabezado del programa, SOLAMENTE al leer correctamente 
         #la informacion de un proceso
         mostrar_encabezado(es_64)
@@ -302,13 +307,15 @@ while(1):
             num_pag = obtener_pags(datosSeparados)
             tamTxt = obtener_tamanio(num_pag)
             permisos = obtener_permisos(datosSeparados)
+            usomapeo = obtener_ruta(datosSeparados)
             
             #Realizamos la salida en pantalla de los datos
             print("║"+color_uso.get(uso,uso).center(26),end='')
-            print("║"+direccion.center(26+1),end='')
-            print("║"+tamTxt.center(12),end='')
-            print("║"+str(num_pag).center(15),end='')
-            print("║"+permisos.center(5))
+            print("║"+direccion.center(espacio_memoria),end='')
+            print("║"+tamTxt.center(espacio_tamanio),end='')
+            print("║"+str(num_pag).center(espacio_numpags),end='')
+            print("║"+permisos.center(espacio_permisos),end='')
+            print("║"+usomapeo.center(espacio_usomapeo)+"║")
 
 
         #Una vez mostrado el contenido de memoria formateamos el final de la tabla
