@@ -30,6 +30,9 @@ espacio_usomapeo = 11
 
 #Funcion que comprueba si la memoria es de 32 o 64 bits
 def comprobar_tamanio(memoria):
+    #Si el string de la direccion de memoria es mas grande que 24 
+    #caracteres entonces concluimos que es una direccion de 64 bits
+    #en caso contrario tendríamos una direccion de 32 bits
     if (len(memoria) >= 24):
         return True
     else:
@@ -38,6 +41,8 @@ def comprobar_tamanio(memoria):
 
 #Función que permite dar un formato a cosas generales de la salida
 def mostrar_encabezado(es_64):
+    #Verificamos si la memoria es de 64 o 32 bits y asignamos el valor correspondiente
+    #al espacio que ocupara en pantalla dicho atributo
     if(es_64):
         espacio_memoria = espacio_memoria_64
     else:
@@ -61,6 +66,7 @@ def mostrar_encabezado(es_64):
     print('═'*(espacio_numpags) + "╬",end='')
     print('═'*(espacio_permisos) + "╬",end='')
     print('═'*(espacio_usomapeo) + "╣")
+
     #Notar que las multiplicaciones ayudan a concatenar más facilmente la cantidad
     #de signos iguales que se usan para el formato
 
@@ -295,12 +301,15 @@ while(1):
             direccion = obtener_direccion(datosSeparados)
             num_pag = obtener_pags(datosSeparados)
             tamTxt = obtener_tamanio(num_pag)
+            permisos = obtener_permisos(datosSeparados)
             
             #Realizamos la salida en pantalla de los datos
             print("║"+color_uso.get(uso,uso).center(26),end='')
             print("║"+direccion.center(26+1),end='')
             print("║"+tamTxt.center(12),end='')
-            print("║"+str(num_pag).center(15))
+            print("║"+str(num_pag).center(15),end='')
+            print("║"+permisos.center(5))
+
 
         #Una vez mostrado el contenido de memoria formateamos el final de la tabla
         mostrar_pie(es_64)
