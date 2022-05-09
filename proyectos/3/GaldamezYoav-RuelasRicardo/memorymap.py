@@ -15,40 +15,71 @@ color_uso = {
     "Reserva":"\033[33mReserva\033[m"
 }
 
+#Variable global que nos permite saber si hemos pasado por el heap
 paso_heap = False
 
+#Variables que define el espacio de los bloques que se muestran en pantalla
+espacio_uso = 18
+espacio_memoria_64 = 27
+espacio_memoria_32 = 13
+espacio_tamanio = 12
+espacio_numpags = 15
+espacio_permisos = 5
+espacio_usomapeo = 11
+
+
+#Funcion que comprueba si la memoria es de 32 o 64 bits
+def comprobar_tamanio(memoria):
+    if (len(memoria) >= 24):
+        return True
+    else:
+        return False
+
+
 #Función que permite dar un formato a cosas generales de la salida
-def mostrar_encabezado():
-    print("╔"+'═'*18+"╦",end='')
-    print('═'*((13*2)+1) + "╦",end='')
-    print('═'*(12) + "╦",end='')
-    print('═'*(10) + "╦",end='')
-    print('═'*(5) + "╦",end='')
-    print('═'*(11) + "╗")
-    print("║"+'Uso'.center(18),end='')
-    print("║"+'Inicio-Fin'.center((13*2)+1),end='')
-    print("║"+'Tamaño'.center(12),end='')
-    print("║"+'Num. págs.'.center(10),end='')
-    print("║"+'Perm.'.center(5),end='')
-    print("║"+'Uso/Mapeo'.center(11) + "║")
-    print("╠"+'═'*18+"╬",end='')
-    print('═'*((13*2)+1) + "╬",end='')
-    print('═'*(12) + "╬",end='')
-    print('═'*(10) + "╬",end='')
-    print('═'*(5) + "╬",end='')
-    print('═'*(11) + "╣")
+def mostrar_encabezado(es_64):
+    if(es_64):
+        espacio_memoria = espacio_memoria_64
+    else:
+        espacio_memoria = espacio_memoria_32
+
+    print("╔"+'═'*espacio_uso+"╦",end='')
+    print('═'*(espacio_memoria) + "╦",end='')
+    print('═'*(espacio_tamanio) + "╦",end='')
+    print('═'*(espacio_numpags) + "╦",end='')
+    print('═'*(espacio_permisos) + "╦",end='')
+    print('═'*(espacio_usomapeo) + "╗")
+    print("║"+'Uso'.center(espacio_uso),end='')
+    print("║"+'Inicio-Fin'.center(espacio_memoria),end='')
+    print("║"+'Tamaño'.center(espacio_tamanio),end='')
+    print("║"+'Num. págs.'.center(espacio_numpags),end='')
+    print("║"+'Perm.'.center(espacio_permisos),end='')
+    print("║"+'Uso/Mapeo'.center(espacio_usomapeo) + "║")
+    print("╠"+'═'*espacio_uso+"╬",end='')
+    print('═'*(espacio_memoria) + "╬",end='')
+    print('═'*(espacio_tamanio) + "╬",end='')
+    print('═'*(espacio_numpags) + "╬",end='')
+    print('═'*(espacio_permisos) + "╬",end='')
+    print('═'*(espacio_usomapeo) + "╣")
     #Notar que las multiplicaciones ayudan a concatenar más facilmente la cantidad
     #de signos iguales que se usan para el formato
 
 
 #Función para mostrar el pie o final de la tabla de memoria
-def mostrar_pie():
-    print("╚"+'═'*18+"╩",end='')
-    print('═'*((13*2)+1) + "╩",end='')
-    print('═'*(12) + "╩",end='')
-    print('═'*(10) + "╩",end='')
-    print('═'*(5) + "╩",end='')
-    print('═'*(11) + "╝")
+def mostrar_pie(es_64):
+    #Verificamos si la memoria es de 64 o 32 bits y asignamos el valor correspondiente
+    #al espacio que ocupara en pantalla dicho atributo
+    if(es_64):
+        espacio_memoria = espacio_memoria_64
+    else:
+        espacio_memoria = espacio_memoria_32
+
+    print("╚"+'═'*espacio_uso+"╩",end='')
+    print('═'*(espacio_memoria) + "╩",end='')
+    print('═'*(espacio_tamanio) + "╩",end='')
+    print('═'*(espacio_numpags) + "╩",end='')
+    print('═'*(espacio_permisos) + "╩",end='')
+    print('═'*(espacio_usomapeo) + "╝")
     #Notar que las multiplicaciones ayudan a concatenar más facilmente la cantidad
     #de signos iguales que se usan para el formato
 
@@ -62,6 +93,8 @@ def lectura_archivo(pid):
 
         return archivo.readlines()
 
+    #Si no encontramos el archivo del proceso, entonces tendremos una excepcion
+    #de tipo FileNotFoundError
     except FileNotFoundError:
         print("\n¡Algo salio mal!")
         print("\nError: El proceso no fue encontrado -", sys.exc_info()[0])
@@ -69,12 +102,17 @@ def lectura_archivo(pid):
 
         return "ERROR"
 
+    #Si el sistema nos indica que no tenemos permisos para acceder al archivo del
+    #proceso, entonces tendremos una excepcion PermissionError
     except PermissionError:
         print("\n¡Algo salio mal!")
         print("\nError: No cuenta con permisos suficientes -", sys.exc_info()[0])
         print("Por favor, intentelo de nuevo con un proceso al cual tenga permitido acceder")
 
         return "ERROR"
+
+    #Notar que en el manejo de excepciones no finalizamos el programa, sino que
+    #la manejamos para poder seguir la ejecución del programa    
 
 
 #Función que permite obtener los permisos de cada linea leída
@@ -104,7 +142,8 @@ def obtener_uso(datosSeparados):
     #Obtenemos la ruta para analizar a que pertenece el uso de memoria
     ruta = obtener_ruta(datosSeparados)
     
-    uso = ''
+    #Indicamos al interprete que en esta función tome la variable paso_heap
+    #como una variable global
     global paso_heap
 
     if('/' in ruta):
@@ -148,16 +187,32 @@ def obtener_uso(datosSeparados):
 #Funcion que permite obtener la direccion con el formato deseado
 #eliminando los 0's innecesarios en la última dirección
 def obtener_direccion(datosSeparados):
+    #Obtenemos las partes que conforman a la memoria
     partes = datosSeparados[0].split('-')
+
+    #Cada parte obtenida la asignamos a una variable para operar con ella
     primer_parte = partes[0]
     segunda_parte = partes[1]
 
+    #Inicializamos el string de dirección para poder concatenarle caracteres
+    #sin problemas de integridad
     direccion = ''
+
+    #Verificamos si la dirección de memoria corresponde a 32 o 64 bits:
+
+    #64 bits
     if (len(datosSeparados[0]) >= 25):
         for i in range(12):
             direccion += primer_parte[i]
         direccion += '-'
         for i in range(12):
+            direccion += segunda_parte[i]
+    #32 bits
+    else:
+        for i in range(5):
+            direccion += primer_parte[i]
+        direccion += '-'
+        for i in range(5):
             direccion += segunda_parte[i]
 
     return direccion
@@ -165,10 +220,16 @@ def obtener_direccion(datosSeparados):
 
 #Función para obtener el numero de páginas
 def obtener_pags(datosSeparados):
+    #Obtenemos las partes que conforman a la memoria
     partes = datosSeparados[0].split('-')
+
+    #Cada parte obtenida la asignamos a una variable para operar con ella
     primer_parte = partes[0]
     segunda_parte = partes[1]
 
+    #Obtenemos el número de páginas con la sustracción de la segunda parte
+    #de la memoria con la primera, esto con el casteo del string (que esta
+    #en ---hexadecimal---) a un entero
     num_pag = int(segunda_parte,16) - int(primer_parte,16)
 
     return num_pag
@@ -176,17 +237,25 @@ def obtener_pags(datosSeparados):
 
 #Función para obtener el tamaño de la memoria    
 def obtener_tamanio(num_pag):
+        #Obtenemos el tamaño a partir del numero de paginas
         tam = 4*num_pag
+
+        #Definimos una lista que a partir de un contador, nos dará la
+        #unidad de medida de la memoria
         unidades = ['KB','MB','GB','TB','PB','EB','ZB','YB','BB']
+
+        #Inicializamos el contador para no tener problemas de integridad
         contUnidad = 0
 
+        #Bucle que permite ir dividiendo el tamaño obtenido hasta llegar
+        #a su maxima unidad con un contador
         while( (tam / 1024) >= 1 ):
             contUnidad += 1
             tam = tam/1024
 
-        tamTxt = str(round(tam,1)) + unidades[contUnidad]
-
-        return tamTxt    
+        #Regresamos el valor obtenido del tamaño reducido junto a su unidad
+        #en forma de string para su formateo posterior
+        return str(round(tam,1)) + unidades[contUnidad]
 
 
 #Proceso principal del programa (permite realizar varias consultas)
@@ -205,9 +274,16 @@ while(1):
     #de no ser así procedemos con el programa
     if contenido != "ERROR":
 
+        #Variable que nos permite obtener la direccion de memoria
+        #para comprobar si es de 32 o 64 bits
+        memoria_aux = contenido[0].split()
+
+        #Variable booleana que nos indica si la memoria es de 32 o 64 bits
+        es_64 = comprobar_tamanio(memoria_aux[0])
+
         #Se muestra el encabezado del programa, SOLAMENTE al leer correctamente 
         #la informacion de un proceso
-        mostrar_encabezado()
+        mostrar_encabezado(es_64)
 
         for linea in contenido:
             #Separamos los datos de cada linea en una lista
@@ -220,9 +296,11 @@ while(1):
             num_pag = obtener_pags(datosSeparados)
             tamTxt = obtener_tamanio(num_pag)
             
+            #Realizamos la salida en pantalla de los datos
             print("║"+color_uso.get(uso,uso).center(26),end='')
             print("║"+direccion.center(26+1),end='')
-            print("║"+tamTxt.center(12))
+            print("║"+tamTxt.center(12),end='')
+            print("║"+str(num_pag).center(15))
 
         #Una vez mostrado el contenido de memoria formateamos el final de la tabla
-        mostrar_pie()
+        mostrar_pie(es_64)
