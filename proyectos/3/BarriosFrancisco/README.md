@@ -5,7 +5,7 @@
 De manera corta, tomé como base la salida que linux da sobre el archivo '/proc/{PID}/maps'.
 Este archivo muestra varias cosas interesantes:
 
-![archivo maps](/proyectos/3/BarriosFrancisco/Imagenes/maps.png)
+![archivo maps](Imagenes/maps.png)
 
 1. dirección de inicio 
 2. dirección final
@@ -52,20 +52,23 @@ Como se mencionó, por último se vuelve a llamar a *main()* para que el usuario
 ## Entorno de desarrollo
 
 **Lenguaje de programación** Python 3.8
+
 **Sistema Operativo** El programa fue escrito y ejecutado en Zorin OS 16.1
 
 ## ¿Cómo ejecutar?
 
-Necesita tener instalado Python 3.8, y al abrir el archivo [proyecto3.py](/proyectos/3/BarriosFrancisco/proyecto3.py) se le pedirá ingresar el número PID
+Necesita tener instalado Python 3.8, y al abrir el archivo [proyecto3.py](proyecto3.py) se le pedirá ingresar el número PID
 
 ## Pantallazo
 
 PD: No encontré un proceso con menos lineas en maps, así que le doy estas capturas, que no incluyen a todo el proceso, pero funciona (según yo jaja)
 
-![Ejecución1](/proyectos/3/BarriosFrancisco/Imagenes/Ejecucion1.png)
-![Ejecución2](/proyectos/3/BarriosFrancisco/Imagenes/Ejecucion2.png)
+![Ejecución1](Imagenes/Ejecucion1.png)
+![Ejecución2](Imagenes/Ejecucion2.png)
 
 ## Referencias
 [Gestión de memoria](https://ocw.uc3m.es/ingenieria-informatica/sistemas-operativos/material-de-clase-1/mt_t4_l9.pdf)
+
 [Implementing Virtual System Calls](https://lwn.net/Articles/615809/)
+
 [Understanding the Linux /proc/id/maps File](https://www.baeldung.com/linux/proc-id-maps?msclkid=b99f0a63cf3f11ecaa0fb30fc95612a4)
