@@ -1,3 +1,6 @@
+#Autores: Ricardo Ruelas y Farid Pozos
+#Mapa de memoria de un proceso dado su PID
+
 import sys
 
 #Diccionario de cada uso de memoria con su respectivo color.
@@ -8,7 +11,7 @@ color_uso = {
     "Texto":"\033[35mTexto\033[m",
     "BibD":"\033[36mBib Datos\033[m",
     "BibT":"\033[37mBib Texto\033[m",
-    "Vacio":"Vacio",
+    "...":"\033[30m...\033[m",
     "Mapeo Anon.":"\033[33mMapeo Anon.\033[m",
     "Sys. Calls":"\033[33mSys. Calls\033[m",
     "Kernel Vars.":"\033[33mKernel Vars.\033[m",
@@ -20,12 +23,11 @@ paso_heap = False
 
 #Variables que define el espacio de los bloques que se muestran en pantalla
 espacio_uso = 18
-espacio_memoria_64 = 27
-espacio_memoria_32 = 13
+espacio_memoria = 27
 espacio_tamanio = 12
-espacio_numpags = 15
+espacio_numpags = 23
 espacio_permisos = 5
-espacio_usomapeo = 55
+espacio_usomapeo = 65
 
 
 #Funcion que comprueba si la memoria es de 32 o 64 bits
@@ -40,14 +42,7 @@ def comprobar_tamanio(memoria):
 
 
 #Función que permite dar un formato a cosas generales de la salida
-def mostrar_encabezado(es_64):
-    #Verificamos si la memoria es de 64 o 32 bits y asignamos el valor correspondiente
-    #al espacio que ocupara en pantalla dicho atributo
-    if(es_64):
-        espacio_memoria = espacio_memoria_64
-    else:
-        espacio_memoria = espacio_memoria_32
-
+def mostrar_encabezado():
     print("╔"+'═'*espacio_uso+"╦",end='')
     print('═'*(espacio_memoria) + "╦",end='')
     print('═'*(espacio_tamanio) + "╦",end='')
@@ -72,14 +67,7 @@ def mostrar_encabezado(es_64):
 
 
 #Función para mostrar el pie o final de la tabla de memoria
-def mostrar_pie(es_64):
-    #Verificamos si la memoria es de 64 o 32 bits y asignamos el valor correspondiente
-    #al espacio que ocupara en pantalla dicho atributo
-    if(es_64):
-        espacio_memoria = espacio_memoria_64
-    else:
-        espacio_memoria = espacio_memoria_32
-
+def mostrar_pie():
     print("╚"+'═'*espacio_uso+"╩",end='')
     print('═'*(espacio_memoria) + "╩",end='')
     print('═'*(espacio_tamanio) + "╩",end='')
@@ -288,18 +276,35 @@ while(1):
         es_64 = comprobar_tamanio(memoria_aux[0])
 
         if(es_64):
-            espacio_memoria = espacio_memoria_64
+            longitud_pagina = 12
         else:
-            espacio_memoria = espacio_memoria_32
+            longitud_pagina = 5
+
+        cursor_memoria = '0'*longitud_pagina
 
         #Se muestra el encabezado del programa, SOLAMENTE al leer correctamente 
         #la informacion de un proceso
-        mostrar_encabezado(es_64)
+        mostrar_encabezado()
 
         for linea in contenido:
             #Separamos los datos de cada linea en una lista
             #Esta separación se hara por espacios en blanco
             datosSeparados = linea.split()
+
+            #Obtenemos la direccion inicial de la memoria que conforman a la memoria
+            direccion_inicial = datosSeparados[0].split('-')[0]
+            direccion_final = datosSeparados[0].split('-')[1]
+
+            #Verificamos si tenemos un bloque vacío
+            if(int(direccion_inicial,16) > int(cursor_memoria,16)):
+                #La nueva direccion del bloque vacio se conforma de la siguiente manera
+                #la direccion inicial es el cursos y la direccion final es la inicial
+                direccion = cursor_memoria + '-' + direccion_inicial
+                datosSeparados[0] = direccion
+                if(len(datosSeparados) > 5):
+                    datosSeparados[5] = 'Vacio'
+                else:
+                    datosSeparados.append('Vacio')
 
             #Obtenemos los diferentes datos de la línea en iteración
             uso = obtener_uso(datosSeparados)
@@ -317,6 +322,9 @@ while(1):
             print("║"+permisos.center(espacio_permisos),end='')
             print("║"+usomapeo.center(espacio_usomapeo)+"║")
 
+            #Movemos el cursor que apunta a nuestra memoria
+            cursor_memoria = direccion_final
+
 
         #Una vez mostrado el contenido de memoria formateamos el final de la tabla
-        mostrar_pie(es_64)
+        mostrar_pie()
