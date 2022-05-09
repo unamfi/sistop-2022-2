@@ -1,0 +1,12 @@
+#!/usr/bin/python3
+from time import sleep
+
+fh = open('/tmp/datos_temporales', 'r+')
+fh.write('Bienvenido a mi archivo temporal')
+
+sleep(10)
+unlink('/tmp/datos_temporales')
+fh.write('Sigo vivo!')
+
+sleep(60)
+fh.close()
