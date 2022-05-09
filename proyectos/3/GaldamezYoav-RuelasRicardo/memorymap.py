@@ -297,14 +297,15 @@ while(1):
 
             #Verificamos si tenemos un bloque vacío
             if(int(direccion_inicial,16) > int(cursor_memoria,16)):
-                #La nueva direccion del bloque vacio se conforma de la siguiente manera
-                #la direccion inicial es el cursos y la direccion final es la inicial
-                direccion = cursor_memoria + '-' + direccion_inicial
-                datosSeparados[0] = direccion
-                if(len(datosSeparados) > 5):
-                    datosSeparados[5] = 'Vacio'
-                else:
-                    datosSeparados.append('Vacio')
+                if(obtener_uso(datosSeparados) != 'Heap'):
+                    #La nueva direccion del bloque vacio se conforma de la siguiente manera
+                    #la direccion inicial es el cursos y la direccion final es la inicial
+                    direccion = cursor_memoria + '-' + direccion_inicial
+                    datosSeparados[0] = direccion
+                    if(len(datosSeparados) > 5):
+                        datosSeparados[5] = 'Vacio'
+                    else:
+                        datosSeparados.append('Vacio')
 
             #Obtenemos los diferentes datos de la línea en iteración
             uso = obtener_uso(datosSeparados)
