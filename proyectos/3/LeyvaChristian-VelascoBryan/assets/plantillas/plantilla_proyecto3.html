@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/img/tabicon.ico">
+    <link rel="stylesheet" href="assets/css/chrisframe.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>Proyecto 3 SO Bryan Velasco & Christian Leyva</title>
+</head>
+<body>
+    <header class="header scroll-header" id="header">
+        <nav class="nav container" id="nav">
+            <!-- <a href="#" class="nav__logo"><embed src="assets/img/svg_negro.svg" height="20px" class="nav_logo"></a> -->
+            <a href="#" class="nav__logo">Proyecto 3: Asignación de memoria en un sistema real</a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list grid">
+                    <li class="nav__item">
+                        <a href="#instrucciones" class="nav__link">
+                            <i class="uil uil-sign-alt nav__icon"></i> Instrucciones
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#pmap" class="nav__link">
+                            <i class="uil uil-brackets-curly nav__icon"></i> Mapa generado
+                        </a>
+                    </li>
+                </ul>
+                <i class="uil uil-times nav__close nav__icon" id="nav-close"></i>
+            </div>
+            
+            <div class="nav_btns">
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="uil uil-apps"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="space"></div>
+    <section class="section container" id="instrucciones">
+        <h2 class="section__title">Instrucciones</h2>
+        <div class="instrucciones">
+            <p>
+                Este archivo HTML fue generado a partir de el archivo <i>proyecto3_chrisco.py</i> con la tabla de la asignación de memoria del proceso <a>{PID}</a> mostrada en consola, sin embargo
+                en este archivo se cuenta con <a>añadidos</a> para mejorar y hacer mas bonita la lectura de la misma.
+                <br>La tabla inferior 👇🏽 cuenta con <a href="#instrucciones">links</a> los cuales explican algunos elementos de la tabla.
+                <br>Al momento de dar click en uno de los links, se debe abrir un modal explicando el elemento. Prueba dando click <a href="#modal-prueba" class="trigger-modal">AQUÍ! 👈🏽</a>
+            </p>
+    </section>
+    </div>
+
+    <section class="section" id="pmap">
+        <h2 class="section__title" >Mapa generado en el PID <a href="#pmap">{PID}</a> </h2>
+        <div class="table__container">
+            {TABLA}
+        </div>
+    </section>
+
+    <!-- MODALES -->
+    <!-- Prueba -->
+    <div class="services__modal" id="modal-prueba">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Perfecto!</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-check-circle services__modal-icon"></i>
+                    <p>Comprendiste el uso de la página.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Stack -->
+    <div class="services__modal" id="stack">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Stack</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>Este uso es el de las funciones y variables locales del sistema.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Bibliotecas -->
+    <div class="services__modal" id="lib">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Biblioteca</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>En esta paginación se esta accediendo a las bibliotecas del sistema ubicadas en el directorio /lib.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Heap -->
+    <div class="services__modal" id="heap">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Heap</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>Segmento de memoria que no tiene un tamaño constante antes de la compilación, el cual es controlado dinámicamente por el programador.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Llamada al sistema -->
+    <div class="services__modal" id="syscall">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Llamada al sistema</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <p>vDSO significa <i>"virtual dynamic shared object"</i> la cual es una pequeña biblioteca 
+                        que el kernel mapea automaticamente en el espacio compartido de aplicaciones.</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p> Muchas llamadas al sistema que proporciona el kernel utilizan el código de espacio de 
+                        usuario por lo que las llamadas al sistema pueden dominar el rendimiento general.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Llamada al sistema -->
+    <div class="services__modal" id="vvar">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Procesos Var (Kernel)</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>Con el objetivo de implementar algunas llamadas al sistema en especifico, el kernel
+                        mapea algunos datos para el usuario.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Permisos -->
+    <div class="services__modal" id="permisos">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Permisos de archivos</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <p>En UNIX los permisos dentro de los archivos se representan con 3 Letras:</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-book-open services__modal-icon"></i>
+                    <p> <strong> r:</strong> read -> lectura</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-pen services__modal-icon"></i>
+                    <p> <strong> w:</strong> write -> escritura (en archivos: permiso de modificar, en directorios: permiso de crear archivos en el dir.)</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-browser services__modal-icon"></i> 
+                    <p> <strong> x</strong> execution -> ejecución</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Uso -->
+    <div class="services__modal" id="uso">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Uso</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>En esta columna nos encargamos de 'reconocer' el uso de las regiones de memoria.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Paginas -->
+    <div class="services__modal" id="paginas">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Uso</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-copy services__modal-icon"></i>
+                    <p>Una página, página de memoria o página virtual es un bloque contiguo de memoria virtual de longitud fija, descrito por una sola entrada en la tabla de paginación. - <a href="https://es.wikipedia.org/wiki/P%C3%A1gina_de_memoria" target="_blank">Wikipedia</a></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer_t1">
+        <div class="footer_div">
+            <span class="footer_span"><a href="https://github.com/unamfi/sistop-2022-2/tree/main/proyectos/3" target="_blank">Proyecto 3: Asignación de memoria en un sistema real</a></span><br>
+            <span class="footer_span">Sistemas Operativos</span><br>
+            <span class="footer_span"><a href="https://github.com/Chrisley304" target="_blank">Leyva Mercado Christian Alejandro</a></span><br>
+            <span class="footer_span"><a href="https://github.com/bryan-velasco" target="_blank">Velasco Pachuca Bryan</a></span><br>
+            <span class="footer_span">Semestre 2022-2</span>
+        </div>
+    </footer>
+
+</body>
+<script src="assets/js/chrisframe.min.js"></script>
+<script src="assets/js/main.js"></script>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/img/tabicon.ico">
+    <link rel="stylesheet" href="assets/css/chrisframe.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>Proyecto 3 SO Bryan Velasco & Christian Leyva</title>
+</head>
+<body>
+    <header class="header scroll-header" id="header">
+        <nav class="nav container" id="nav">
+            <!-- <a href="#" class="nav__logo"><embed src="assets/img/svg_negro.svg" height="20px" class="nav_logo"></a> -->
+            <a href="#" class="nav__logo">Proyecto 3: Asignación de memoria en un sistema real</a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list grid">
+                    <li class="nav__item">
+                        <a href="#instrucciones" class="nav__link">
+                            <i class="uil uil-sign-alt nav__icon"></i> Instrucciones
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#pmap" class="nav__link">
+                            <i class="uil uil-brackets-curly nav__icon"></i> Mapa generado
+                        </a>
+                    </li>
+                </ul>
+                <i class="uil uil-times nav__close nav__icon" id="nav-close"></i>
+            </div>
+            
+            <div class="nav_btns">
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="uil uil-apps"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="space"></div>
+    <section class="section container" id="instrucciones">
+        <h2 class="section__title">Instrucciones</h2>
+        <div class="instrucciones">
+            <p>
+                Este archivo HTML fue generado a partir de el archivo <i>proyecto3_chrisco.py</i> con la tabla de la asignación de memoria del proceso <a>9</a> mostrada en consola, sin embargo
+                en este archivo se cuenta con <a>añadidos</a> para mejorar y hacer mas bonita la lectura de la misma.
+                <br>La tabla inferior 👇🏽 cuenta con <a href="#instrucciones">links</a> los cuales explican algunos elementos de la tabla.
+                <br>Al momento de dar click en uno de los links, se debe abrir un modal explicando el elemento. Prueba dando click <a href="#modal-prueba" class="trigger-modal">AQUÍ! 👈🏽</a>
+            </p>
+    </section>
+    </div>
+
+    <section class="section" id="pmap">
+        <h2 class="section__title" >Mapa generado en el PID <a href="#pmap">9</a> </h2>
+        <div class="table__container">
+            <table>
+<thead>
+<tr><th><a class="trigger-modal" href="#uso">Uso</a>                   </th><th>De pág.     </th><th>A pág.      </th><th style="text-align: right;">  Tamaño</th><th>  </th><th style="text-align: right;">  <a class="trigger-modal" href="#paginas">Paginas</a></th><th><a class="trigger-modal" href="#permisos">Permisos</a>  </th><th>Uso o mapeo                                        </th></tr>
+</thead>
+<tbody>
+<tr><td>Datos                                                          </td><td>560121d53000</td><td>560121d80000</td><td style="text-align: right;">     180</td><td>kb</td><td style="text-align: right;">                                                    45</td><td>r--p                                                    </td><td>/usr/bin/bash                                      </td></tr>
+<tr><td>Texto                                                          </td><td>560121d80000</td><td>560121e31000</td><td style="text-align: right;">     708</td><td>kb</td><td style="text-align: right;">                                                   177</td><td>r-xp                                                    </td><td>/usr/bin/bash                                      </td></tr>
+<tr><td>Datos                                                          </td><td>560121e31000</td><td>560121e68000</td><td style="text-align: right;">     220</td><td>kb</td><td style="text-align: right;">                                                    55</td><td>r--p                                                    </td><td>/usr/bin/bash                                      </td></tr>
+<tr><td>Datos                                                          </td><td>560121e68000</td><td>560121e6c000</td><td style="text-align: right;">      16</td><td>kb</td><td style="text-align: right;">                                                     4</td><td>r--p                                                    </td><td>/usr/bin/bash                                      </td></tr>
+<tr><td>Datos                                                          </td><td>560121e6c000</td><td>560121e75000</td><td style="text-align: right;">      36</td><td>kb</td><td style="text-align: right;">                                                     9</td><td>rw-p                                                    </td><td>/usr/bin/bash                                      </td></tr>
+<tr><td>vacío                                                          </td><td>560121e75000</td><td>560121e7f000</td><td style="text-align: right;">      40</td><td>kb</td><td style="text-align: right;">                                                    10</td><td>rw-p                                                    </td><td>                                                   </td></tr>
+<tr><td><a class="trigger-modal" href="#heap">Heap</a>                 </td><td>560123077000</td><td>56012320c000</td><td style="text-align: right;">    1620</td><td>kb</td><td style="text-align: right;">                                                   405</td><td>rw-p                                                    </td><td>[heap]                                             </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f37a000</td><td>7fb52f37d000</td><td style="text-align: right;">      12</td><td>kb</td><td style="text-align: right;">                                                     3</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libnss_files-2.31.so     </td></tr>
+<tr><td>Bib→Texto                                                      </td><td>7fb52f37d000</td><td>7fb52f384000</td><td style="text-align: right;">      28</td><td>kb</td><td style="text-align: right;">                                                     7</td><td>r-xp                                                    </td><td>/usr/lib/x86_64-linux-gnu/libnss_files-2.31.so     </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f384000</td><td>7fb52f386000</td><td style="text-align: right;">       8</td><td>kb</td><td style="text-align: right;">                                                     2</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libnss_files-2.31.so     </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f386000</td><td>7fb52f387000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libnss_files-2.31.so     </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f387000</td><td>7fb52f388000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>rw-p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libnss_files-2.31.so     </td></tr>
+<tr><td>vacío                                                          </td><td>7fb52f388000</td><td>7fb52f38e000</td><td style="text-align: right;">      24</td><td>kb</td><td style="text-align: right;">                                                     6</td><td>rw-p                                                    </td><td>                                                   </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f397000</td><td>7fb52f3c9000</td><td style="text-align: right;">     200</td><td>kb</td><td style="text-align: right;">                                                    50</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_CTYPE                   </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f3c9000</td><td>7fb52f3ca000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_NUMERIC                 </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f3ca000</td><td>7fb52f3cb000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_TIME                    </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f3cb000</td><td>7fb52f53e000</td><td style="text-align: right;">    1484</td><td>kb</td><td style="text-align: right;">                                                   371</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_COLLATE                 </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f53e000</td><td>7fb52f53f000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_MONETARY                </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f53f000</td><td>7fb52f540000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_MESSAGES/SYS_LC_MESSAGES</td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f540000</td><td>7fb52f541000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_PAPER                   </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f541000</td><td>7fb52f542000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_NAME                    </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f542000</td><td>7fb52f543000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_ADDRESS                 </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f543000</td><td>7fb52f829000</td><td style="text-align: right;">    2968</td><td>kb</td><td style="text-align: right;">                                                   742</td><td>r--p                                                    </td><td>/usr/lib/locale/locale-archive                     </td></tr>
+<tr><td>vacío                                                          </td><td>7fb52f829000</td><td>7fb52f82c000</td><td style="text-align: right;">      12</td><td>kb</td><td style="text-align: right;">                                                     3</td><td>rw-p                                                    </td><td>                                                   </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f82c000</td><td>7fb52f84e000</td><td style="text-align: right;">     136</td><td>kb</td><td style="text-align: right;">                                                    34</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libc-2.31.so             </td></tr>
+<tr><td>Bib→Texto                                                      </td><td>7fb52f84e000</td><td>7fb52f9c6000</td><td style="text-align: right;">    1504</td><td>kb</td><td style="text-align: right;">                                                   376</td><td>r-xp                                                    </td><td>/usr/lib/x86_64-linux-gnu/libc-2.31.so             </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52f9c6000</td><td>7fb52fa14000</td><td style="text-align: right;">     312</td><td>kb</td><td style="text-align: right;">                                                    78</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libc-2.31.so             </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa14000</td><td>7fb52fa18000</td><td style="text-align: right;">      16</td><td>kb</td><td style="text-align: right;">                                                     4</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libc-2.31.so             </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa18000</td><td>7fb52fa1a000</td><td style="text-align: right;">       8</td><td>kb</td><td style="text-align: right;">                                                     2</td><td>rw-p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libc-2.31.so             </td></tr>
+<tr><td>vacío                                                          </td><td>7fb52fa1a000</td><td>7fb52fa1e000</td><td style="text-align: right;">      16</td><td>kb</td><td style="text-align: right;">                                                     4</td><td>rw-p                                                    </td><td>                                                   </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa1e000</td><td>7fb52fa1f000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libdl-2.31.so            </td></tr>
+<tr><td>Bib→Texto                                                      </td><td>7fb52fa1f000</td><td>7fb52fa21000</td><td style="text-align: right;">       8</td><td>kb</td><td style="text-align: right;">                                                     2</td><td>r-xp                                                    </td><td>/usr/lib/x86_64-linux-gnu/libdl-2.31.so            </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa21000</td><td>7fb52fa22000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libdl-2.31.so            </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa22000</td><td>7fb52fa23000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libdl-2.31.so            </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa23000</td><td>7fb52fa24000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>rw-p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libdl-2.31.so            </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa24000</td><td>7fb52fa32000</td><td style="text-align: right;">      56</td><td>kb</td><td style="text-align: right;">                                                    14</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2          </td></tr>
+<tr><td>Bib→Texto                                                      </td><td>7fb52fa32000</td><td>7fb52fa41000</td><td style="text-align: right;">      60</td><td>kb</td><td style="text-align: right;">                                                    15</td><td>r-xp                                                    </td><td>/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2          </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa41000</td><td>7fb52fa4f000</td><td style="text-align: right;">      56</td><td>kb</td><td style="text-align: right;">                                                    14</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2          </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa4f000</td><td>7fb52fa53000</td><td style="text-align: right;">      16</td><td>kb</td><td style="text-align: right;">                                                     4</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2          </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa53000</td><td>7fb52fa54000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>rw-p                                                    </td><td>/usr/lib/x86_64-linux-gnu/libtinfo.so.6.2          </td></tr>
+<tr><td>vacío                                                          </td><td>7fb52fa54000</td><td>7fb52fa56000</td><td style="text-align: right;">       8</td><td>kb</td><td style="text-align: right;">                                                     2</td><td>rw-p                                                    </td><td>                                                   </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa56000</td><td>7fb52fa57000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_TELEPHONE               </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa57000</td><td>7fb52fa58000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_MEASUREMENT             </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa58000</td><td>7fb52fa5f000</td><td style="text-align: right;">      28</td><td>kb</td><td style="text-align: right;">                                                     7</td><td>r--s                                                    </td><td>/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache</td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa5f000</td><td>7fb52fa60000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/ld-2.31.so               </td></tr>
+<tr><td>Bib→Texto                                                      </td><td>7fb52fa60000</td><td>7fb52fa83000</td><td style="text-align: right;">     140</td><td>kb</td><td style="text-align: right;">                                                    35</td><td>r-xp                                                    </td><td>/usr/lib/x86_64-linux-gnu/ld-2.31.so               </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa83000</td><td>7fb52fa8b000</td><td style="text-align: right;">      32</td><td>kb</td><td style="text-align: right;">                                                     8</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/ld-2.31.so               </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa8b000</td><td>7fb52fa8c000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION          </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa8c000</td><td>7fb52fa8d000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r--p                                                    </td><td>/usr/lib/x86_64-linux-gnu/ld-2.31.so               </td></tr>
+<tr><td>Bib→Datos                                                      </td><td>7fb52fa8d000</td><td>7fb52fa8e000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>rw-p                                                    </td><td>/usr/lib/x86_64-linux-gnu/ld-2.31.so               </td></tr>
+<tr><td>vacío                                                          </td><td>7fb52fa8e000</td><td>7fb52fa8f000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>rw-p                                                    </td><td>                                                   </td></tr>
+<tr><td><a class="trigger-modal" href="#stack">Stack</a>               </td><td>7ffc77d3b000</td><td>7ffc77d5c000</td><td style="text-align: right;">     132</td><td>kb</td><td style="text-align: right;">                                                    33</td><td>rw-p                                                    </td><td>[stack]                                            </td></tr>
+<tr><td><a class="trigger-modal" href="#vvar">Procesos Var (Kernel)</a></td><td>7ffc77db6000</td><td>7ffc77dba000</td><td style="text-align: right;">      16</td><td>kb</td><td style="text-align: right;">                                                     4</td><td>r--p                                                    </td><td>[vvar]                                             </td></tr>
+<tr><td><a class="trigger-modal" href="#syscall">Llamada al sistema</a></td><td>7ffc77dba000</td><td>7ffc77dbb000</td><td style="text-align: right;">       4</td><td>kb</td><td style="text-align: right;">                                                     1</td><td>r-xp                                                    </td><td>[vdso]                                             </td></tr>
+</tbody>
+</table>
+        </div>
+    </section>
+
+    <!-- MODALES -->
+    <!-- Prueba -->
+    <div class="services__modal" id="modal-prueba">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Perfecto!</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-check-circle services__modal-icon"></i>
+                    <p>Comprendiste el uso de la página.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Stack -->
+    <div class="services__modal" id="stack">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Stack</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>Este uso es el de las funciones y variables locales del sistema.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Bibliotecas -->
+    <div class="services__modal" id="lib">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Biblioteca</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>En esta paginación se esta accediendo a las bibliotecas del sistema ubicadas en el directorio /lib.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Heap -->
+    <div class="services__modal" id="heap">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Heap</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>Segmento de memoria que no tiene un tamaño constante antes de la compilación, el cual es controlado dinámicamente por el programador.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Llamada al sistema -->
+    <div class="services__modal" id="syscall">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Llamada al sistema</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <p>vDSO significa <i>"virtual dynamic shared object"</i> la cual es una pequeña biblioteca 
+                        que el kernel mapea automaticamente en el espacio compartido de aplicaciones.</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p> Muchas llamadas al sistema que proporciona el kernel utilizan el código de espacio de 
+                        usuario por lo que las llamadas al sistema pueden dominar el rendimiento general.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Llamada al sistema -->
+    <div class="services__modal" id="vvar">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Procesos Var (Kernel)</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>Con el objetivo de implementar algunas llamadas al sistema en especifico, el kernel
+                        mapea algunos datos para el usuario.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Permisos -->
+    <div class="services__modal" id="permisos">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Permisos de archivos</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <p>En UNIX los permisos dentro de los archivos se representan con 3 Letras:</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-book-open services__modal-icon"></i>
+                    <p> <strong> r:</strong> read -> lectura</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-pen services__modal-icon"></i>
+                    <p> <strong> w:</strong> write -> escritura (en archivos: permiso de modificar, en directorios: permiso de crear archivos en el dir.)</p>
+                </li>
+                <li class="services__modal-service">
+                    <i class="uil uil-browser services__modal-icon"></i> 
+                    <p> <strong> x</strong> execution -> ejecución</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Uso -->
+    <div class="services__modal" id="uso">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Uso</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-info-circle services__modal-icon"></i>
+                    <p>En esta columna nos encargamos de 'reconocer' el uso de las regiones de memoria.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Paginas -->
+    <div class="services__modal" id="paginas">
+        <div class="services__modal-content">
+            <h4 class="services__modal-title">Uso</h4>
+            <i class="uil uil-times services__modal-close"></i>
+
+            <ul class="services__modal-services grid">
+                <li class="services__modal-service">
+                    <i class="uil uil-copy services__modal-icon"></i>
+                    <p>Una página, página de memoria o página virtual es un bloque contiguo de memoria virtual de longitud fija, descrito por una sola entrada en la tabla de paginación. - <a href="https://es.wikipedia.org/wiki/P%C3%A1gina_de_memoria" target="_blank">Wikipedia</a></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer_t1">
+        <div class="footer_div">
+            <span class="footer_span"><a href="https://github.com/unamfi/sistop-2022-2/tree/main/proyectos/3" target="_blank">Proyecto 3: Asignación de memoria en un sistema real</a></span><br>
+            <span class="footer_span">Sistemas Operativos</span><br>
+            <span class="footer_span"><a href="https://github.com/Chrisley304" target="_blank">Leyva Mercado Christian Alejandro</a></span><br>
+            <span class="footer_span"><a href="https://github.com/bryan-velasco" target="_blank">Velasco Pachuca Bryan</a></span><br>
+            <span class="footer_span">Semestre 2022-2</span>
+        </div>
+    </footer>
+
+</body>
+<script src="assets/js/chrisframe.min.js"></script>
+<script src="assets/js/main.js"></script>
+</html>
