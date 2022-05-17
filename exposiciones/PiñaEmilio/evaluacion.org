@@ -1,7 +1,7 @@
 #+title: Evaluación de exposición: La vulnerabilidad Sinkhole
 #+author: Gunnar Wolf
 
-- Tema presentado por :: Jesús Dávila
+- Tema presentado por :: Emilio Piña
 - Calificación global :: 8.75  * 0.3 + 8.75 * 0.7 = *8.75*
 
 * Evaluación grupal
