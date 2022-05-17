@@ -1,0 +1,138 @@
+** Aldo Abad, André Rosales
+- Documentación :: [[./AbadAldo-RosalesAndré/ Proyecto 3 AbadAldo-RosalesAndré (reporte).pdf][ Proyecto 3 AbadAldo-RosalesAndré (reporte).pdf]]
+- Archivos :: [[./AbadAldo-RosalesAndré/PyMaps.py][PyMaps.py]]
+- Comentarios ::
+  - Muy buen análisis de los dos procesos que presentan
+  - ¡Muy bueno el uso de bibiotecas tanto para procesar los parámetros
+    com la salida!
+  - Hay dos términos que hicieron ruido:
+    - ¿Cómo es que se /refunde/ un módulo de Haskell, APL o SML para Python?
+    - Está bien que /asuman/ cosas cuando no tienen información
+      completa, pero... En español, eso es una /suposición/, no una
+      /asunción/ 😉 (su significado es la supuesta elevación material
+      de algunos profetas bíblicos derechito al cielo)
+  - Mencionan en la documentación que lo ejecutaron también en un
+    sistema Windows. ¡Me encantaría ver y comparar el resultado!
+    (aunque... bueno, posiblemente leí mal, porque los datos vienen de
+    =/proc/PID/maps=, que por allá no existe)
+- Calificación :: 10
+
+** Carlos Alemán Flores, Brenda Pérez Duarte
+- Documentación :: [[./AlemánFlores_PérezDuarte/DocumentacionP3.txt][DocumentacionP3.txt]], [[./AlemánFlores_PérezDuarte/Notas_Desarrollo.txt][Notas_Desarrollo.txt]]
+- Archivos :: [[./AlemánFlores_PérezDuarte/Proyecto3.py][Proyecto3.py]]
+- Comentarios ::
+  - Ojo: Marcan todas las regiones de memoria que no tienen una
+    anotación como "vacías". Esto no es correcto: Es memoria /anónima/
+    (no mapeada a un archivo y no marcada como stack o heap
+    explícitamente).
+  - Les recomiendo fueremente, por legibilidad, ubicar sus comentarios
+    /arriba/, y no /delante de/, la línea o el bloque que estén
+    comentando. Por ejemplo, en vez de:
+    #+begin_src python
+      b=0#Bandera para la primer línea del archivo
+    #+end_src
+    Resulta mucho más legible:
+    #+begin_src python
+      #Bandera para la primer línea del archivo
+      b=0
+    #+end_src
+- Calificación :: 10
+
+** Alejandro Barreiro, Jessica Zepeda
+- Documentación :: [[./BarreiroAlejandro-ZepedaJessica/proyecto-so-3.pdf][proyecto-so-3.pdf]]
+- Archivos :: [[./BarreiroAlejandro-ZepedaJessica/proyecto3.py][proyecto3.py]]
+- Comentarios ::
+  - Escribir una y otra vez las cadenas de escape para los códigos de
+    color ANSI resulta muy tedioso y es susceptible a errores. Les
+    sugiero el uso de bibliotecas que lo abstraigan como =colorama=, o
+    por lo menos, sacarlo de la construcción de cada una de las
+    cadenas y ubicarlos en variables específicas. Por ejemplo,
+    #+begin_src python
+      color = {}
+      color['verde']='u001b[32m'
+      color['blanco']='\u001b[0m'
+      print(color['verde'], 'Texto', color['blanco'])
+    #+end_src
+- Calificación :: 10
+
+** Francisco Barrios
+- Documentación :: [[./BarriosFrancisco/Imagenes/Ejecucion1.png][Ejecucion1.png]], [[./BarriosFrancisco/Imagenes/Ejecucion2.png][Ejecucion2.png]], [[./BarriosFrancisco/Imagenes/maps.png][maps.png]], [[./BarriosFrancisco/README.md][README.md]]
+- Archivos :: [[./BarriosFrancisco/proyecto3.py][proyecto3.py]]
+- Comentarios ::
+  - Veo que incluyes las direcciones efectivamente vacías, las no
+    listadas (incluyendo esas decenas o cientos de terabytes que no se
+    podrían asignar nunca. ¡Bien! ☺
+  - ¡Te emocionaste con las unidades en =calcularSize=! No está
+    mal... Pero recuerda que en una arquitectura de 48 bits, el mundo
+    se «termina» a los 256TB, no hace falta ir más allá.
+  - Te recomiendo fueremente, por legibilidad, ubicar tus comentarios
+    /arriba/, y no /delante de/, la línea o el bloque que estén
+    comentando. Por ejemplo, en vez de:
+    #+begin_src python
+      listaMemoria.append(renglon)		#Se ingresan los datos obtenidos de un renglon a una lista
+    #+end_src
+    Resulta más claro:
+    #+begin_src python
+      #Se ingresan los datos obtenidos de un renglon a una lista
+      listaMemoria.append(renglon)
+    #+end_src
+  - ¡Muy bien por intentar atrapar el error si no existe el PID o si
+    no tienes permisos! Sólo que... Sólo atrapaste la excepción
+    =FileNotFoundError=; abrir un archivo al que no tienes permiso
+    sigue abortando malamente la ejecución. Bastaba con agregale el
+    mismo comportamiento ante un =PermissionError=.
+- Calificación :: 10
+
+** Alfredo Correa
+- Documentación :: [[./CorreaAlfredo/Documentacion.pdf][Documentacion.pdf]]
+- Archivos :: [[./CorreaAlfredo/proyecto_03.py][proyecto_03.py]]
+- Comentarios ::
+  - No estás obteniendo la información solicitada, sino que llamando a
+    =pmap= para que lo haga por tí
+  - No estás reportando la información del proceso solicitado, sino
+    que del procso mismo de tu código (=$$=)
+- Calificación :: 5
+
+** Jesus Davila, Giselle Espinosa
+- Documentación :: [[./DavilaJesusEspinosaGiselle/documentación/Proyecto3_DavilaJesus_EspinosaCortez.pdf][Proyecto3_DavilaJesus_EspinosaCortez.pdf]]
+- Archivos :: [[./DavilaJesusEspinosaGiselle/codigo/ProyectoMemoria.py][ProyectoMemoria.py]]
+- Comentarios ::
+  - ¡Muy bonito trabajo!
+  - Ya que le entran a desarrollar interfaces con =tkInter=, les
+    sugiero explorar no usarla sólo como una /terminal fancy/, sino
+    que usen nativamente los elementos de una interfaz gráfica (GUI) —
+    por ejemplo, dibujando barras horizontales proporcionales para las
+    regiones de memoria.
+  - Muy bueno también que crearan estructuras de datos para
+    representar y manipular a cada uno de los registros.
+- Calificación :: 10
+
+** Yoav Galdamez, Ricardo Ruelas
+- Documentación :: [[./GaldamezYoav-RuelasRicardo/Documentacion.pdf][Documentacion.pdf]]
+- Archivos :: [[./GaldamezYoav-RuelasRicardo/memorymap.py][memorymap.py]]
+- Comentarios ::
+  - Reportas siempre (creo) las primeras dos secciones que encuentras
+    como "vacío", pero un área de memoria vacía... es aquella que no
+    aparece en el mapeo. ¿Me equivoco? Incluso aparecen adyacentes,
+    con permisos de memoria diferentes (y ambos válidos, como =r-x= y
+    =r--=). ¿Por qué?
+  - Corrigiendo a tu documentación y a tu código: No es que /una
+    dirección/ de memoria sea de 32 o 64 bits (en realidad, 48), sino
+    que /todas/ o /ninguna/ lo sean: En un equipo a 32 bits, no habrá
+    ningún mapeo de memoria por encima de 2³² (porque sencillamente no
+    existe ese espacio). En uno equipo de 64 bits, aunque una
+    dirección sea /baja/, no será realmente de 32 bits.
+- Calificación :: 10
+
+** Christian Leyva, Bryan Velasco
+- Documentación :: [[./LeyvaChristian-VelascoBryan/Documentacion proyecto 3.pdf][Documentacion proyecto 3.pdf]], [[./LeyvaChristian-VelascoBryan/README.md][README.md]], [[./LeyvaChristian-VelascoBryan/assets/img/tabicon.ico][tabicon.ico]]
+- Archivos :: [[./LeyvaChristian-VelascoBryan/EJEMPLO_Pmap_PID_9.html][EJEMPLO_Pmap_PID_9.html]], [[./LeyvaChristian-VelascoBryan/PmapToHTML_chrisco.py][PmapToHTML_chrisco.py]], [[./LeyvaChristian-VelascoBryan/assets/css/chrisframe.min.css][chrisframe.min.css]], [[./LeyvaChristian-VelascoBryan/assets/css/styles.css][styles.css]], [[./LeyvaChristian-VelascoBryan/assets/js/chrisframe.min.js][chrisframe.min.js]], [[./LeyvaChristian-VelascoBryan/assets/js/main.js][main.js]], [[./LeyvaChristian-VelascoBryan/assets/plantillas/plantilla_proyecto3.html][plantilla_proyecto3.html]], [[./LeyvaChristian-VelascoBryan/proyecto3_chrisco.py][proyecto3_chrisco.py]]
+- Comentarios ::
+  - ¡Muy buena resolución!
+  - Jé, casi me pierden, de no ser porque vi la documentación: vi la
+    salida a terminal, y creí que era todo... No me saltó a la vista
+    el navegador.
+  - ¡Son los únicos que prefirieron la salida “verbosa” y completa de
+    =/proc/PID/smaps= que la más compacta de =/proc/pid/maps=. ¡Bien!
+    Yo también lo haría así 😉
+- Calificación :: 10
