@@ -1,3 +1,8 @@
+#+title: Asignación de memoria en un sistema real
+#+subtitle: Calificaciones
+
+* Calificaciones del proyecto
+
 ** Aldo Abad, André Rosales
 - Documentación :: [[./AbadAldo-RosalesAndré/ Proyecto 3 AbadAldo-RosalesAndré (reporte).pdf][ Proyecto 3 AbadAldo-RosalesAndré (reporte).pdf]]
 - Archivos :: [[./AbadAldo-RosalesAndré/PyMaps.py][PyMaps.py]]
