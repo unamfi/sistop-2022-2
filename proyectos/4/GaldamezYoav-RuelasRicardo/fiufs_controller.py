@@ -5,12 +5,15 @@ try:
 except FileNotFoundError:
 	print("\n¡Algo salio mal!\n")
 	print("Error: El sistema de archivos no fue encontrado.")
-	print("Por favor, comprueba que el programa y el archivo"
-		+ "se encuentran en el mismo directorio e intenta de nuevo.")
+	print("-> Por favor, comprueba que el programa y el sistema de archivos"
+		+ " se encuentran en el mismo directorio e intenta de nuevo.")
+	print("-> Verifique que el sistema de archivos tenga por nombre 'fiunamfs.img'.")
+	exit()
 #Si el usuario no cuenta con permisos, se le indica
 except PermissionError:
 	print("\n¡Algo salio mal!\n")
-	print("Error: El sistema de archivos no fue encontrado.")
+	print("Error: No cuenta con los permisos necesarios para acceder al sistema de archivos.")
+	exit()
 	
 
 #Clase SuperBloque que mantendrá seguros y globales los datos del primer cluster
@@ -42,6 +45,13 @@ def crear_super_bloque():
 	sistema.seek(0)
 	nombre = sistema.read(8)
 
+	if (nombre != "FiUnamFS"):
+		raise Exception(
+				"\n¡Algo salio mal!\n" +
+				"Error: El sistema de archivos no es de tipo FiUnamFS."
+			)
+		exit()
+
 	#Leemos la versión de implementación en las posiciones 10-13
 	sistema.seek(10)
 	version = sistema.read(4)
@@ -71,6 +81,19 @@ def crear_super_bloque():
 					num_clusters_dir,
 					num_clusters_uni)
 
+
+#Método que permite mostrar el contenido del directorio
+def mostrar_directorio(info_sistema):
+	direccion_cluster_1 = info_sistema.tam_cluster;
+	direccion_cluster_2 = info_sistema.tam_cluster*2;
+	direccion_cluster_3 = info_sistema.tam_cluster*3;
+	direccion_cluster_4 = info_sistema.tam_cluster*4;
+
+
+
 info_sistema = crear_super_bloque()
 
-print(info_sistema.nombre)
+
+
+print(info_sistema.tam_cluster)
+
