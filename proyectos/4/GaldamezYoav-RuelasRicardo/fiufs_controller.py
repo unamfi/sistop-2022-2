@@ -18,7 +18,6 @@ except PermissionError:
 
 #Clase SuperBloque que mantendrá seguros y globales los datos del primer cluster
 class SuperBloque:
-	
 	def __init__(self,
 				nombre,
 				version,
@@ -35,8 +34,23 @@ class SuperBloque:
 		self.num_clusters_uni = num_clusters_uni
 
 
+#Class Entrada que guardará las entradas del directorio para su fácil recuperacion
+class Entrada:
+	def __init__(self,
+				nombre,
+				tamanio,
+				cluster,
+				creacion,
+				modificacion):
+		self.nombre = nombre
+		self.tamanio = tamanio
+		self.cluster = cluster
+		self.creacion = creacion
+		self.modificacion = modificacion
+
+
 #Método que permite leer los datos del superbloque y asignarlos a un objeto de este tipo
-def crear_super_bloque():
+def generar_super_bloque():
 	#En este método ocuparemos las funciones seek y read para archivos
 	#Seek se encarga de establecer un cursor en la posición dada por parametro
 	#Read se encarga de leer la cantidad de datos especificados como parametro
@@ -119,11 +133,52 @@ def formatear_fecha(fecha):
 	return fecha_formateada + " " + hora_formateada
 
 
-#Método que permite mostrar el contenido del directorio
-def mostrar_directorio(info_sistema):
+# Método que permite inicializar el directorio del sistema de archivos
+def generar_directorio(info_sistema, directorio, nombres_archivos):
 	tam_entrada = 64 #Tamaño de cada entrada del directorio
 	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
 	
+	#Mostramos las entradas en los 4 diferentes clusters
+	for i in range(4):
+		#Obtenemos la dirección de cada cluster a partir de su tamaño y número de cluster
+		direccion_cluster = info_sistema.tam_cluster*(i+1)
+
+		#Dirijimos el cursor hacia la direccion previamente obtenida
+		sistema.seek(direccion_cluster)
+
+		for i in range(num_entradas_cluster):
+			nombre = sistema.read(15)
+			sistema.read(1) #Movemos el cursor del espacio vacio
+
+			#Si el nombre corresponde con una entrada no utilizada pasamos a la siguiente
+			if(nombre == "..............."):
+				sistema.read(48) #Movemos el cursor hasta la siguiente entrada
+				continue
+			
+			nombres_archivos.add(nombre)
+			
+			tamanio = int(sistema.read(24-16))
+			sistema.read(1) #Movemos el cursor del espacio vacio
+			tamanio = formatear_tamanio(tamanio)
+			
+			cluster = int(sistema.read(30-25))
+			sistema.read(1) #Movemos el cursor del espacio vacio
+
+			creacion = sistema.read(45-31)
+			sistema.read(1) #Movemos el cursor del espacio vacio
+			creacion = formatear_fecha(creacion)
+
+			modificacion = sistema.read(60-46)
+			sistema.read(65-61) #Movemos el cursor del espacio vacio
+			modificacion = formatear_fecha(modificacion)
+
+			entrada_aux = Entrada(nombre,tamanio,cluster,creacion,modificacion)
+
+			directorio.append(entrada_aux)
+			
+
+#Método que permite mostrar el contenido del directorio
+def mostrar_directorio(directorio):
 	#Variables para el formateo de la salida
 	f_nombre = "{:>16}"
 	f_tamanio = "{:<14}"
@@ -138,46 +193,16 @@ def mostrar_directorio(info_sistema):
 	print(f_creacion.format("Creación:"),end='')
 	print(f_modificacion.format("Última modificación:"))
 
-	#Mostramos las entradas en los 4 diferentes clusters
-	for i in range(4):
-		#Obtenemos la dirección de cada cluster a partir de su tamaño y número
-		direccion_cluster = info_sistema.tam_cluster*(i+1)
-
-		#Dirijimos el cursor hacia la direccion previamente obtenida
-		sistema.seek(direccion_cluster)
-
-		for i in range(num_entradas_cluster):
-			nombre = sistema.read(15)
-			sistema.read(1) #Movemos el cursor del espacio vacio
-			
-			tamanio = int(sistema.read(24-16))
-			sistema.read(1) #Movemos el cursor del espacio vacio
-			tamanio = formatear_tamanio(tamanio)
-			
-			num_cluster = int(sistema.read(30-25))
-			sistema.read(1) #Movemos el cursor del espacio vacio
-
-			creacion = sistema.read(45-31)
-			sistema.read(1) #Movemos el cursor del espacio vacio
-			creacion = formatear_fecha(creacion)
-
-			modificacion = sistema.read(60-46)
-			sistema.read(65-61) #Movemos el cursor del espacio vacio
-			modificacion = formatear_fecha(modificacion)
-
-			#Si el nombre corresponde con una entrada no utilizada pasamos a la siguiente
-			if(nombre == "..............."):
-				continue
-
-			print(f_nombre.format(nombre),end='\t')
-			print(f_tamanio.format(tamanio),end='')
-			print(f_cluster.format(num_cluster),end='')
-			print(f_creacion.format(creacion),end='')
-			print(f_modificacion.format(modificacion))
+	for entrada in directorio:
+		print(f_nombre.format(entrada.nombre),end='\t')
+		print(f_tamanio.format(entrada.tamanio),end='')
+		print(f_cluster.format(entrada.cluster),end='')
+		print(f_creacion.format(entrada.creacion),end='')
+		print(f_modificacion.format(entrada.modificacion))
 
 
-		
-
-info_sistema = crear_super_bloque()
-mostrar_directorio(info_sistema)
-
+directorio = [] #Lista de entradas que conforman el directorio de nuestro sistema de archivos
+nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
+info_sistema = generar_super_bloque() #Asignación de la información del sistema de archivos a partir del superbloque
+generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
+mostrar_directorio(directorio)
