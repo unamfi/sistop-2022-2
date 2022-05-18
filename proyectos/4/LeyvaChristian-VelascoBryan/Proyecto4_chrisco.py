@@ -6,7 +6,6 @@
 # Bibliotecas incluidas en el core de Python
 import os,sys,mmap
 from datetime import datetime
-from attr import has
 
 # Bibliotecas que requieren instalación vía pip
 from tabulate import tabulate
@@ -92,7 +91,7 @@ def ls(DIMap):
     archivos.append(temp)
 
     for i in range(0,64):
-        desde = 1024 + i * 64
+        desde = SuperBloque['tamanio'] + i * 64
         hasta = desde + 64
         
         archivoLeido = getArchivo(DIMap[desde:hasta],i)
@@ -101,26 +100,44 @@ def ls(DIMap):
 
     return archivos
 
+# Busca si un archivo se encuentra en el sistema FiUnamFs
+def FSgoogle(archivos,filename):
+    for archivo in archivos:
+        if archivo['nombre'].strip() == filename:
+            return archivo
+    return None
+
 # Copiar archivo de FiUnamFs a tu sistema
 def copy_export(DIMap,filename:str,ruta:str):
     archivos = ls(DIMap)
-    # print(archivos)
     # Se busca que el archivo exista en el directorio
-    for i in archivos:
-        if i['nombre'].strip() == filename:
-            if os.path.exists(ruta):
-                with open(f"{ruta}/{filename}", "a+b") as export:
-                    desde = SuperBloque['tamanio'] * i['clusterInicial']
-                    hasta = desde + i['tamanio']
-                    export.write(DIMap[desde:hasta])
-            else:
-                cprint(f'Error: No se encontro la ruta: \'{ruta}\' en el sistema; Verifica que exista o este bien escrita.','white','on_red')
-            return 
-    
-    cprint(f'Error: No se encontro el archivo \'{filename}\' en FiUnamFs.','white','on_red')
+    archivo = FSgoogle(archivos,filename)
+    if not archivo is None:
+        if os.path.exists(ruta):
+            with open(f"{ruta}/{filename}", "a+b") as export:
+                desde = SuperBloque['tamanio'] * archivo['clusterInicial']
+                hasta = desde + archivo['tamanio']
+                export.write(DIMap[desde:hasta])
+        else:
+            cprint(f'Error: No se encontro la ruta: \'{ruta}\' en el sistema; Verifica que exista o este bien escrita.','white','on_red')
+    else:
+        cprint(f'Error: No se encontro el archivo \'{filename}\' en FiUnamFs.','white','on_red')
 
-def copy_import():
-    pass
+# Copiar archivo de tu sistema a FiUnamFs
+def copy_import(DIMap,filename):
+    if os.path.isfile(filename):
+        # El archivo no puede ser mayor a 15 caracteres
+            if len(filename) < 15:
+                # Se verifica que el archivo NO se encuentre ya en el disco
+                if FSgoogle(ls(DIMap), filename) is None:
+                    pass
+                else:
+                    cprint(f'Error: El archivo \'{filename}\' ya se encuentra en FiUnamFs, por favor cambia el nombre del archivo.','white','on_red')
+            else:
+                cprint(f'Error: El nombre del archivo es mayor o igual a 15 caracteres.','white','on_red')
+    else:
+        cprint(f'Error: No se encontro el archivo \'{filename}\' en FiUnamFs.','white','on_red')
+
 def rm(DIMap,filename:str):
     pass
 def defragmentar():
@@ -152,8 +169,10 @@ def sistemaArchivos(DIMap):
                     copy_export(DIMap,param[1],param[2])
                 else:
                     cprint('Error: Ingresa TODOS los parametros necesarios.\nEjemplo:\n\texport [nombreArchivo] [rutaLocal]','white','on_red')
-            except:
+            except Exception as e:
+                print(e)
                 cprint('Lo siento, sucedio un error al exportar el archivo, vuelve a intentarlo y si el error persiste por favor reportalo a: chris@chrisley.dev','white','on_red')
+                
         
         # Copiar archivo de tu sistema a FiUnamFs
         elif param[0] == 'import':
