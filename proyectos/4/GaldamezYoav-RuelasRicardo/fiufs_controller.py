@@ -82,20 +82,40 @@ def crear_super_bloque():
 					num_clusters_uni)
 
 
+#Método que obtiene una versión compacta del tamaño en bytes
+def formatear_tamanio(tamanio):
+	#Definimos una lista que a partir de un contador, nos dará la
+    #unidad de medida de la memoria
+    unidades = ['KB','MB','GB','TB','PB','EB','ZB','YB','BB']
+
+    #Inicializamos el contador para no tener problemas de integridad
+    contUnidad = 0
+
+    #Bucle que permite ir dividiendo el tamaño obtenido hasta llegar
+    #a su maxima unidad con un contador
+    while( (tamanio / 1024) >= 1 ):
+        contUnidad += 1
+        tamanio = tamanio/1024
+
+    #Regresamos el valor obtenido del tamaño reducido junto a su unidad
+    #en forma de string para su formateo posterior
+    return str(round(tamanio,1)) + " " + unidades[contUnidad]
+
+
 #Método que permite mostrar el contenido del directorio
 def mostrar_directorio(info_sistema):
 	tam_entrada = 64 #Tamaño de cada entrada del directorio
 	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
 	
 	#Variables para el formateo de la salida
-	f_nombre = "{:<18}"
-	f_tamanio = "{:<12}"
-	f_cluster = "{:<11}"
+	f_nombre = "{:>16}"
+	f_tamanio = "{:<14}"
+	f_cluster = "{:<13}"
 	f_creacion = "{:<20}"
 	f_modificacion = "{:<20}"
 
 	#Formateamos el encabezado del listado
-	print(f_nombre.format("Nombre"),end='')
+	print(f_nombre.format("Nombre"),end='\t')
 	print(f_tamanio.format("Tamaño"),end='')
 	print(f_cluster.format("Cluster"),end='')
 	print(f_creacion.format("Creación:"),end='')
@@ -113,10 +133,11 @@ def mostrar_directorio(info_sistema):
 			nombre = sistema.read(15)
 			sistema.read(1) #Movemos el cursor del espacio vacio
 			
-			tamanio = sistema.read(24-16)
+			tamanio = int(sistema.read(24-16))
 			sistema.read(1) #Movemos el cursor del espacio vacio
+			tamanio = formatear_tamanio(tamanio)
 			
-			num_cluster = sistema.read(30-25)
+			num_cluster = int(sistema.read(30-25))
 			sistema.read(1) #Movemos el cursor del espacio vacio
 
 			creacion = sistema.read(45-31)
@@ -129,7 +150,7 @@ def mostrar_directorio(info_sistema):
 			if(nombre == "..............."):
 				continue
 
-			print(f_nombre.format(nombre),end='')
+			print(f_nombre.format(nombre),end='\t')
 			print(f_tamanio.format(tamanio),end='')
 			print(f_cluster.format(num_cluster),end='')
 			print(f_creacion.format(creacion),end='')
