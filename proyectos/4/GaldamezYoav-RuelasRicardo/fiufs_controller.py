@@ -102,6 +102,23 @@ def formatear_tamanio(tamanio):
     return str(round(tamanio,1)) + " " + unidades[contUnidad]
 
 
+#Método que permite formatear la fecha dado el formato dentro del sistema de archivos
+def formatear_fecha(fecha):
+	#Separamos los datos de la fecha en distintas variables
+	anio = fecha[0:4]
+	mes = fecha[4:6]
+	dia = fecha[6:8]
+	hora = fecha[8:10]
+	minutos = fecha[10:12]
+	segundos = fecha[12:14]
+
+	#Empleamos la concatenacion de las variables con un formato amigable
+	fecha_formateada = dia + "/" + mes + "/" + anio
+	hora_formateada = hora + ":" + minutos + ":" + segundos
+
+	return fecha_formateada + " " + hora_formateada
+
+
 #Método que permite mostrar el contenido del directorio
 def mostrar_directorio(info_sistema):
 	tam_entrada = 64 #Tamaño de cada entrada del directorio
@@ -111,8 +128,8 @@ def mostrar_directorio(info_sistema):
 	f_nombre = "{:>16}"
 	f_tamanio = "{:<14}"
 	f_cluster = "{:<13}"
-	f_creacion = "{:<20}"
-	f_modificacion = "{:<20}"
+	f_creacion = "{:<25}"
+	f_modificacion = "{:<24}"
 
 	#Formateamos el encabezado del listado
 	print(f_nombre.format("Nombre"),end='\t')
@@ -142,9 +159,11 @@ def mostrar_directorio(info_sistema):
 
 			creacion = sistema.read(45-31)
 			sistema.read(1) #Movemos el cursor del espacio vacio
+			creacion = formatear_fecha(creacion)
 
 			modificacion = sistema.read(60-46)
 			sistema.read(65-61) #Movemos el cursor del espacio vacio
+			modificacion = formatear_fecha(modificacion)
 
 			#Si el nombre corresponde con una entrada no utilizada pasamos a la siguiente
 			if(nombre == "..............."):
