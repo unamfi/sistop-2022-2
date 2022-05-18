@@ -8,7 +8,7 @@ import os,sys,mmap,time
 
 # Bibliotecas que requieren instalación vía pip
 from tabulate import tabulate
-from termcolor import colored, cprint
+from termcolor import cprint
 
 # Notas importantes:  ---------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ def abrirImagen(filename):
 def obtenerInfoSuperBloque(DIMap):
     SuperBloque = {}
     SuperBloque['nombre'] = DIMap[0:8].decode('utf-8')
-    SuperBloque['version'] = DIMap[10:13].decode('utf-8')
+    SuperBloque['version'] = DIMap[10:13].decode('utf-8').strip()
     SuperBloque['volumen'] = DIMap[20:35].decode('utf-8')
     SuperBloque['tamanio'] = DIMap[40:45].decode('utf-8')
     SuperBloque['nClustersDir'] = DIMap[47:49].decode('utf-8')
@@ -56,20 +56,86 @@ def obtenerInfoSuperBloque(DIMap):
 
     return SuperBloque
 
-class ChriscoExplorer:
-    def ls():
-        pass
-    def copyLocal():
-        pass
-    def copyExt():
-        pass
-    def rm():
-        pass
-    def defragmentar():
-        pass    
+class Archivo:
+    def __init__(self,FileMap):
+        self.nombre = FileMap[0:15].decode('utf-8').rstrip('\x00')
+        self.tamanio = FileMap[16:24].decode('utf-8')
+        self.clusterIn = FileMap[25:30].decode('utf-8')
+        self.fechaCreacion = FileMap[31:45].decode('utf-8')
+        self.fechaModificacion = FileMap[46:60].decode('utf-8')
+
+# Funcion para listar los archivos en la imagen de disco
+def ls(DIMap):
+    # Recordando que el tamaño de cada cluster es 1024 bytes
+    # Y que el directorio se encuentra entre el Cluster 1-4, se debe empezar a buscar desde 1024 hasta 4096 
+    #  Por tanto considerando las entradas de 64 bytes...
+    archivos =[]
+    tablaArchivos = {}
+    tablaArchivos['nombre'] = []
+    tablaArchivos['tamaño'] = []
+    tablaArchivos['clusterInicial'] = []
+    tablaArchivos['fechaCreacion'] = []
+    tablaArchivos['fechaModificacion'] = []
+
+    for i in range(0,64):
+        desde = 1024 + i * 64
+        hasta = desde + 64
+        
+        archivoLeido = Archivo(DIMap[desde:hasta])
+        if archivoLeido.nombre != entVacia and archivoLeido.nombre:
+            archivos.append(archivoLeido)
+            tablaArchivos['nombre'].append(archivoLeido.nombre)
+            tablaArchivos['tamaño'].append(archivoLeido.tamanio)
+            tablaArchivos['clusterInicial'].append(archivoLeido.clusterIn)
+            tablaArchivos['fechaCreacion'].append(archivoLeido.fechaCreacion)
+            tablaArchivos['fechaModificacion'].append(archivoLeido.fechaModificacion)
+    # print(tablaArchivos)
+    print(tabulate(tablaArchivos,headers='keys',tablefmt='github'))
+
+
+def copyLocal():
+    pass
+def copyExt():
+    pass
+def rm():
+    pass
+def defragmentar():
+    pass    
 
 def sistemaArchivos(DIMap):
-    pass
+    helpComandos = {'Comando':['ls','export [nombreArchivo]','import [nombreArchivo]','del [nombreArchivo]','exit'],'Descripción':['Listar contenidos del directorio FiUnamFs','Copia el archivo ([nombreArchivo]) de FiUnamFs a tu sistema','Copia el archivo ([nombreArchivo]) de tu sistema a FiUnamFs','Elimina el archivo ([nombreArchivo]) de FiUnamFs','Salir del programa.']}
+    salir = False
+    while not salir:
+        entry = input(">>>  ")
+        param = entry.lower().split()
+        # Se verifica el tipo de operacion que se desea hacer:
+        
+        if len(param) == 0:
+            cprint('Por favor, ingresa un comando.\nEscribe \'help\' para mostrar los comandos disponibles','white','on_red')
+
+        # ls -> Listar contenidos del directorio FiUnamFs
+        elif param[0] == 'ls':
+            ls(DIMap)
+
+        # Copiar archivo de FiUnamFs a tu sistema
+        elif param[0] == 'export':
+            pass
+        
+        # Copiar archivo de tu sistema a FiUnamFs
+        elif param[0] == 'import':
+            pass
+        
+        # Eliminar archivo de FiUnamFs
+        elif param[0] == 'del':
+            pass
+        
+        elif param[0] == 'help':
+            print(tabulate(helpComandos,headers='keys'))
+
+        elif param[0] == 'exit':
+            salir = True
+        else:
+            cprint('El comando \'' + param[0] + '\' no existe\nEscribe \'help\' para mostrar los comandos disponibles','white','on_red')
 
 def main():
     # Primero se abre y mapea la imagen de memoria
