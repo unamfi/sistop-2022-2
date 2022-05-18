@@ -16,6 +16,7 @@ from termcolor import cprint
 # - Archivo de longitud fija de 1440 Kilobytes
 # - La superficie del disco se divide en sectores de 256 bytes.
 # - Cada cluster mide cuatro sectores. Es decir 1 cluster = 4*256 = 1024 bytes.
+# ⚠️ IMPORTANTE: Al momento de realizar el programa, notamos que el sistema de archivos no utiliza clusters de 1024 bytes, si no que utiliza clusters de 2048 bytes. Tal vez fue un dedazo del profesor?
 # - El primer cluster (#0) del pseudodispositivo es el superbloque. Este contiene información en los siguientes bytes: 
     # 0–8 -> Para identificación, el nombre del sistema de archivos. ¡Debes validar nunca modificar un sistema de archivos que no sea el correcto! Debe ser la cadena FiUnamFS.
     # 10–13 -> Versión de la implementación. Estamos implementando la versión 1.1
@@ -52,8 +53,9 @@ def obtenerInfoSuperBloque(DIMap):
     SuperBloque['version'] = DIMap[10:13].decode('utf-8').strip()
     SuperBloque['volumen'] = DIMap[20:35].decode('utf-8')
     SuperBloque['tamanio'] = int(DIMap[40:45].decode('utf-8'))
-    SuperBloque['nClustersDir'] = DIMap[47:49].decode('utf-8')
-    SuperBloque['nClustersCom'] = DIMap[52:60].decode('utf-8')
+    SuperBloque['nClustersDir'] = int(DIMap[47:49].decode('utf-8'))
+    SuperBloque['nClustersCom'] = int(DIMap[52:60].decode('utf-8'))
+    # print(SuperBloque)
 
 def getFecha(fecha):
     fechaObj = datetime.strptime(fecha,'%Y%m%d%H%M%S')
@@ -61,7 +63,7 @@ def getFecha(fecha):
 
     return fechaFormat
 
-def getArchivo(FileMap,cont):
+def getArchivos(FileMap,cont):
     archivo ={}
     archivo['nombre'] = FileMap[0:15].decode('utf-8').rstrip('\x00')
     if archivo['nombre'] != entVacia and archivo['nombre']:
@@ -69,32 +71,56 @@ def getArchivo(FileMap,cont):
         archivo['clusterInicial'] = int(FileMap[25:30].decode('utf-8'))
         archivo['fechaCreacion'] = getFecha(FileMap[31:45].decode('utf-8'))
         archivo['fechaModificacion'] = getFecha(FileMap[46:60].decode('utf-8'))
-        archivo['nDireccion'] = cont
+        archivo['cont'] = cont
     else:
         archivo = None
     return archivo
 
+def getListadoComp(FileMap,cont):
+    archivo ={}
+    archivo['nombre'] = FileMap[0:15].decode('utf-8').rstrip('\x00')
+    if archivo['nombre'] != entVacia and archivo['nombre']:
+        archivo['tamanio'] = int(FileMap[16:24].decode('utf-8'))
+        archivo['clusterInicial'] = int(FileMap[25:30].decode('utf-8'))
+        archivo['fechaCreacion'] = getFecha(FileMap[31:45].decode('utf-8'))
+        archivo['fechaModificacion'] = getFecha(FileMap[46:60].decode('utf-8'))
+        archivo['cont'] = cont
+    elif archivo['nombre'] == entVacia:
+        archivo['tamanio'] = int(FileMap[16:24].decode('utf-8'))
+        archivo['clusterInicial'] = int(FileMap[25:30].decode('utf-8'))
+        archivo['fechaCreacion'] = '-'
+        archivo['fechaModificacion'] = '-'
+        archivo['cont'] = cont
+    else:
+        archivo = None
+
+    return archivo
+
 # Funcion para listar los archivos en la imagen de disco
-def ls(DIMap):
+def ls(DIMap,param=None):
     # Recordando que el tamaño de cada cluster es 1024 bytes
     # Y que el directorio se encuentra entre el Cluster 1-4, se debe empezar a buscar desde 1024 hasta 4096 
-    #  Por tanto considerando las entradas de 64 bytes...
+    # Por tanto que cada entrada del directorio mide 64 bytes...
     # Se inicializa el diccionario con los titulos de las columnas para ser mostradas mas adelante en consola
     archivos = []
     temp={}
+    temp['cont'] = 'n'
     temp['nombre'] = 'Nombre del archivo'
     temp['tamanio'] = 'Tamaño del archivo'
     temp['clusterInicial'] = 'Cluster inicial'
     temp['fechaCreacion'] = 'Fecha de creación'
     temp['fechaModificacion'] = 'Fecha de modificación'
-    temp['nDireccion'] = 'Bandera dirección de memoria'
     archivos.append(temp)
 
     for i in range(0,64):
         desde = SuperBloque['tamanio'] + i * 64
         hasta = desde + 64
         
-        archivoLeido = getArchivo(DIMap[desde:hasta],i)
+        if param is None:
+            archivoLeido = getArchivos(DIMap[desde:hasta],i)
+        elif param == '-comp':
+            archivoLeido = getListadoComp(DIMap[desde:hasta],i)
+
         if not archivoLeido is None:
             archivos.append(archivoLeido)
 
@@ -123,14 +149,79 @@ def copy_export(DIMap,filename:str,ruta:str):
     else:
         cprint(f'Error: No se encontro el archivo \'{filename}\' en FiUnamFs.','white','on_red')
 
+# Obtiene el archivo con el cluster inicial mas grande
+def getMaxInitCluster(archivos):
+    # El minimo debe ser 5 para reservar la memoria del directorio
+    maxClusterFile = None
+    maxInitCluster = 0
+    if len(archivos) > 0:
+        for archivo in archivos:
+            if archivo['clusterInicial'] > maxInitCluster:
+                maxInitCluster = archivo['clusterInicial']
+                maxClusterFile = archivo
+
+    return maxClusterFile
+
+# Se crean las meta etiquetas (Info en directorio)
+def createMetaTags(DIMap,maxClusterFile,filename,fileSize,nClusters,contLast):
+    # Se obtiene el cluster desde donde el nuevo archivo se escribirá
+    # clusterinicial + clustersNecesarios 
+    initialCluster = maxClusterFile['clusterInicial'] +  int(maxClusterFile['tamanio'] / SuperBloque['tamanio'] )
+    finalCluster = initialCluster +  nClusters
+    for i in range(contLast + 1,64):
+        desde = SuperBloque['tamanio'] + i * 64
+        hasta = desde + 64
+        apartado = getListadoComp(DIMap[desde:hasta],i)
+        if entVacia == apartado['nombre']:           
+            # Nombre archivo
+            DIMap[0:15] = filename.encode('ASCII')
+            # Tamaño archivo
+            DIMap[16:24]= .encode('ASCII')
+            # Cluster inicial
+            DIMap[25:30] = filename.encode('ASCII')
+            # Fecha Creacion
+            DIMap[31:45] = filename.encode('ASCII')
+            # Fecha modificacion
+            DIMap[46:60] = filename.encode('ASCII')
+            return
+
 # Copiar archivo de tu sistema a FiUnamFs
 def copy_import(DIMap,filename):
     if os.path.isfile(filename):
         # El archivo no puede ser mayor a 15 caracteres
             if len(filename) < 15:
                 # Se verifica que el archivo NO se encuentre ya en el disco
-                if FSgoogle(ls(DIMap), filename) is None:
-                    pass
+                archivos = ls(DIMap)
+                if FSgoogle(archivos, filename) is None:
+                    # Se obtiene el tamaño del archivo a copiar hacia el sistema de archivos
+                    fileSize = os.stat(filename).st_size
+                    # Se obtienen los clusters que requiere el archivo (redondeando)
+                    nClusters = int(fileSize/SuperBloque['tamanio']) # nbytes / 2048 bytes (tamaño de los clusters en el sistema de arch.)
+
+                    maxClusterFile = getMaxInitCluster(archivos)
+
+                    # Si hay archivos
+                    if not maxClusterFile is None:
+                        # Se verifica que exista espacio para el archivo
+                        if  nClusters <= (SuperBloque['nClustersCom'] - maxClusterFile['clusterInicial'] +  int(maxClusterFile['tamanio'] / SuperBloque['tamanio'] )):
+                            createMetaTags(DIMap,maxClusterFile,filename,fileSize,nClusters,maxClusterFile['cont'])
+                            pass
+                        else:
+                            cprint(f'Error: No hay suficiente espacio para almacenar el archivo \'{filename}\'. Intenta con un archivo mas pequeño :).','white','on_red')
+
+                    # Si no hay archivos
+                    else:
+                        # Se verifica si hay espacio (clusters) para almacenar el archivo
+                        # Total clusters - 4 clusters (Reservados para el directorio)
+                        if  nClusters <= (SuperBloque['nClustersCom'] - SuperBloque['nClustersDir']):
+                            f = open(filename,"rb")
+                            destino = SuperBloque['tamanio'] * 5
+                            self.DIMap[destino: destino + fileSize] = f.read()
+                            self.registrar(archivo,5)
+                            f.close()
+                        else:
+                            cprint(f'Error: El archivo \'{filename}\' es demasiado GRANDE. Intenta con un archivo mas pequeño :).','white','on_red')
+                    
                 else:
                     cprint(f'Error: El archivo \'{filename}\' ya se encuentra en FiUnamFs, por favor cambia el nombre del archivo.','white','on_red')
             else:
@@ -144,7 +235,7 @@ def defragmentar():
     pass    
 
 def sistemaArchivos(DIMap):
-    helpComandos = {'Comando':['ls','export [nombreArchivo] [rutaLocal]','import [nombreArchivo]','del [nombreArchivo]','exit'],'Descripción':['Listar contenidos del directorio FiUnamFs','Copia el archivo ([nombreArchivo]) de FiUnamFs a la ruta ([rutaLocal]) de tu sistema','Copia el archivo ([nombreArchivo]) de tu sistema a FiUnamFs','Elimina el archivo ([nombreArchivo]) de FiUnamFs','Salir del programa.']}
+    helpComandos = {'Comando':['ls [parametroOpcional]','export [nombreArchivo] [rutaLocal]','import [nombreArchivo]','del [nombreArchivo]','superinfo','exit'],'Descripción':['Listar contenidos del directorio FiUnamFs. El parametro \'-comp\' muestra el listado de archivos incluyendo direcciones vacias.','Copia el archivo ([nombreArchivo]) de FiUnamFs a la ruta ([rutaLocal]) de tu sistema','Copia el archivo ([nombreArchivo]) de tu sistema a FiUnamFs','Elimina el archivo ([nombreArchivo]) de FiUnamFs','Muestra la información almacenada en el superbloque del cluster 0.','Salir del programa.']}
     salir = False
     while not salir:
         entry = input(">>>  ")
@@ -157,9 +248,16 @@ def sistemaArchivos(DIMap):
         # ls -> Listar contenidos del directorio FiUnamFs
         elif param[0] == 'ls':
             try:
-                archivos = ls(DIMap)
-                print(tabulate(archivos,headers="firstrow",tablefmt='github'))
-            except:
+                if len(param) == 1: 
+                    archivos = ls(DIMap)
+                    print(tabulate(archivos,headers="firstrow",tablefmt='github')+'\n')
+                elif param[1] == '-comp':
+                    archivos = ls(DIMap,param=param[1])
+                    print(tabulate(archivos,headers="firstrow",tablefmt='github')+'\n')
+                else:
+                    cprint(f'Error: El parametro \'{param[1]}\' ingresado es incorrecto.\nEscribe \'help\' para ver los comandos y parametros disponibles.','white','on_red')
+            except Exception as e:
+                # print(e)
                 cprint('Lo siento, sucedio un error al listar los archivos, vuelve a intentarlo y si el error persiste por favor reportalo a: chris@chrisley.dev','white','on_red')
 
         # Copiar archivo de FiUnamFs a tu sistema
@@ -177,13 +275,21 @@ def sistemaArchivos(DIMap):
         # Copiar archivo de tu sistema a FiUnamFs
         elif param[0] == 'import':
             pass
+
+        elif param[0] == 'superinfo':
+            print('Nombre del sistema de archivos: {}'.format(SuperBloque['nombre']))
+            print('Version del sistema de archivos: {}'.format(SuperBloque['version'] ))
+            print('Etiqueta del volumen: {}'.format(SuperBloque['volumen']))
+            print('Tamaño del cluster: {} bytes'.format(SuperBloque['tamanio']))
+            print('Número de clusters que mide el directorio: {}'.format(SuperBloque['nClustersDir']))
+            print('Número de clusters que mide la unidad completa: {}\n'.format(SuperBloque['nClustersCom']))
         
         # Eliminar archivo de FiUnamFs
         elif param[0] == 'del':
             pass
         
         elif param[0] == 'help':
-            print(tabulate(helpComandos,headers='keys'))
+            print(tabulate(helpComandos,headers='keys')+'\n')
 
         elif param[0] == 'exit':
             salir = True
