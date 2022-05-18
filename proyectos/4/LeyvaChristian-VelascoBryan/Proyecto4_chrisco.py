@@ -38,6 +38,7 @@ from termcolor import cprint
 entVacia= '...............' # Entrada de directorio no utilizada
 nSistemaArch = 'FiUnamFS'
 versionSistArch = '1.1'
+SuperBloque = {}
 
 # Ahora si, comienza la diversion -----------------------------------------------------------
 
@@ -48,15 +49,12 @@ def abrirImagen(filename):
 
 # Mediante las especificaciones otorgadas por el docente, se obtiene la info del superbloque
 def obtenerInfoSuperBloque(DIMap):
-    SuperBloque = {}
     SuperBloque['nombre'] = DIMap[0:8].decode('utf-8')
     SuperBloque['version'] = DIMap[10:13].decode('utf-8').strip()
     SuperBloque['volumen'] = DIMap[20:35].decode('utf-8')
-    SuperBloque['tamanio'] = DIMap[40:45].decode('utf-8')
+    SuperBloque['tamanio'] = int(DIMap[40:45].decode('utf-8'))
     SuperBloque['nClustersDir'] = DIMap[47:49].decode('utf-8')
     SuperBloque['nClustersCom'] = DIMap[52:60].decode('utf-8')
-
-    return SuperBloque
 
 def getFecha(fecha):
     fechaObj = datetime.strptime(fecha,'%Y%m%d%H%M%S')
@@ -64,7 +62,7 @@ def getFecha(fecha):
 
     return fechaFormat
 
-def getArchivo(FileMap):
+def getArchivo(FileMap,cont):
     archivo ={}
     archivo['nombre'] = FileMap[0:15].decode('utf-8').rstrip('\x00')
     if archivo['nombre'] != entVacia and archivo['nombre']:
@@ -72,6 +70,7 @@ def getArchivo(FileMap):
         archivo['clusterInicial'] = int(FileMap[25:30].decode('utf-8'))
         archivo['fechaCreacion'] = getFecha(FileMap[31:45].decode('utf-8'))
         archivo['fechaModificacion'] = getFecha(FileMap[46:60].decode('utf-8'))
+        archivo['nDireccion'] = cont
     else:
         archivo = None
     return archivo
@@ -89,13 +88,14 @@ def ls(DIMap):
     temp['clusterInicial'] = 'Cluster inicial'
     temp['fechaCreacion'] = 'Fecha de creación'
     temp['fechaModificacion'] = 'Fecha de modificación'
+    temp['nDireccion'] = 'Bandera dirección de memoria'
     archivos.append(temp)
 
     for i in range(0,64):
         desde = 1024 + i * 64
         hasta = desde + 64
         
-        archivoLeido = getArchivo(DIMap[desde:hasta])
+        archivoLeido = getArchivo(DIMap[desde:hasta],i)
         if not archivoLeido is None:
             archivos.append(archivoLeido)
 
@@ -110,7 +110,7 @@ def copy_export(DIMap,filename:str,ruta:str):
         if i['nombre'].strip() == filename:
             if os.path.exists(ruta):
                 with open(f"{ruta}/{filename}", "a+b") as export:
-                    desde = 1024 + 1024 * i['clusterInicial']
+                    desde = SuperBloque['tamanio'] * i['clusterInicial']
                     hasta = desde + i['tamanio']
                     export.write(DIMap[desde:hasta])
             else:
@@ -121,7 +121,7 @@ def copy_export(DIMap,filename:str,ruta:str):
 
 def copy_import():
     pass
-def rm():
+def rm(DIMap,filename:str):
     pass
 def defragmentar():
     pass    
@@ -131,7 +131,7 @@ def sistemaArchivos(DIMap):
     salir = False
     while not salir:
         entry = input(">>>  ")
-        param = entry.lower().split()
+        param = entry.split()
         # Se verifica el tipo de operacion que se desea hacer:
         
         if len(param) == 0:
@@ -180,7 +180,7 @@ def main():
     except:
         cprint('Error: El archivo no se puede abrir. Verifica que su nombre sea \'fiunamfs.img\' y que se encuentre en el directorio','white','on_red')
 
-    SuperBloque = obtenerInfoSuperBloque(DIMap)
+    obtenerInfoSuperBloque(DIMap)
     # Se verifica que el sistema de archivos sea FiUnamFS para proceder.
     if SuperBloque['nombre'] == nSistemaArch:
         if SuperBloque['version'] == versionSistArch:
