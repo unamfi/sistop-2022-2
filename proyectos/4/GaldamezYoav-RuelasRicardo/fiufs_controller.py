@@ -86,13 +86,20 @@ def crear_super_bloque():
 def mostrar_directorio(info_sistema):
 	tam_entrada = 64 #Tamaño de cada entrada del directorio
 	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
+	
+	#Variables para el formateo de la salida
+	f_nombre = "{:<18}"
+	f_tamanio = "{:<12}"
+	f_cluster = "{:<11}"
+	f_creacion = "{:<20}"
+	f_modificacion = "{:<20}"
 
 	#Formateamos el encabezado del listado
-	print("{:<20}".format("Nombre"),end='')
-	print("{:<20}".format("Tamaño"),end='')
-	print("{:<10}".format("Cluster"),end='')
-	print("{:<20}".format("Creación:"),end='')
-	print("{:<20}".format("Última modificación:"))
+	print(f_nombre.format("Nombre"),end='')
+	print(f_tamanio.format("Tamaño"),end='')
+	print(f_cluster.format("Cluster"),end='')
+	print(f_creacion.format("Creación:"),end='')
+	print(f_modificacion.format("Última modificación:"))
 
 	#Mostramos las entradas en los 4 diferentes clusters
 	for i in range(4):
@@ -104,29 +111,29 @@ def mostrar_directorio(info_sistema):
 
 		for i in range(num_entradas_cluster):
 			nombre = sistema.read(15)
-			sistema.read(1)
+			sistema.read(1) #Movemos el cursor del espacio vacio
 			
 			tamanio = sistema.read(24-16)
-			sistema.read(1)
+			sistema.read(1) #Movemos el cursor del espacio vacio
 			
 			num_cluster = sistema.read(30-25)
-			sistema.read(1)
+			sistema.read(1) #Movemos el cursor del espacio vacio
 
 			creacion = sistema.read(45-31)
-			sistema.read(1)
+			sistema.read(1) #Movemos el cursor del espacio vacio
 
 			modificacion = sistema.read(60-46)
-			sistema.read(65-61)
+			sistema.read(65-61) #Movemos el cursor del espacio vacio
 
 			#Si el nombre corresponde con una entrada no utilizada pasamos a la siguiente
 			if(nombre == "..............."):
 				continue
 
-			print("{:<20}".format(nombre),end='')
-			print("{:<20}".format(tamanio),end='')
-			print("{:<10}".format(num_cluster),end='')
-			print("{:<20}".format(creacion),end='')
-			print("{:<20}".format(modificacion))
+			print(f_nombre.format(nombre),end='')
+			print(f_tamanio.format(tamanio),end='')
+			print(f_cluster.format(num_cluster),end='')
+			print(f_creacion.format(creacion),end='')
+			print(f_modificacion.format(modificacion))
 
 
 		
