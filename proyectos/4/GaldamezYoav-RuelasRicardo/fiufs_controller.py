@@ -1,6 +1,6 @@
 #Se inicia la conexión (lectura de la imagen) con el sistema de archivos
 try:
-	sistema = open('fiunamfs.img') #Importante especificar y trabajar con codififación ASCII
+	sistema = open('fiunamfs.img','r+b')
 #Si el archivo no se encuentra, se le indica al usuario
 except FileNotFoundError:
 	print("\n¡Algo salio mal!\n")
@@ -39,11 +39,13 @@ class Entrada:
 	def __init__(self,
 				nombre,
 				tamanio,
+				tamanio_pref,
 				cluster,
 				creacion,
 				modificacion):
 		self.nombre = nombre
 		self.tamanio = tamanio
+		self.tamanio_pref = tamanio_pref
 		self.cluster = cluster
 		self.creacion = creacion
 		self.modificacion = modificacion
@@ -57,7 +59,7 @@ def generar_super_bloque():
 
 	#Leemos el nombre del sistema de archivos en las posiciones 0-8 de la imagen
 	sistema.seek(0)
-	nombre = sistema.read(8)
+	nombre = sistema.read(8).decode(codif)
 
 	if (nombre != "FiUnamFS"):
 		raise Exception(
@@ -68,23 +70,23 @@ def generar_super_bloque():
 
 	#Leemos la versión de implementación en las posiciones 10-13
 	sistema.seek(10)
-	version = sistema.read(3)
+	version = sistema.read(3).decode(codif)
 
 	#Leemos la etiqueta del volumen en las posiciones 20-35
 	sistema.seek(20)
-	et_volumen = sistema.read(15)
+	et_volumen = sistema.read(15).decode(codif)
 
 	#Leemos el tamaño del cluster (en bytes) en las posiciones 40-45
 	sistema.seek(40)
-	tam_cluster = int(sistema.read(5))
+	tam_cluster = int(sistema.read(5).decode(codif))
 
 	#Leemos el número de clusters que mide el directorio en las posiciones 47-49
 	sistema.seek(47)
-	num_clusters_dir = int(sistema.read(2))
+	num_clusters_dir = int(sistema.read(2).decode(codif))
 
 	#Leemos el número de clusters que mide la unidad completa en las posiciones 52-60
 	sistema.seek(52)
-	num_clusters_uni = int(sistema.read(8))
+	num_clusters_uni = int(sistema.read(8).decode(codif))
 
 	
 
@@ -147,32 +149,33 @@ def generar_directorio(info_sistema, directorio, nombres_archivos):
 		sistema.seek(direccion_cluster)
 
 		for i in range(num_entradas_cluster):
-			nombre = sistema.read(15)
-			sistema.read(1) #Movemos el cursor del espacio vacio
+			nombre = sistema.read(15).decode(codif)
+			sistema.read(1).decode(codif) #Movemos el cursor del espacio vacio
 
 			#Si el nombre corresponde con una entrada no utilizada pasamos a la siguiente
 			if(nombre == "..............."):
-				sistema.read(48) #Movemos el cursor hasta la siguiente entrada
+				sistema.read(48).decode(codif) #Movemos el cursor hasta la siguiente entrada
 				continue
-			
-			nombres_archivos.add(nombre)
-			
-			tamanio = int(sistema.read(24-16))
-			sistema.read(1) #Movemos el cursor del espacio vacio
-			tamanio = formatear_tamanio(tamanio)
-			
-			cluster = int(sistema.read(30-25))
-			sistema.read(1) #Movemos el cursor del espacio vacio
 
-			creacion = sistema.read(45-31)
-			sistema.read(1) #Movemos el cursor del espacio vacio
+			nombre = nombre.replace(" ", "") #Eliminamos los espacios en blanco del nombre
+			nombres_archivos.add(nombre) #Almacenamos el nombre del archivo al conjunto de unicidad
+			
+			tamanio = int(sistema.read(24-16).decode(codif))
+			sistema.read(1).decode(codif) #Movemos el cursor del espacio vacio
+			tamanio_pref = formatear_tamanio(tamanio) #Obtenemos el tamaño con su prefijo
+			
+			cluster = int(sistema.read(30-25).decode(codif))
+			sistema.read(1).decode(codif) #Movemos el cursor del espacio vacio
+
+			creacion = sistema.read(45-31).decode(codif)
+			sistema.read(1).decode(codif) #Movemos el cursor del espacio vacio
 			creacion = formatear_fecha(creacion)
 
-			modificacion = sistema.read(60-46)
-			sistema.read(65-61) #Movemos el cursor del espacio vacio
+			modificacion = sistema.read(60-46).decode(codif)
+			sistema.read(65-61).decode(codif) #Movemos el cursor del espacio vacio
 			modificacion = formatear_fecha(modificacion)
 
-			entrada_aux = Entrada(nombre,tamanio,cluster,creacion,modificacion)
+			entrada_aux = Entrada(nombre,tamanio,tamanio_pref,cluster,creacion,modificacion)
 
 			directorio.append(entrada_aux)
 			
@@ -180,29 +183,60 @@ def generar_directorio(info_sistema, directorio, nombres_archivos):
 #Método que permite mostrar el contenido del directorio
 def mostrar_directorio(directorio):
 	#Variables para el formateo de la salida
-	f_nombre = "{:>16}"
+	f_nombre = "{:<16}"
 	f_tamanio = "{:<14}"
 	f_cluster = "{:<13}"
 	f_creacion = "{:<25}"
 	f_modificacion = "{:<24}"
 
 	#Formateamos el encabezado del listado
-	print(f_nombre.format("Nombre"),end='\t')
+	print(f_nombre.format("Nombre"),end='')
 	print(f_tamanio.format("Tamaño"),end='')
 	print(f_cluster.format("Cluster"),end='')
 	print(f_creacion.format("Creación:"),end='')
 	print(f_modificacion.format("Última modificación:"))
 
 	for entrada in directorio:
-		print(f_nombre.format(entrada.nombre),end='\t')
+		print(f_nombre.format(entrada.nombre),end='')
 		print(f_tamanio.format(entrada.tamanio),end='')
 		print(f_cluster.format(entrada.cluster),end='')
 		print(f_creacion.format(entrada.creacion),end='')
 		print(f_modificacion.format(entrada.modificacion))
 
 
+#Método que copia un archivo del sistema FiUnamFS al sistema host
+def copiar_externo(directorio, nombre_archivo, nombres_archivos, info_sistema):
+	if(nombre_archivo in nombres_archivos):
+		#Creamos el archivo destino en el sistema host
+		try:
+			destino = open(nombre_archivo,mode='w+b') #Importante especificar y trabajar con codififación ASCII
+		#Si surge algún error, se le indica al usuario
+		except IOError:
+			print("\n¡Algo salio mal!\n")
+			print("Error: El archivo no pudo ser copiado.")
+			print("-> Por favor, intentalo de nuevo.")
+
+		for entrada in directorio:
+			if(entrada.nombre == nombre_archivo):
+				cluster_archivo = entrada.cluster
+				tamanio_archivo = entrada.tamanio
+				break
+
+		direccion_archivo = info_sistema.tam_cluster * cluster_archivo
+		sistema.seek(direccion_archivo)
+		destino.write(sistema.read(tamanio_archivo))
+		destino.close()
+
+		print("\n->Se ha transferido correctamente el archivo.\n")
+
+	else:
+		print("\nError: El archivo no existe dentro de FiUnamFS.")
+
+
+codif = 'ASCII'
 directorio = [] #Lista de entradas que conforman el directorio de nuestro sistema de archivos
 nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
 info_sistema = generar_super_bloque() #Asignación de la información del sistema de archivos a partir del superbloque
 generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
 mostrar_directorio(directorio)
+copiar_externo(directorio,"README.org",nombres_archivos,info_sistema)
