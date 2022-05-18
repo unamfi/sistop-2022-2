@@ -6,6 +6,7 @@
 # Bibliotecas incluidas en el core de Python
 import os,sys,mmap
 from datetime import datetime
+from attr import has
 
 # Bibliotecas que requieren instalación vía pip
 from tabulate import tabulate
@@ -101,13 +102,19 @@ def ls(DIMap):
     return archivos
 
 # Copiar archivo de FiUnamFs a tu sistema
-def copy_export(DIMap,filename:str):
+def copy_export(DIMap,filename:str,ruta:str):
     archivos = ls(DIMap)
     # print(archivos)
     # Se busca que el archivo exista en el directorio
     for i in archivos:
         if i['nombre'].strip() == filename:
-            print(filename)
+            if os.path.exists(ruta):
+                with open(f"{ruta}/{filename}", "a+b") as export:
+                    desde = 1024 + 1024 * i['clusterInicial']
+                    hasta = desde + i['tamanio']
+                    export.write(DIMap[desde:hasta])
+            else:
+                cprint(f'Error: No se encontro la ruta: \'{ruta}\' en el sistema; Verifica que exista o este bien escrita.','white','on_red')
             return 
     
     cprint(f'Error: No se encontro el archivo \'{filename}\' en FiUnamFs.','white','on_red')
@@ -120,7 +127,7 @@ def defragmentar():
     pass    
 
 def sistemaArchivos(DIMap):
-    helpComandos = {'Comando':['ls','export [nombreArchivo]','import [nombreArchivo]','del [nombreArchivo]','exit'],'Descripción':['Listar contenidos del directorio FiUnamFs','Copia el archivo ([nombreArchivo]) de FiUnamFs a tu sistema','Copia el archivo ([nombreArchivo]) de tu sistema a FiUnamFs','Elimina el archivo ([nombreArchivo]) de FiUnamFs','Salir del programa.']}
+    helpComandos = {'Comando':['ls','export [nombreArchivo] [rutaLocal]','import [nombreArchivo]','del [nombreArchivo]','exit'],'Descripción':['Listar contenidos del directorio FiUnamFs','Copia el archivo ([nombreArchivo]) de FiUnamFs a la ruta ([rutaLocal]) de tu sistema','Copia el archivo ([nombreArchivo]) de tu sistema a FiUnamFs','Elimina el archivo ([nombreArchivo]) de FiUnamFs','Salir del programa.']}
     salir = False
     while not salir:
         entry = input(">>>  ")
@@ -141,10 +148,10 @@ def sistemaArchivos(DIMap):
         # Copiar archivo de FiUnamFs a tu sistema
         elif param[0] == 'export':
             try:
-                if len(param) > 1:
-                    copy_export(DIMap,param[1])
+                if len(param) > 2:
+                    copy_export(DIMap,param[1],param[2])
                 else:
-                    cprint('Error: Ingresa el nombre del archivo a exportar.\nEjemplo:\n\texport [nombreArchivo]','white','on_red')
+                    cprint('Error: Ingresa TODOS los parametros necesarios.\nEjemplo:\n\texport [nombreArchivo] [rutaLocal]','white','on_red')
             except:
                 cprint('Lo siento, sucedio un error al exportar el archivo, vuelve a intentarlo y si el error persiste por favor reportalo a: chris@chrisley.dev','white','on_red')
         
