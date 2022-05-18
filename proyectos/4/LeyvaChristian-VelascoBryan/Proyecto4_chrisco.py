@@ -4,7 +4,8 @@
 # Imports: -------------------------------------------------------------------------------
 
 # Bibliotecas incluidas en el core de Python
-import os,sys,mmap,time
+import os,sys,mmap
+from datetime import datetime
 
 # Bibliotecas que requieren instalación vía pip
 from tabulate import tabulate
@@ -56,46 +57,62 @@ def obtenerInfoSuperBloque(DIMap):
 
     return SuperBloque
 
-class Archivo:
-    def __init__(self,FileMap):
-        self.nombre = FileMap[0:15].decode('utf-8').rstrip('\x00')
-        self.tamanio = FileMap[16:24].decode('utf-8')
-        self.clusterIn = FileMap[25:30].decode('utf-8')
-        self.fechaCreacion = FileMap[31:45].decode('utf-8')
-        self.fechaModificacion = FileMap[46:60].decode('utf-8')
+def getFecha(fecha):
+    fechaObj = datetime.strptime(fecha,'%Y%m%d%H%M%S')
+    fechaFormat = fechaObj.strftime('%c')
+
+    return fechaFormat
+
+def getArchivo(FileMap):
+    archivo ={}
+    archivo['nombre'] = FileMap[0:15].decode('utf-8').rstrip('\x00')
+    if archivo['nombre'] != entVacia and archivo['nombre']:
+        archivo['tamanio'] = int(FileMap[16:24].decode('utf-8'))
+        archivo['clusterInicial'] = int(FileMap[25:30].decode('utf-8'))
+        archivo['fechaCreacion'] = getFecha(FileMap[31:45].decode('utf-8'))
+        archivo['fechaModificacion'] = getFecha(FileMap[46:60].decode('utf-8'))
+    else:
+        archivo = None
+    return archivo
 
 # Funcion para listar los archivos en la imagen de disco
 def ls(DIMap):
     # Recordando que el tamaño de cada cluster es 1024 bytes
     # Y que el directorio se encuentra entre el Cluster 1-4, se debe empezar a buscar desde 1024 hasta 4096 
     #  Por tanto considerando las entradas de 64 bytes...
-    archivos =[]
-    tablaArchivos = {}
-    tablaArchivos['nombre'] = []
-    tablaArchivos['tamaño'] = []
-    tablaArchivos['clusterInicial'] = []
-    tablaArchivos['fechaCreacion'] = []
-    tablaArchivos['fechaModificacion'] = []
+    # Se inicializa el diccionario con los titulos de las columnas para ser mostradas mas adelante en consola
+    archivos = []
+    temp={}
+    temp['nombre'] = 'Nombre del archivo'
+    temp['tamanio'] = 'Tamaño del archivo'
+    temp['clusterInicial'] = 'Cluster inicial'
+    temp['fechaCreacion'] = 'Fecha de creación'
+    temp['fechaModificacion'] = 'Fecha de modificación'
+    archivos.append(temp)
 
     for i in range(0,64):
         desde = 1024 + i * 64
         hasta = desde + 64
         
-        archivoLeido = Archivo(DIMap[desde:hasta])
-        if archivoLeido.nombre != entVacia and archivoLeido.nombre:
+        archivoLeido = getArchivo(DIMap[desde:hasta])
+        if not archivoLeido is None:
             archivos.append(archivoLeido)
-            tablaArchivos['nombre'].append(archivoLeido.nombre)
-            tablaArchivos['tamaño'].append(archivoLeido.tamanio)
-            tablaArchivos['clusterInicial'].append(archivoLeido.clusterIn)
-            tablaArchivos['fechaCreacion'].append(archivoLeido.fechaCreacion)
-            tablaArchivos['fechaModificacion'].append(archivoLeido.fechaModificacion)
-    # print(tablaArchivos)
-    print(tabulate(tablaArchivos,headers='keys',tablefmt='github'))
 
+    return archivos
 
-def copyLocal():
-    pass
-def copyExt():
+# Copiar archivo de FiUnamFs a tu sistema
+def copy_export(DIMap,filename:str):
+    archivos = ls(DIMap)
+    # print(archivos)
+    # Se busca que el archivo exista en el directorio
+    for i in archivos:
+        if i['nombre'].strip() == filename:
+            print(filename)
+            return 
+    
+    cprint(f'Error: No se encontro el archivo \'{filename}\' en FiUnamFs.','white','on_red')
+
+def copy_import():
     pass
 def rm():
     pass
@@ -115,11 +132,21 @@ def sistemaArchivos(DIMap):
 
         # ls -> Listar contenidos del directorio FiUnamFs
         elif param[0] == 'ls':
-            ls(DIMap)
+            try:
+                archivos = ls(DIMap)
+                print(tabulate(archivos,headers="firstrow",tablefmt='github'))
+            except:
+                cprint('Lo siento, sucedio un error al listar los archivos, vuelve a intentarlo y si el error persiste por favor reportalo a: chris@chrisley.dev','white','on_red')
 
         # Copiar archivo de FiUnamFs a tu sistema
         elif param[0] == 'export':
-            pass
+            try:
+                if len(param) > 1:
+                    copy_export(DIMap,param[1])
+                else:
+                    cprint('Error: Ingresa el nombre del archivo a exportar.\nEjemplo:\n\texport [nombreArchivo]','white','on_red')
+            except:
+                cprint('Lo siento, sucedio un error al exportar el archivo, vuelve a intentarlo y si el error persiste por favor reportalo a: chris@chrisley.dev','white','on_red')
         
         # Copiar archivo de tu sistema a FiUnamFs
         elif param[0] == 'import':
