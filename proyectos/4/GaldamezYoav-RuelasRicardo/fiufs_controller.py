@@ -1,6 +1,6 @@
 #Se inicia la conexión (lectura de la imagen) con el sistema de archivos
 try:
-	sistema = open('fiunamfs.img', encoding='ASCII') #Importante especificar y trabajar con codififación ASCII
+	sistema = open('fiunamfs.img') #Importante especificar y trabajar con codififación ASCII
 #Si el archivo no se encuentra, se le indica al usuario
 except FileNotFoundError:
 	print("\n¡Algo salio mal!\n")
@@ -54,23 +54,23 @@ def crear_super_bloque():
 
 	#Leemos la versión de implementación en las posiciones 10-13
 	sistema.seek(10)
-	version = sistema.read(4)
+	version = sistema.read(3)
 
 	#Leemos la etiqueta del volumen en las posiciones 20-35
 	sistema.seek(20)
-	et_volumen = sistema.read(16)
+	et_volumen = sistema.read(15)
 
 	#Leemos el tamaño del cluster (en bytes) en las posiciones 40-45
 	sistema.seek(40)
-	tam_cluster = sistema.read(6)
+	tam_cluster = int(sistema.read(5))
 
 	#Leemos el número de clusters que mide el directorio en las posiciones 47-49
 	sistema.seek(47)
-	num_clusters_dir = sistema.read(3)
+	num_clusters_dir = int(sistema.read(2))
 
 	#Leemos el número de clusters que mide la unidad completa en las posiciones 52-60
 	sistema.seek(52)
-	num_clusters_uni = sistema.read(9)
+	num_clusters_uni = int(sistema.read(8))
 
 	
 
@@ -84,16 +84,53 @@ def crear_super_bloque():
 
 #Método que permite mostrar el contenido del directorio
 def mostrar_directorio(info_sistema):
-	direccion_cluster_1 = info_sistema.tam_cluster;
-	direccion_cluster_2 = info_sistema.tam_cluster*2;
-	direccion_cluster_3 = info_sistema.tam_cluster*3;
-	direccion_cluster_4 = info_sistema.tam_cluster*4;
+	tam_entrada = 64 #Tamaño de cada entrada del directorio
+	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
+
+	#Formateamos el encabezado del listado
+	print("{:<20}".format("Nombre"),end='')
+	print("{:<20}".format("Tamaño"),end='')
+	print("{:<10}".format("Cluster"),end='')
+	print("{:<20}".format("Creación:"),end='')
+	print("{:<20}".format("Última modificación:"))
+
+	#Mostramos las entradas en los 4 diferentes clusters
+	for i in range(4):
+		#Obtenemos la dirección de cada cluster a partir de su tamaño y número
+		direccion_cluster = info_sistema.tam_cluster*(i+1)
+
+		#Dirijimos el cursor hacia la direccion previamente obtenida
+		sistema.seek(direccion_cluster)
+
+		for i in range(num_entradas_cluster):
+			nombre = sistema.read(15)
+			sistema.read(1)
+			
+			tamanio = sistema.read(24-16)
+			sistema.read(1)
+			
+			num_cluster = sistema.read(30-25)
+			sistema.read(1)
+
+			creacion = sistema.read(45-31)
+			sistema.read(1)
+
+			modificacion = sistema.read(60-46)
+			sistema.read(65-61)
+
+			#Si el nombre corresponde con una entrada no utilizada pasamos a la siguiente
+			if(nombre == "..............."):
+				continue
+
+			print("{:<20}".format(nombre),end='')
+			print("{:<20}".format(tamanio),end='')
+			print("{:<10}".format(num_cluster),end='')
+			print("{:<20}".format(creacion),end='')
+			print("{:<20}".format(modificacion))
 
 
+		
 
 info_sistema = crear_super_bloque()
-
-
-
-print(info_sistema.tam_cluster)
+mostrar_directorio(info_sistema)
 
