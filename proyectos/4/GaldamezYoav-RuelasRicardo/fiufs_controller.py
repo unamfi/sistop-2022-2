@@ -273,17 +273,6 @@ def copiar_interno(ruta, directorio, nombres_archivos, info_sistema):
 
 
 
-	
-
-#Método que transforma el tiempo epoch en fechas con formato
-def epoch_en_fecha(tiempo_epoch):
-	marca_tiempo = datetime.datetime.fromtimestamp(tiempo_epoch)
-
-	fecha_formateada = marca_tiempo.strftime("%d/%m/%Y %H:%M:%S")
-
-	return fecha_formateada
-
-
 codif = 'ASCII' #La decodificación que se empleará en el sistema sera ASCII
 directorio = [] #Lista de entradas que conforman el directorio de nuestro sistema de archivos
 nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
