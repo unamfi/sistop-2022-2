@@ -42,16 +42,15 @@ versionSistArch = '1.1'
 SuperBloque = {}
 diskImg = None
 DIMap = None
-imgFilename = 'fiunamfs.img'
+imgFilename = 'copiaSistemaArchivos.img'
 
 # Ahora si, comienza la diversion -----------------------------------------------------------
 
-# Ya no se hara copia
-# def verificaCopia():
-#     OriginalimgFilename = './fiunamfs.img'
-#     if not os.path.exists(imgFilename):
-#         shutil.copy(OriginalimgFilename,'./'+imgFilename)
-#         cprint('Se creo una copia de \'fiunamfs.img\' exitosamente.','blue','on_green')
+def verificaCopia():
+    OriginalimgFilename = './fiunamfs.img'
+    if not os.path.exists(imgFilename):
+        shutil.copy(OriginalimgFilename,'./'+imgFilename)
+        cprint('Se creo una copia de \'fiunamfs.img\' exitosamente.','blue','on_green')
 
 # Mediante las especificaciones otorgadas por el docente, se obtiene la info del superbloque
 def obtenerInfoSuperBloque():
@@ -187,11 +186,11 @@ def copyFileInto(maxClusterFile,filename,fileSize,nClusters,contLast):
             # Se escriben las metatags
             fechaActual = datetime.now()
             # Nombre archivo
-            DIMap[desde + 0:desde + 15] = filename.encode('ASCII')
+            DIMap[desde + 0:desde + 15] = filename.rjust(15).encode('ASCII')
             # Tamaño archivo
-            DIMap[desde + 16:desde + 24]= fileSize.encode('ASCII')
+            DIMap[desde + 16:desde + 24]= str(fileSize).zfill(8).encode('ASCII')
             # Cluster inicial
-            DIMap[desde + 25:desde + 30] = initialCluster.encode('ASCII')
+            DIMap[desde + 25:desde + 30] = str(initialCluster).zfill(5).encode('ASCII')
             # Fecha Creacion
             DIMap[desde + 31:desde + 45] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
             # Fecha modificacion
@@ -199,7 +198,7 @@ def copyFileInto(maxClusterFile,filename,fileSize,nClusters,contLast):
             
             # Se escribe el archivo
             with open(filename,'rb') as file:
-                DIMap[initialCluster:finalCluster] = file.read()
+                DIMap[initialCluster:finalCluster] = file.read().encode('ASCII')
             return
 
 # Copiar archivo de tu sistema a FiUnamFs
@@ -319,26 +318,26 @@ def sistemaArchivos():
 def main():
     try:
         # El programa trabajara con una copia de fiunamfs.img para asi los cambios no afecten al original y si se quiere regresar al punto anterior se pueda hacer de facil manera:
+
         # Primero se verifica que este exista, en caso contrario se crea la copia:
-        # verificaCopia()
-        # Se cancela porque no alcanzo el tiempo ☹️ 
+        verificaCopia()
 
         # Ahora se abre la copia y mapea la imagen de memoria
-        with open(imgFilename,'r+b') as diskImg:# Se abre la imagen de disco con ACCESS_READ (Debido a que NO se va a modificar el archivo original... Ver mas de esto en la documentación): 
+        with open(imgFilename,'a+b') as diskImg:# Se abre la imagen de disco con ACCESS_WRITE
             global DIMap
-            DIMap = mmap.mmap(diskImg.fileno(),0,access=mmap.ACCESS_COPY)
+            DIMap = mmap.mmap(diskImg.fileno(),0,access=mmap.ACCESS_WRITE)
+            obtenerInfoSuperBloque()
+            # Se verifica que el sistema de archivos sea FiUnamFS para proceder.
+            if SuperBloque['nombre'] == nSistemaArch:
+                if SuperBloque['version'] == versionSistArch:
+                    sistemaArchivos()
+                else:
+                    cprint('Error: La versión del sistema de archivos no es la 1.1','white','on_red')
+            else:
+                cprint('Error: El sistema de archivos no es: FiUnamFS','white','on_red')
     except:
         cprint('Error: El archivo no se puede abrir. Verifica que su nombre sea \'fiunamfs.img\' y que se encuentre en el directorio','white','on_red')
         return
 
-    obtenerInfoSuperBloque()
-    # Se verifica que el sistema de archivos sea FiUnamFS para proceder.
-    if SuperBloque['nombre'] == nSistemaArch:
-        if SuperBloque['version'] == versionSistArch:
-            sistemaArchivos()
-        else:
-            cprint('Error: La versión del sistema de archivos no es la 1.1','white','on_red')
-    else:
-        cprint('Error: El sistema de archivos no es: FiUnamFS','white','on_red')
     
 main()
