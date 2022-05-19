@@ -1,3 +1,6 @@
+import os
+import datetime
+
 #Se inicia la conexión (lectura de la imagen) con el sistema de archivos
 try:
 	sistema = open('fiunamfs.img','r+b')
@@ -102,7 +105,7 @@ def generar_super_bloque():
 def formatear_tamanio(tamanio):
 	#Definimos una lista que a partir de un contador, nos dará la
     #unidad de medida de la memoria
-    unidades = ['KB','MB','GB','TB','PB','EB','ZB','YB','BB']
+    unidades = ['B','KB','MB','GB','TB','PB','EB','ZB','YB','BB']
 
     #Inicializamos el contador para no tener problemas de integridad
     contUnidad = 0
@@ -198,7 +201,7 @@ def mostrar_directorio(directorio):
 
 	for entrada in directorio:
 		print(f_nombre.format(entrada.nombre),end='')
-		print(f_tamanio.format(entrada.tamanio),end='')
+		print(f_tamanio.format(entrada.tamanio_pref),end='')
 		print(f_cluster.format(entrada.cluster),end='')
 		print(f_creacion.format(entrada.creacion),end='')
 		print(f_modificacion.format(entrada.modificacion))
@@ -233,10 +236,49 @@ def copiar_externo(directorio, nombre_archivo, nombres_archivos, info_sistema):
 		print("\nError: El archivo no existe dentro de FiUnamFS.")
 
 
-codif = 'ASCII'
+#Método que copia un archivo del sistema host al sistema FiUnamFS
+def copiar_interno(ruta, directorio, nombres_archivos, info_sistema):
+	nombre_archivo = os.path.basename(ruta)
+
+	#Verificamos las posibles excepciones en el nombre del archivo
+	if(nombre_archivo in nombres_archivos):
+		print("\nError: El nombre del archivo ya existe en el sistema de archivos.")
+		print("-> Por favor, modifica el nombre e intentalo de nuevo.")
+		return "ERROR"
+	elif(len(nombre_archivo) > 15):
+		print("\nError: El nombre del archivo supera el límite del sistema de archivos (15 caracteres).")
+		print("-> Por favor, modifica el nombre e intentalo de nuevo.")
+		return "ERROR"
+
+	tamanio_archivo = os.path.getsize(ruta)
+	creacion_archivo_epoch = os.path.getctime(ruta)
+	modificacion_archivo_epoch = os.path.getmtime(ruta)
+
+	tamanio_archivo_form = formatear_tamanio(tamanio_archivo)
+
+	print(tamanio_archivo_form)
+
+
+	
+
+#Método que transforma el tiempo epoch en fechas con formato
+def epoch_en_fecha(tiempo_epoch):
+	datetime = time.gmtime(tiempo_epoch)
+
+	marca_tiempo = datetime.datetime.fromtimestamp(tiempo_epoch)
+
+	fecha_formateada = marca_tiempo.strftime("%d/%m/%y %H:%M:%S")
+
+	return fecha_formateada
+
+
+codif = 'ASCII' #La decodificación que se empleará en el sistema sera ASCII
 directorio = [] #Lista de entradas que conforman el directorio de nuestro sistema de archivos
 nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
 info_sistema = generar_super_bloque() #Asignación de la información del sistema de archivos a partir del superbloque
 generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
+
 mostrar_directorio(directorio)
-copiar_externo(directorio,"README.org",nombres_archivos,info_sistema)
+
+#copiar_externo(directorio,"README.org",nombres_archivos,info_sistema)
+copiar_interno('.gitignore', directorio, nombres_archivos, info_sistema)
