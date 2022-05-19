@@ -112,6 +112,16 @@
     representar y manipular a cada uno de los registros.
 - Calificación :: 10
 
+** Axel Escalona
+- Documentación :: [[./EscalonaAxel/readme.odt][readme.odt]]
+- Archivos :: [[./EscalonaAxel/pmap.py][pmap.py]]
+- Comentarios ::
+  - Documentación telegráfica. Gramática pendiente. ¿Documenta algo?
+  - La implementación es sencilla y buena. Le faltaría pulirse un
+    poquito, pero el que hayas usado la biblioteca Columnar es un buen
+    punto a favor.
+- Calificación :: 7.5
+
 ** Yoav Galdamez, Ricardo Ruelas
 - Documentación :: [[./GaldamezYoav-RuelasRicardo/Documentacion.pdf][Documentacion.pdf]]
 - Archivos :: [[./GaldamezYoav-RuelasRicardo/memorymap.py][memorymap.py]]
