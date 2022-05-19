@@ -4,7 +4,7 @@
 # Imports: -------------------------------------------------------------------------------
 
 # Bibliotecas incluidas en el core de Python
-import os,sys,mmap
+import os,sys,mmap,traceback
 from datetime import datetime
 import shutil
 
@@ -42,15 +42,16 @@ versionSistArch = '1.1'
 SuperBloque = {}
 diskImg = None
 DIMap = None
-imgFilename = 'copiaSistemaArchivos.img'
+imgFilename = 'fiunamfs.img'
 
 # Ahora si, comienza la diversion -----------------------------------------------------------
 
-def verificaCopia():
-    OriginalimgFilename = './fiunamfs.img'
-    if not os.path.exists(imgFilename):
-        shutil.copy(OriginalimgFilename,'./'+imgFilename)
-        cprint('Se creo una copia de \'fiunamfs.img\' exitosamente.','blue','on_green')
+# Ya no se hara copia
+# def verificaCopia():
+#     OriginalimgFilename = './fiunamfs.img'
+#     if not os.path.exists(imgFilename):
+#         shutil.copy(OriginalimgFilename,'./'+imgFilename)
+#         cprint('Se creo una copia de \'fiunamfs.img\' exitosamente.','blue','on_green')
 
 # Mediante las especificaciones otorgadas por el docente, se obtiene la info del superbloque
 def obtenerInfoSuperBloque():
@@ -161,9 +162,10 @@ def getMaxInitCluster(archivos):
     maxInitCluster = 0
     if len(archivos) > 0:
         for archivo in archivos:
-            if archivo['clusterInicial'] > maxInitCluster:
-                maxInitCluster = archivo['clusterInicial']
-                maxClusterFile = archivo
+            if not archivo['cont'] == 'n':
+                if archivo['clusterInicial'] > maxInitCluster:
+                    maxInitCluster = archivo['clusterInicial']
+                    maxClusterFile = archivo
 
     return maxClusterFile
 
@@ -173,6 +175,7 @@ def copyFileInto(maxClusterFile,filename,fileSize,nClusters,contLast):
     # clusterinicial + clustersNecesarios 
     initialCluster = maxClusterFile['clusterInicial'] +  int(maxClusterFile['tamanio'] / SuperBloque['tamanio'] )
     finalCluster = initialCluster +  nClusters
+    global DIMap
     
     for i in range(contLast + 1,64):
         desde = SuperBloque['tamanio'] + i * 64
@@ -184,20 +187,19 @@ def copyFileInto(maxClusterFile,filename,fileSize,nClusters,contLast):
             # Se escriben las metatags
             fechaActual = datetime.now()
             # Nombre archivo
-            DIMap[0:15] = filename.encode('ASCII')
+            DIMap[desde + 0:desde + 15] = filename.encode('ASCII')
             # Tamaño archivo
-            DIMap[16:24]= fileSize.encode('ASCII')
+            DIMap[desde + 16:desde + 24]= fileSize.encode('ASCII')
             # Cluster inicial
-            DIMap[25:30] = initialCluster.encode('ASCII')
+            DIMap[desde + 25:desde + 30] = initialCluster.encode('ASCII')
             # Fecha Creacion
-            DIMap[31:45] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
+            DIMap[desde + 31:desde + 45] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
             # Fecha modificacion
-            DIMap[46:60] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
+            DIMap[desde + 46:desde + 60] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
             
             # Se escribe el archivo
             with open(filename,'rb') as file:
                 DIMap[initialCluster:finalCluster] = file.read()
-            guardarCambios()
             return
 
 # Copiar archivo de tu sistema a FiUnamFs
@@ -290,8 +292,8 @@ def sistemaArchivos():
                     copy_import(param[1])
                 else:
                     cprint('Error: Ingresa TODOS los parametros necesarios.\nEjemplo:\n\import [rutaArchivo]','white','on_red')
-            except Exception as e:
-                print(e)
+            except Exception:
+                print(traceback.format_exc())
                 cprint('Lo siento, sucedio un error al importar el archivo, vuelve a intentarlo y si el error persiste por favor reportalo a: chris@chrisley.dev','white','on_red')
 
         elif param[0] == 'superinfo':
@@ -318,22 +320,25 @@ def main():
     try:
         # El programa trabajara con una copia de fiunamfs.img para asi los cambios no afecten al original y si se quiere regresar al punto anterior se pueda hacer de facil manera:
         # Primero se verifica que este exista, en caso contrario se crea la copia:
-        verificaCopia()
+        # verificaCopia()
+        # Se cancela porque no alcanzo el tiempo ☹️ 
+
         # Ahora se abre la copia y mapea la imagen de memoria
-        with open(imgFilename,'r+b') as diskImg:# Se abre la imagen de disco con ACCESS_WRITE: 
+        with open(imgFilename,'r+b') as diskImg:# Se abre la imagen de disco con ACCESS_READ (Debido a que NO se va a modificar el archivo original... Ver mas de esto en la documentación): 
             global DIMap
-            DIMap = mmap.mmap(diskImg.fileno(),0,access=mmap.ACCESS_WRITE)
-            obtenerInfoSuperBloque()
-            # Se verifica que el sistema de archivos sea FiUnamFS para proceder.
-            if SuperBloque['nombre'] == nSistemaArch:
-                if SuperBloque['version'] == versionSistArch:
-                    sistemaArchivos()
-                else:
-                    cprint('Error: La versión del sistema de archivos no es la 1.1','white','on_red')
-            else:
-                cprint('Error: El sistema de archivos no es: FiUnamFS','white','on_red')
+            DIMap = mmap.mmap(diskImg.fileno(),0,access=mmap.ACCESS_COPY)
     except:
         cprint('Error: El archivo no se puede abrir. Verifica que su nombre sea \'fiunamfs.img\' y que se encuentre en el directorio','white','on_red')
         return
 
+    obtenerInfoSuperBloque()
+    # Se verifica que el sistema de archivos sea FiUnamFS para proceder.
+    if SuperBloque['nombre'] == nSistemaArch:
+        if SuperBloque['version'] == versionSistArch:
+            sistemaArchivos()
+        else:
+            cprint('Error: La versión del sistema de archivos no es la 1.1','white','on_red')
+    else:
+        cprint('Error: El sistema de archivos no es: FiUnamFS','white','on_red')
+    
 main()
