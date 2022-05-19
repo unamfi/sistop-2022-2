@@ -221,6 +221,7 @@ def copiar_externo(directorio, nombre_archivo, nombres_archivos, info_sistema):
 			print("\n¡Algo salio mal!\n")
 			print("Error: El archivo no pudo ser copiado.")
 			print("-> Por favor, intentalo de nuevo.")
+			return "ERROR"
 
 		for entrada in directorio:
 			if(entrada.nombre == nombre_archivo):
@@ -270,8 +271,20 @@ def copiar_interno(ruta, directorio, nombres_archivos, info_sistema):
 	#Obtenemos el cluster inicial del archivo para sus datos
 	cluster_inicial = buscar_espacio_disponible(num_clusters_archivo,info_sistema)
 
+	#Verificamos si tenemos algún cluster inicial disponible
+	if(cluster_inicial == -1):
+		print("\nError: El sistema de archivos no tiene espacio suficiente.")
+		print("-> Por favor, libera espacio en el sistema e intentalo de nuevo.")
+		print("-> También podrías desfragmentar e intentarlo de nuevo.")
+		return "ERROR"
+
 	#Obtenemos el indice del directorio que esta disponible
 	indice_directorio = buscar_entrada_disponible(directorio)
+
+	if(cluster_inicial == -1):
+		print("\nError: El directorio no tiene entradas disponibles.")
+		print("-> Por favor, libera espacio en el sistema e intentalo de nuevo.")
+		return "ERROR"
 
 	#Dirijimos el cursor hacia la parte del sistema que corresponde al índice obtenido
 	sistema.seek(1*info_sistema.tam_cluster + 64*indice_directorio)
@@ -288,6 +301,23 @@ def copiar_interno(ruta, directorio, nombres_archivos, info_sistema):
 	sistema.write(modificacion_archivo)
 	sistema.write(b'\x00')
 
+	#Escribimos los datos del archivo
+	#Se inicia la conexión (lectura de la imagen) con el sistema de archivos
+	try:
+		archivo_nuevo = open(ruta,'rb')
+	#Si el archivo no se encuentra, se le indica al usuario
+	except IOError:
+		print("\n¡Algo salio mal!\n")
+		print("Error: El archivo no pudo ser copiado.")
+		print("-> Por favor, intentalo de nuevo.")
+		return "ERROR"
+
+	sistema.seek(info_sistema.tam_cluster*cluster_inicial)
+	sistema.write(archivo_nuevo.read())
+	archivo_nuevo.close()
+
+	print("-> Se ha completado exitosamente la copia del archivo.")
+	generar_directorio()
 
 #Método que transforma el tiempo epoch en fechas con formato para el sistema
 def fecha_en_sistema(tiempo_epoch):
@@ -303,6 +333,8 @@ def generar_bitmap(bitmap, directorio):
 		#Numero de clusters que ocupa el archivo
 		num_clusters = int(math.ceil(entrada.tamanio / info_sistema.tam_cluster))
 		
+		#Empleamos el numero de clusters que ocupa el archivo para marcarlos como
+		#true en el bitmap y así considerarlos como no disponibles
 		for i in range(entrada.cluster,entrada.cluster+num_clusters):
 			bitmap[i] = True
 
@@ -366,12 +398,9 @@ directorio = [] #Lista de entradas que conforman el directorio de nuestro sistem
 nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
 info_sistema = generar_super_bloque() #Asignación de la información del sistema de archivos a partir del superbloque
 generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
-generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
 mostrar_directorio(directorio)
 bitmap = 5*[True] + (info_sistema.num_clusters_uni-5)*[False]
 generar_bitmap(bitmap, directorio)
 
-#copiar_externo(directorio,"README.org",nombres_archivos,info_sistema)
+#copiar_externo(directorio,".gitignore",nombres_archivos,info_sistema)
 copiar_interno('.gitignore', directorio, nombres_archivos, info_sistema)
-
-mostrar_directorio(directorio)
