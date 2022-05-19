@@ -270,7 +270,23 @@ def copiar_interno(ruta, directorio, nombres_archivos, info_sistema):
 	#Obtenemos el cluster inicial del archivo para sus datos
 	cluster_inicial = buscar_espacio_disponible(num_clusters_archivo,info_sistema)
 
+	#Obtenemos el indice del directorio que esta disponible
 	indice_directorio = buscar_entrada_disponible(directorio)
+
+	#Dirijimos el cursor hacia la parte del sistema que corresponde al índice obtenido
+	sistema.seek(1*info_sistema.tam_cluster + 64*indice_directorio)
+
+	#Escribimos los datos de la entrada en el directorio
+	sistema.write(nombre_archivo)
+	sistema.write(b'\x00')
+	sistema.write(tamanio_archivo_format)
+	sistema.write(b'\x00')
+	sistema.write(str(cluster_inicial).rjust(5,'0').encode('ASCII') )
+	sistema.write(b'\x00')
+	sistema.write(creacion_archivo)
+	sistema.write(b'\x00')
+	sistema.write(modificacion_archivo)
+	sistema.write(b'\x00')
 
 
 #Método que transforma el tiempo epoch en fechas con formato para el sistema
@@ -316,13 +332,32 @@ def buscar_espacio_disponible(num_clusters, info_sistema):
 
 #Método que busca una entrada disponible en el directorio del sistema
 def buscar_entrada_disponible(directorio):
-	contador = 0 
+	contador = 0
+	tam_entrada = 64
+	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
 
-	for entrada in directorio:
-		if(entrada.nombre == "..............."):
-			return contador
-		else:
-			contador += 1
+
+	#Mostramos las entradas en los 4 diferentes clusters
+	for i in range(4):
+		#Obtenemos la dirección de cada cluster a partir de su tamaño y número de cluster
+		direccion_cluster = info_sistema.tam_cluster*(i+1)
+
+		#Dirijimos el cursor hacia la direccion previamente obtenida
+		sistema.seek(direccion_cluster)
+
+		for i in range(num_entradas_cluster):
+			nombre = sistema.read(15).decode(codif)
+			sistema.read(1).decode(codif) #Movemos el cursor del espacio vacio
+
+			#Si el nombre corresponde con una entrada no utilizada devolvemos el indice
+			if(nombre == "..............."):
+				return contador
+			else:
+				contador += 1
+				sistema.read(48).decode(codif) #Movemos el cursor hasta la siguiente entrada
+
+
+	return -1
 
 
 
@@ -339,3 +374,4 @@ generar_bitmap(bitmap, directorio)
 #copiar_externo(directorio,"README.org",nombres_archivos,info_sistema)
 copiar_interno('.gitignore', directorio, nombres_archivos, info_sistema)
 
+mostrar_directorio(directorio)
