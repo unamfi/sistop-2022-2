@@ -199,6 +199,7 @@ def mostrar_directorio(directorio):
 	print(f_creacion.format("Creación:"),end='')
 	print(f_modificacion.format("Última modificación:"))
 
+	#Por cada entrada en el directorio, mostramos sus datos
 	for entrada in directorio:
 		print(f_nombre.format(entrada.nombre),end='')
 		print(f_tamanio.format(entrada.tamanio_pref),end='')
@@ -250,24 +251,35 @@ def copiar_interno(ruta, directorio, nombres_archivos, info_sistema):
 		print("-> Por favor, modifica el nombre e intentalo de nuevo.")
 		return "ERROR"
 
+	#Obtenemos los datos en crudo con llamadas al sistema
 	tamanio_archivo = os.path.getsize(ruta)
 	creacion_archivo_epoch = os.path.getctime(ruta)
 	modificacion_archivo_epoch = os.path.getmtime(ruta)
 
-	tamanio_archivo_form = formatear_tamanio(tamanio_archivo)
+	#Formateamos los datos obtenidos para que coincidan con el sistema
+	tamanio_archivo_pref = formatear_tamanio(tamanio_archivo)
+	creacion_archivo = epoch_en_fecha(creacion_archivo_epoch)
+	modificacion_archivo = epoch_en_fecha(modificacion_archivo_epoch)
 
-	print(tamanio_archivo_form)
+	#-------------------FALTA OBTENER CLUSTER INICIAL-------------------
+	#-------------------FALTA ABRIR UN ARCHIVO EN EL SISTEMA HOST Y ESCRIBIR LOS DATOS-------------------
+	#-------------------FALTA VERIFICAR ALMACENAMIENTO DISPONIBLE-------------------
+
+
+	print(nombre_archivo)
+	print(tamanio_archivo_pref)
+	print(creacion_archivo)
+	print(modificacion_archivo)
+
 
 
 	
 
 #Método que transforma el tiempo epoch en fechas con formato
 def epoch_en_fecha(tiempo_epoch):
-	datetime = time.gmtime(tiempo_epoch)
-
 	marca_tiempo = datetime.datetime.fromtimestamp(tiempo_epoch)
 
-	fecha_formateada = marca_tiempo.strftime("%d/%m/%y %H:%M:%S")
+	fecha_formateada = marca_tiempo.strftime("%d/%m/%Y %H:%M:%S")
 
 	return fecha_formateada
 
