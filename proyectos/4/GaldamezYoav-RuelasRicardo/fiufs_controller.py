@@ -451,18 +451,61 @@ def eliminar_archivo(nombre_archivo, directorio, info_sistema):
 	print("\nArchivo eliminado correctamente.\n")
 
 
+#Método que realiza la desfragmentación del sistema de archivos
+def desfragmentar(directorio, bitmap):
+	for entrada in directorio:
+		cursor_cluster = 5 #Variable que va almacenando el cluster que estamos analizando
+
+		cluster_inicial = entrada.cluster
+		num_clusters_archivo = int(math.ceil(entrada.tamanio/info_sistema.tam_cluster))
+		disponible = False
+
+		print(entrada.nombre)
+		while(cluster_inicial > cursor_cluster):
+			contador_disponibles = 0
+			for i in range(cursor_cluster,len(bitmap)):
+				if(bitmap[i] == False):
+					contador_disponibles += 1
+				else:
+					cursor_cluster = i + 1
+					break
+
+				if(contador_disponibles == num_clusters_archivo):
+					disponible = True
+					break
+				i += 1
+
+			if(disponible == True):
+				break
+
+		if(disponible == True):
+			sistema.seek(cluster_inicial)
+			datos = sistema.read(entrada.tamanio)
+			print(datos)
+			entrada.cluster_inicial = cursor_cluster
+
+#Método para actualizar los objetos que guardan información sobre el sistema de archivos
+def actualizar_info(info_sistema, directorio, nombres_archivos, bitmap):
+	generar_directorio(info_sistema, directorio, nombres_archivos) #Generación recurrente del directorio
+	generar_bitmap(bitmap, directorio)
+
 #VARIABLES GLOBALES
 codif = 'ASCII' #La decodificación que se empleará en el sistema sera ASCII
 directorio = [] #Lista de entradas que conforman el directorio de nuestro sistema de archivos
 nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
 info_sistema = generar_super_bloque() #Asignación de la información del sistema de archivos a partir del superbloque
 bitmap = 5*[True] + (info_sistema.num_clusters_uni-5)*[False]
-generar_bitmap(bitmap, directorio)
 
+#Una vez iniciado el programa se actualiza el directorio y el bitmap
+actualizar_info(info_sistema, directorio, nombres_archivos, bitmap) 
+
+mostrar_directorio(directorio)
+
+desfragmentar(directorio, bitmap)
 
 #AQUI SE CODIFICARA LA INTERFAZ DEL SISTEMA
 #while(True):
-#	generar_directorio(info_sistema, directorio, nombres_archivos) #Generación recurrente del directorio
+#	actualizar_info(info_sistema, directorio, nombres_archivos, bitmap) 
 #	if(opcion == 1):
 #		mostrar_directorio(directorio)		
 
