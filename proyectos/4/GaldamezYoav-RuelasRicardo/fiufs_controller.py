@@ -1,5 +1,6 @@
 import os
-import datetime
+import time
+import math
 
 #Se inicia la conexión (lectura de la imagen) con el sistema de archivos
 try:
@@ -256,20 +257,71 @@ def copiar_interno(ruta, directorio, nombres_archivos, info_sistema):
 	creacion_archivo_epoch = os.path.getctime(ruta)
 	modificacion_archivo_epoch = os.path.getmtime(ruta)
 
-	#Formateamos los datos obtenidos para que coincidan con el sistema
-	tamanio_archivo_pref = formatear_tamanio(tamanio_archivo)
-	creacion_archivo = epoch_en_fecha(creacion_archivo_epoch)
-	modificacion_archivo = epoch_en_fecha(modificacion_archivo_epoch)
+	#Formateamos las fechas obtenidas para que coincidan con el sistema
+	nombre_archivo = nombre_archivo.rjust(15, ' ').encode(codif)
+	tamanio_archivo_format = str(tamanio_archivo).rjust(8, '0').encode(codif)
+	creacion_archivo = fecha_en_sistema(creacion_archivo_epoch).encode(codif)
+	modificacion_archivo = fecha_en_sistema(modificacion_archivo_epoch).encode(codif)
+	
+	#Obtenemos el número de clusters que ocupara el archivo
+	num_clusters_archivo = int(math.ceil(tamanio_archivo/info_sistema.tam_cluster))
 
-	#-------------------FALTA OBTENER CLUSTER INICIAL-------------------
-	#-------------------FALTA ABRIR UN ARCHIVO EN EL SISTEMA HOST Y ESCRIBIR LOS DATOS-------------------
-	#-------------------FALTA VERIFICAR ALMACENAMIENTO DISPONIBLE-------------------
+	#Obtenemos el cluster inicial del archivo para sus datos
+	cluster_inicial = buscar_espacio_disponible(num_clusters_archivo,info_sistema)
+
+	indice_directorio = buscar_entrada_disponible(directorio)
 
 
-	print(nombre_archivo)
-	print(tamanio_archivo_pref)
-	print(creacion_archivo)
-	print(modificacion_archivo)
+#Método que transforma el tiempo epoch en fechas con formato para el sistema
+def fecha_en_sistema(tiempo_epoch):
+	fecha_sistema = time.strftime("%Y%m%d%H%M%S", time.localtime(tiempo_epoch))
+
+	return fecha_sistema
+
+
+#Método que genera un bitmap de los clusters disponibles en el sistema
+def generar_bitmap(bitmap, directorio):
+
+	for entrada in directorio:
+		#Numero de clusters que ocupa el archivo
+		num_clusters = int(math.ceil(entrada.tamanio / info_sistema.tam_cluster))
+		
+		for i in range(entrada.cluster,entrada.cluster+num_clusters):
+			bitmap[i] = True
+
+
+#Método que busca un bloque disponible en el sistema de archivos para los datos de una nueva entrada
+def buscar_espacio_disponible(num_clusters, info_sistema):
+
+	global bitmap 
+
+	cuentaCluster = 0
+	for i in range(len(bitmap)):
+		if(bitmap[i] == False):
+			#Cuenta el número de clusters disponibles contiguos encontrados
+			cuentaCluster += 1
+
+			if cuentaCluster == num_clusters:
+				cluster_inicial = i - num_clusters + 1
+
+				for j in range(cluster_inicial, cluster_inicial+num_clusters):
+					bitmap[j] = True
+				return cluster_inicial
+		else:
+			cuentaCluster = 0
+
+	return -1 
+
+
+#Método que busca una entrada disponible en el directorio del sistema
+def buscar_entrada_disponible(directorio):
+	contador = 0 
+
+	for entrada in directorio:
+		if(entrada.nombre == "..............."):
+			return contador
+		else:
+			contador += 1
 
 
 
@@ -278,8 +330,8 @@ directorio = [] #Lista de entradas que conforman el directorio de nuestro sistem
 nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
 info_sistema = generar_super_bloque() #Asignación de la información del sistema de archivos a partir del superbloque
 generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
-
-mostrar_directorio(directorio)
+bitmap = 5*[True] + (info_sistema.num_clusters_uni-5)*[False]
+generar_bitmap(bitmap, directorio)
 
 #copiar_externo(directorio,"README.org",nombres_archivos,info_sistema)
 copiar_interno('.gitignore', directorio, nombres_archivos, info_sistema)
