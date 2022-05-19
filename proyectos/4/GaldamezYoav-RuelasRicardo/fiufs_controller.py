@@ -141,6 +141,7 @@ def formatear_fecha(fecha):
 
 # Método que permite inicializar el directorio del sistema de archivos
 def generar_directorio(info_sistema, directorio, nombres_archivos):
+	directorio.clear()
 	tam_entrada = 64 #Tamaño de cada entrada del directorio
 	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
 	
@@ -330,8 +331,11 @@ directorio = [] #Lista de entradas que conforman el directorio de nuestro sistem
 nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
 info_sistema = generar_super_bloque() #Asignación de la información del sistema de archivos a partir del superbloque
 generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
+generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
+mostrar_directorio(directorio)
 bitmap = 5*[True] + (info_sistema.num_clusters_uni-5)*[False]
 generar_bitmap(bitmap, directorio)
 
 #copiar_externo(directorio,"README.org",nombres_archivos,info_sistema)
 copiar_interno('.gitignore', directorio, nombres_archivos, info_sistema)
+
