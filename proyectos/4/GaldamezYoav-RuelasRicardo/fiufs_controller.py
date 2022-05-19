@@ -92,8 +92,6 @@ def generar_super_bloque():
 	sistema.seek(52)
 	num_clusters_uni = int(sistema.read(8).decode(codif))
 
-	
-
 	return SuperBloque(nombre,
 					version,
 					et_volumen,
@@ -312,12 +310,18 @@ def copiar_interno(ruta, directorio, nombres_archivos, info_sistema):
 		print("-> Por favor, intentalo de nuevo.")
 		return "ERROR"
 
+	#Dirijimos el cursor hacia la posición inicial que calculamos previamente
 	sistema.seek(info_sistema.tam_cluster*cluster_inicial)
+
+	#Escribimos el contenido del archivo fuente en el sistema FiUnamFS
 	sistema.write(archivo_nuevo.read())
+
+	#Cerramos la conexión
 	archivo_nuevo.close()
 
 	print("-> Se ha completado exitosamente la copia del archivo.")
-	generar_directorio()
+	generar_directorio(info_sistema, directorio, nombres_archivos)
+
 
 #Método que transforma el tiempo epoch en fechas con formato para el sistema
 def fecha_en_sistema(tiempo_epoch):
@@ -368,7 +372,6 @@ def buscar_entrada_disponible(directorio):
 	tam_entrada = 64
 	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
 
-
 	#Mostramos las entradas en los 4 diferentes clusters
 	for i in range(4):
 		#Obtenemos la dirección de cada cluster a partir de su tamaño y número de cluster
@@ -388,19 +391,84 @@ def buscar_entrada_disponible(directorio):
 				contador += 1
 				sistema.read(48).decode(codif) #Movemos el cursor hasta la siguiente entrada
 
+	return -1
+
+
+#Método para obtener el indice de la entrada de un archivo en el directorio
+def buscar_entrada_nombre(nombre_archivo,info_sistema, directorio):
+	contador = 0
+	tam_entrada = 64
+	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
+
+	#Mostramos las entradas en los 4 diferentes clusters
+	for i in range(4):
+		#Obtenemos la dirección de cada cluster a partir de su tamaño y número de cluster
+		direccion_cluster = info_sistema.tam_cluster*(i+1)
+
+		#Dirijimos el cursor hacia la direccion previamente obtenida
+		sistema.seek(direccion_cluster)
+
+		for i in range(num_entradas_cluster):
+			nombre = sistema.read(15).decode(codif)
+			sistema.read(1).decode(codif) #Movemos el cursor del espacio vacio
+
+			#Si el nombre corresponde con una entrada no utilizada devolvemos el indice
+			if(nombre == nombre_archivo.rjust(15, ' ')):
+				return contador
+			else:
+				contador += 1
+				sistema.read(48).decode(codif) #Movemos el cursor hasta la siguiente entrada
 
 	return -1
 
 
+#Método para eliminar un archivo del sistema FiUnamFS
+def eliminar_archivo(nombre_archivo, directorio, info_sistema):
+	#ELIMINAMOS EL ARCHIVO DEL DIRECTORIO
 
+	indice_directorio = buscar_entrada_nombre(nombre_archivo, info_sistema, directorio)
+	if(indice_directorio == -1):
+		print("\nError: El directorio no cuenta con el archivo especificado.\n")
+		return "ERROR"
+	
+	#Dirijimos el cursor hacia la parte del sistema que corresponde al índice obtenido
+	sistema.seek(1*info_sistema.tam_cluster + 64*indice_directorio)
+
+	#Modificamos el nombre del archivo por el de la nomenclatura empleada por el sistema
+	#para entradas disponibles
+	sistema.write("...............".encode(codif))
+
+
+	#ELIMINAMOS LOS DATOS DEL ARCHIVO
+	for entrada in directorio:
+		if (entrada.nombre == nombre_archivo):
+			cluster_inicial = int(entrada.cluster)
+			num_clusters_archivo = int(math.ceil(entrada.tamanio/info_sistema.tam_cluster))
+
+	for i in range(cluster_inicial, cluster_inicial+num_clusters_archivo):
+		bitmap[i] = False
+
+	print("\nArchivo eliminado correctamente.\n")
+
+
+#VARIABLES GLOBALES
 codif = 'ASCII' #La decodificación que se empleará en el sistema sera ASCII
 directorio = [] #Lista de entradas que conforman el directorio de nuestro sistema de archivos
 nombres_archivos = {None} #Conjunto de nombres de archivos que permite verificar su unicidad
 info_sistema = generar_super_bloque() #Asignación de la información del sistema de archivos a partir del superbloque
-generar_directorio(info_sistema, directorio, nombres_archivos) #Generación inicial del directorio
-mostrar_directorio(directorio)
 bitmap = 5*[True] + (info_sistema.num_clusters_uni-5)*[False]
 generar_bitmap(bitmap, directorio)
 
-#copiar_externo(directorio,".gitignore",nombres_archivos,info_sistema)
-copiar_interno('.gitignore', directorio, nombres_archivos, info_sistema)
+
+#AQUI SE CODIFICARA LA INTERFAZ DEL SISTEMA
+#while(True):
+#	generar_directorio(info_sistema, directorio, nombres_archivos) #Generación recurrente del directorio
+#	if(opcion == 1):
+#		mostrar_directorio(directorio)		
+
+
+
+#mostrar_directorio(directorio) OPCION 1
+#copiar_externo(directorio,'.gitignore',nombres_archivos,info_sistema) OPCION 2        SOLICITAR NOMBRE ARCHIVO
+#copiar_interno('.gitignore', directorio, nombres_archivos, info_sistema) OPCION 3     SOLICITAR NOMBRE ARCHIVO
+#eliminar_archivo('.gitignore', directorio, info_sistema) OPCION 4    SOLICITAR NOMBRE ARCHIVO
