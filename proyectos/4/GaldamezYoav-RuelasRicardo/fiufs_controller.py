@@ -538,13 +538,13 @@ while(True):
 	if(opcion == 1):
 		mostrar_directorio(directorio)
 	elif(opcion ==  2):
-		nombre_archivo = input("Ingresa el nombre de tu archivo (incluyendo extension): ")
+		nombre_archivo = input("Ingresa el nombre del archivo (incluyendo extension): ")
 		copiar_externo(directorio, nombre_archivo, nombres_archivos, info_sistema)
 	elif(opcion ==  3):
-		nombre_archivo = input("Ingresa el nombre de tu archivo (incluyendo extension): ")
+		nombre_archivo = input("Ingresa el nombre del archivo (incluyendo extension): ")
 		copiar_interno(directorio, nombre_archivo, nombres_archivos, info_sistema)
 	elif(opcion ==  4):
-		nombre_archivo = input("Ingresa el nombre de tu archivo (incluyendo extension): ")
+		nombre_archivo = input("Ingresa el nombre del archivo (incluyendo extension): ")
 		eliminar_archivo(nombre_archivo, directorio, info_sistema)
 	elif(opcion ==  5):
 		desfragmentar(directorio, bitmap)
