@@ -1,9 +1,14 @@
+'''Proyecto 4: (Micro) Sistema de Archivos
+Realizado por Alejandro Barreiro y Jessica Zepeda
+Sistemas Operativos 2022-2'''
+
 import os
 from datetime import datetime
 import math
 
 microsistema = open('fiunamfs.img', 'r+b')
 
+#Se obtiene la información del superbloque y se muestra.
 lectura = microsistema.read(60).decode('utf-8')
 
 tamanio = int(lectura[40:46].rstrip('\x00'))
@@ -20,19 +25,21 @@ print('\033[1m{:<28}	{:5}'.format('Núm. de clusters unidad:\033[0m', clus_unida
 
 num_archivos = int(clus_directorio * 8 * 256 / 64)
 
+'''Función que lee todos los archivos o líneas en el directorio y almacena en una lista los archivos existentes.
+   Regresa una lista donde cada elemento es una lista de la información de un archivo.
+   La información que almacena cada índice es: 
+		0: nombre
+		1: tamaño en bytes
+		2: cluster inicial
+		3: año de creación
+		4: mes de creación
+		5: día de creación
+		6: hora de creación
+		7: minuto de creación
+		8: clúster final 
+		9: segundos de creación
+	'''
 def info_archivos(): 
-	"""
-	0: nombre
-	1: tamaño en bytes
-	2: cluster inicial
-	3: año de creación
-	4: mes de creación
-	5: día de creación
-	6: hora de creación
-	7: minuto de creación
-	8: último ocupado 
-	9: segundos de creación
-	"""
 	lista = []
 	direccion = tamanio
 
@@ -53,11 +60,10 @@ def info_archivos():
 			lista_anidada.append(lectura_enlistar[43:45])
 			lista.append(lista_anidada)
 		direccion += 64
-
-	#lista = sorted(lista, key=lambda x:x[2])
 	
 	return lista
 
+'''Función que muestra la información de los archivos existentes utiliando la lista regresada por la función info_archivos'''
 def enlistar_archivos():
 	lista = info_archivos()
 
@@ -66,10 +72,14 @@ def enlistar_archivos():
 			elemento[0], elemento[1], elemento[2], elemento[8], elemento[3], elemento[4], elemento[5], elemento[6], elemento[7]))
 			
 
+'''Función que copia un archivo de FiUnamFS al sistema'''
 def copiar_archivo_sistema():
 	nombre_copia = input('\nIngrese el nombre del archivo nuevo:    ')
 	nombre_original = input('Ingrese el nombre del archivo a copiar:    ')
 
+	'''Se obtienen los archivos existentes y se busca el nombre ingresado por el usuario. 
+	   En caso de no encontrarse el valor de cluster_inicial será -1 y se indicará que el archivo no existe.
+	   En caso de encontrarse se lee todo el contenido del archivo y se escribe en uno nuevo con el nombre ingresado.'''
 	lista = info_archivos()
 
 	cluster_inicial = -1
@@ -90,8 +100,11 @@ def copiar_archivo_sistema():
 	else:
 		print('\nEl archivo no existe.')
 
+'''Función que copia un archivo del sistema hacia FiUnamFS además de agregar la información del archivo en el directorio'''
 def copiar_sistema_archivo():
 	nombre_original = input('\nIngrese el nombre del archivo a copiar:    ')
+
+	'''Se intenta leer el archivo indicado, en caso de no existir se lanza una excepción y se indica que no existe.'''
 	try: 
 		archivo_original = open(nombre_original, 'rb')
 		nuevo_tamanio = os.stat(nombre_original).st_size
@@ -99,6 +112,8 @@ def copiar_sistema_archivo():
 
 		nombre_copia = input('Ingrese el nombre del archivo nuevo:    ')
 
+		'''Se obtienen los archivos ya existentes y se ordenan ascendentemente de acuerdo al cluster inicial 
+		   para calcular el espacio entre archivos contiguos.'''
 		lista = info_archivos()
 		lista = sorted(lista, key=lambda x:x[2])
 
@@ -106,6 +121,9 @@ def copiar_sistema_archivo():
 		for i in range(len(lista)-1):
 			espacio.append((lista[i+1][2] - lista[i][8]) * tamanio)
 
+		'''Si se encuentra un espacio suficientemente grande para colocar el nuevo archivo se guarda el valor del 
+		   siguiente cluster disponible. Si no se encuentra el espacio, se guarda el cluster siguiente al último 
+		   ocupado por el último archivo.'''
 		for i in range(len(espacio)):
 			if nuevo_tamanio < espacio[i] :
 				sig_cluster = lista[i][8] + 1
@@ -117,6 +135,8 @@ def copiar_sistema_archivo():
 
 		archivo_original.close()
 
+		'''Se crea la cadena de información que va en el directorio con el nombre indicado y la fecha actual.
+		   La cadena se guarda en el primer espacio sin información en el directorio'''
 		nuevo_directorio = (nombre_copia.rjust(15,' ') + '\x00' + str(nuevo_tamanio).rjust(8,'0') 
 			+ '\x00' + str(sig_cluster).rjust(5,'0') + '\x00' + datetime.now().strftime('%Y%m%d%H%M%S')
 			+ '\x00' + datetime.now().strftime('%Y%m%d%H%M%S') + '\x00' + '\x00' + '\x00' + '\x00').encode('utf-8')
@@ -131,12 +151,18 @@ def copiar_sistema_archivo():
 				break
 			direccion += 64
 		print('\nArchivo copiado.')
+	
 	except FileNotFoundError:
 		print('\nEl archivo indicado no existe.')
 
+'''Función que elimina un archivo de FiUnamFS'''
 def eliminar_archivo():
 	nombre_eliminar = input('\nIngrese el nombre del archivo a eliminar:    ')
 
+	'''Se obtienen los archivos existentes y se busca el nombre ingresado por el usuario. 
+	   En caso de no encontrarse el valor de cluster_inicial será -1 y se indicará que el archivo no existe.
+	   En caso de encontrarse se escribe el caracter \00x en cada byte ocupado por el archivo, se recorre el directorio
+	   hasta encontrar el nombre y se sustituyen los 64 bytes por la cadena "vacía"'''
 	lista = info_archivos()
 
 	cluster_inicial = -1
@@ -163,10 +189,15 @@ def eliminar_archivo():
 				break
 			direccion += 64
 		print('\nArchivo eliminado.')
+	
 	else: 
 		print('\nEl archivo indicado no existe.')
 
+'''Función que desfragmenta FiUnamFS.'''
 def desfragmentar():
+	'''Se obtienen los archivos ya existentes y se ordenan ascendentemente de acuerdo al cluster inicial. Se verifica si el 
+	   cluster incial y final de cada dos archivos no son contiguos. Si es así, se lee todo el archivo "posterior", se borra 
+	   su contenido y se escribe en el siguiente cluster del final del archivo anterior.'''
 	lista = info_archivos()
 	lista = sorted(lista, key=lambda x:x[2])
 
@@ -182,6 +213,8 @@ def desfragmentar():
 			microsistema.seek((lista[i][8] + 1) * tamanio)
 			microsistema.write(lectura_defrag)
 
+			'''Se hace una cadena con la actualización de cluster final y fecha de modificación del archivo recorrido.
+			   Se busca el archivo en el directorio y se actualiza la información.'''
 			modificaciones = (str(lista[i][8] + 1).rjust(5,'0') + '\x00' + lista[i+1][3] + lista[i+1][4] + lista[i+1][5]
 				+ lista[i+1][6] + lista[i+1][7] + lista[i+1][9] + '\x00' + datetime.now().strftime('%Y%m%d%H%M%S')).encode('utf-8')
 
@@ -195,6 +228,8 @@ def desfragmentar():
 					break
 				direccion += 64
 
+'''Menú principal
+   La opción 7 está escondida y corrige la imagen del sistema inicial ya que hay un traslape entre logo.png y README.org'''
 opcion = 9808790848908094832908490230
 
 while opcion != 6:
@@ -228,6 +263,7 @@ while opcion != 6:
 	elif opcion == 7:
 		microsistema.seek(2048 + 19)
 		microsistema.write('24576'.encode('utf-8'))
+		print('\nOpción no válida')
 	else:
 		print('\nOpción no válida')
 
