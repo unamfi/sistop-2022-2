@@ -1,0 +1,154 @@
+#+title: Proyecto 4: (Micro) sistema de archivos
+
+#+BEGIN_SRC yaml
+Planteamiento: 2022.05.04
+Entrega: 2022.05.19
+#+END_SRC
+
+# Â¡Las [[./calificaciones.org][calificaciones y comentarios]] ya estÃ¡n disponibles!
+
+** DescripciÃ³n del proyecto
+
+Para la unidad de sistemas de archivos, creo que resulta natural que
+el proyecto sea implementar un sistema de archivos ðŸ˜‰ Para esto, lo
+harÃ¡n trabajando sobre una /especificaciÃ³n/ y sobre un /caso de
+referencia/.
+
+** Â¿QuÃ© tengo que hacer?
+
+Lo que ustedes deben desarrollar es un programa que pueda obtener,
+crear y modificar informaciÃ³n en el micro-sistema-de-archivos de la
+Facultad de IngenierÃ­a, =FiUnamFS=.
+
+Siguiendo la especificaciÃ³n que aparece en la siguiente secciÃ³n,
+tienen que desarrollar un programa que pueda:
+
+1. Listar los contenidos del directorio
+2. Copiar uno de los archivos de dentro del =FiUnamFS= hacia tu sistema
+3. Copiar un archivo de tu computadora hacia tu =FiUnamFS=
+4. Eliminar un archivo del =FiUnamFS=
+5. Desafortunadamente, este sistema de archivos /simplote/ es muy dado
+   a la fragmentaciÃ³n externa. Generen tambiÃ©n un programa que
+   /desfragmente/ al =FiUnamFS=. Ojo, la defragmentaciÃ³n debe hacerse
+   /dentro del sistema de archivos/ (no creando un sistema de archivos
+   nuevo y copiando hacia Ã©ste).
+
+*** Sistema muestra
+
+Para verificar su implementaciÃ³n, pueden [[./fiunamfs.img][descargar un sistema de
+archivos ejemplo]] que cumple con el planteamiento. Verifiquen que
+pueden realizar todas las tareas que les solicitÃ© con Ã©ste. IndÃ­quenme
+â€” Â¿CuÃ¡les son los contenidos del /Â«discoÂ»/?
+
+** EspecificaciÃ³n de =FiUnamFS=
+
+- El sistema de archivos cabe en un /diskette/ tradicional. Claro, no
+  espero que tengan acceso al hardware, por lo que lo simularemos
+  representÃ¡ndolo en un archivo de longitud fija, de 1440 Kilobytes
+- Por simplicidad, si bien en un sistema de archivos real
+  representarÃ­amos las magnitudes en su representaciÃ³n binaria, vamos
+  a hacerlo con cadenas (esto es, en vez de representar al nÃºmero
+  =1354= como los caracteres ASCII =0, 0, 5, 74= (porque 5*256=1280,
+  1280+74=1354), represÃ©ntala como la cadena =1354=. Si el campo en
+  que vas a ubicar este valor mide mÃ¡s del espacio necesario, agrega
+  ceros a la izquierda.
+- La superficie del disco se divide en sectores de 256 bytes. Cada
+  cluster mide cuatro sectores.
+- El pseudodispositivo no maneja /tabla de particiones/, hospeda
+  directamente un /volumen/ en la totalidad de su espacio.
+- =FiUnamFS= maneja Ãºnicamente un /directorio plano/, no se consideran
+  subdirectorios.
+- El primer cluster (#0) del pseudodispositivo es el
+  /superbloque/. Este contiene informaciÃ³n en los siguientes bytes:
+  - 0--8 :: Para identificaciÃ³n, el nombre del sistema de
+            archivos. Â¡Debes validar nunca modificar un sistema de
+            archivos que no sea el correcto! Debe ser la cadena =FiUnamFS=.
+  - 10--13 :: VersiÃ³n de la implementaciÃ³n. Estamos implementando la
+              versiÃ³n =1.1=
+  - 20--35 :: Etiqueta del volumen
+  - 40--45 :: TamaÃ±o del cluster en bytes
+  - 47--49 :: NÃºmero de clusters que mide el directorio
+  - 52--60 :: NÃºmero de clusters que mide la unidad completa
+  El resto del superbloque puede quedar vacÃ­o (o puedes
+  /sobrecargarlo/ con otros datos â€‰â€” No es importante para la
+  implementaciÃ³n.
+- El sistema de archivos es de /asignaciÃ³n contigua/. Toda la
+  informaciÃ³n de los archivos estÃ¡ en el directorio.
+- El directorio estÃ¡ ubicado en los clusters 1 a 4. Cada entrada del
+  directorio mide 64 bytes, consistentes en:
+  - 0--15 :: Nombre del archivo
+  - 16--24 :: TamaÃ±o del archivo, en bytes
+  - 25--30 :: Cluster inicial
+  - 31--45 :: Hora y fecha de creaciÃ³n del archivo, especificando
+              AAAAMMDDHHMMSS (p.ej. '20220508182600' para 2022-05-08
+	      18:26:00)
+  - 46--60 :: Hora y fecha de Ãºltima modificaciÃ³n del archivo,
+              especificando AAAAMMDDHHMMSS (p.ej. '20220509182600')
+  - 61--64 :: Espacio no utilizado (Â¿reservado para expansiÃ³n futura?)
+- Las entradas no utilizadas del directorio se identifican porque
+  en el campo de nombre llevan la cadena =...............=.
+  - Los nombres de archivos pueden componerse de cualquier caracter
+    dentro del subconjunto ASCII de 7 bits (no acentuados, no Unicode,
+    sÃ³lo el viejo y aburrido US-ASCII)
+- Es un sistema de archivos plano â€” No maneja subdirectorios.
+- DespuÃ©s del directorio, todo el espacio restante es espacio de
+  datos.
+
+
+** CalificaciÃ³n del proyecto
+
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+|                          | *Excelente (100%)*                                                                                                                                                                                                                                                 | *Bueno (75%)*                                                                                                                                                   | *Suficiente (50%)*                                                                                                                                               | *Insuficiente (0%)*                                                                                                        | *Peso* |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| *Proyecto*               |                                                                                                                                                                                                                                                                    |                                                                                                                                                                 |                                                                                                                                                                  |                                                                                                                            |    30% |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| /Cumplimiento/           | Se cumplen los cinco puntos planteados: Listar los contenidos, copiar un archivo de FiUNAMfs hacia tu equipo, copiar un archivo de tu equipo hacia FiUNAMfs, eliminar un archivo, desfragmentar el medio                                                           | Se cumplen cuatro de los objetivos                                                                                                                              | Se cumplen tres o dos de los objetivos                                                                                                                           | Se cumple uno solo de los objetivos o ninguno                                                                              |        |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| /Claridad de desarrollo/ | El cÃ³digo, acompaÃ±ado de la documentaciÃ³n, resultan de clara comprensiÃ³n, a pesar de cualquier nivel de complejidad que mantengan                                                                                                                                  | El cÃ³digo es ofuscado, dificil de seguir, pero la lectura de la documentaciÃ³n ayuda a hacerlo                                                                   | Es dificil comprender la forma en que se desarrollÃ³ incluso teniendo la documentaciÃ³n, o esta estÃ¡ incompleta y no cubre este aspecto                            | Imposible de comprender                                                                                                    |        |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| /Interfaz usuario/       | MÃ³dulo de FUSE, o interfaz grÃ¡fica/navegaciÃ³n textual que no requieren de ayuda para realizar las operaciones requeridas                                                                                                                                           | Interfaz grÃ¡fica / navegaciÃ³n textual que requiere comprender documentaciÃ³n; interfaz de lÃ­nea de comandos sencilla o natural                                   | La interfaz usuario es suficiente para presentar y manipular los datos, pero su uso requiere comprender el cÃ³digo fuente                                         | El programa es imposible de utilizar exitosamente sin conocer la implementaciÃ³n detalladamente                             |        |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| *Desarrollo*             |                                                                                                                                                                                                                                                                    |                                                                                                                                                                 |                                                                                                                                                                  |                                                                                                                            |    30% |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| /Directorio de proyecto/ | El trabajo entregado consta exclusivamente del cÃ³digo fuente y la documentaciÃ³n, en una estructura acorde para su construcciÃ³n/compilaciÃ³n, evaluaciÃ³n y uso directo; en caso de requerirlo, un .gitignore mantiene limpio el directorio al compilar               | SÃ³lo el cÃ³digo fuente y la documentaciÃ³n forman parte de los commits, pero construir / ejecutar el cÃ³digo ensucia al repositorio (Â¿deberÃ­a manejar .gitignore?) | El trabajo entregado incluye archivos innecesarios (como archivos objeto ya compilados o subdirectorios generados por el entorno de desarrollo empleado          | No entregÃ³ usando Git                                                                                                      |        |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| /CÃ³digo vÃ¡lido/          | Al ejecutar las instrucciones documentadas, el cÃ³digo puede ejecutarse exitosamente al primer intento                                                                                                                                                              | Las instrucciones que forman parte de la documentaciÃ³n tienen que adecuarse para poder ejecutar el cÃ³digo, o hay errores menores que corregir para que funcione | No estÃ¡ documentado cÃ³mo ejecutar el cÃ³digo, o hay errores mayores que corregir para poder ejecutarlo                                                            | ResultÃ³ imposible probar la ejecuciÃ³n                                                                                      |        |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| /Comentarios/            | El cÃ³digo estÃ¡ comentado donde hace falta, no repite informaciÃ³n obvia. Los comentarios ayudan a comprender la lÃ³gica, no la implementaciÃ³n                                                                                                                        | El cÃ³digo estÃ¡ comentado donde hace falta, pero los comentarios son excesivos: AdemÃ¡s de la lÃ³gica general, mencionan lo obvio                                  | Hay algunos comentarios Ãºtiles en el programa, pero falta mucho para que ayude a una buena comprensiÃ³n                                                           | No hay comentarios                                                                                                         |        |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| *Legibilidad*            |                                                                                                                                                                                                                                                                    |                                                                                                                                                                 |                                                                                                                                                                  |                                                                                                                            |    20% |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| Estructura               | El cÃ³digo estÃ¡ bien organizado y emplea un estilo de indentaciÃ³n de forma consistente                                                                                                                                                                              | El cÃ³digo estÃ¡ mayormente indentado; hay inconsistencias menores                                                                                                | Falta claridad en los bloques por no emplear indentaciÃ³n o hacerlo de forma absolutamente inconsistente                                                          |                                                                                                                            |        |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| Nomenclatura             | Los nombres de los sÃ­mbolos (variables, funciones, mÃ©todos, clases) son claros y acorde a su funciÃ³n; los principales elementos estÃ¡n documentados expresamente                                                                                                    | Los nombres de los sÃ­mbolos mencionados son claros y acorde a su funciÃ³n, aunque no estÃ©n documentados                                                          | Los nombres de los sÃ­mbolos no son claros, pero su uso y significado forma parte de la documentaciÃ³n                                                             | Cuesta trabajo seguir la lÃ³gica; los sÃ­mbolos empleados no tienen nombres significativos, y su funciÃ³n no estÃ¡ documentada |        |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------+--------|
+| *Entrega*                |                                                                                                                                                                                                                                                                    |                                                                                                                                                                 |                                                                                                                                                                  |                                                                                                                            |    20% |
+|--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------‰PNG
+
+   IHDR  b  ©   €­Ì?   PLTE   €   € €€   €€ € €€ÀÀÀÀÜÀ¦Êð   	62/7 9#8)%%D>qV7d<(V;)e<\D	KvnPyc+[E/Qs-qT0zdFC L(R3)o
+
+k1i9,V;@n<Eo=nZB7Ge?wAnH6YJEOToFuXI{fsSHkPmybWvmi =NZ¤g—m°)[ˆ-m™2v¯|ÁYQ„Jr•Hy¶mt‰ƒYŠk2‚\4‡k2¢xF‚\M‹pR¢zhvi¤|…¼4‘ˆ5†¶6¥†; µ‹Ì5Ç2¥ÖR˜†M†¸U¦‰U¦¶n•‡o’®o®s³¦SÈU©ÖY±âd˜Îj¨ÙqµåWÁârÂÔxÃî‘
+›%ˆ4Š4,®
+­
+'©*4ƒ>a§3IDŠP6š`9¨E¨T4©c;‹XK‹Tf‘fV•qh«SP´NdªnV«wjÓ	Ü
+1Ë(5â
+è1î#;ÞAÔ+JâBî.NÊN5Íg7ÎOPÖUnÉtVÈtnöEZñPkçiZóix’{³zˆÒw‰öu‹–…x†¤}»€\³†uËZÉuåˆ[ê•tð¢|”‹’›£Š´–¶§´’‰ºš£¹¦•³²²‹µÓ„¼ç¶¼Ã•Àž•Ã««Ç²ŒÄÖŽËð¸ÉÊ®×ñ¼àõË˜ˆÓ˜¥Ð¦•Ð³ªö‹•ù“¤å¦‰äª•ç³›õª‡ò©™ø±Œ÷¶˜ã«£à¥²æ¸¦å½²ö¨¦ú¬¸ô¸¦õ¸´Ï»Âè¹ÄÎÈ­ÍÉ¹ÌÑ»ÔÆ­ÔËµ×Ñ¹þÁŸèÃ¬åÇ·æÓºøÄ©öÈ¶õÖ»ÇÇÊÉÍÒËÒÈÍÓ×ØÈÅÑÌÑÚÔÄÔ×ÙÍÚèÏáØÕãíåËÄæØÆçÛÕóÌÂùÎÔóÛÆ÷ÛØùÞâíàÓõàÈòäÕþóÜùùù               ÿûð  ¤€€€ÿ   ÿ      ÿÿ ÿ ÿÿÿÿÿ   kF`Å   ûtRNSÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ ãŸÈ   bKGD ˆH   	pHYs   H   H FÉk>   	vpAg  b  © ˆžu{  € IDATxÚìý{|å•&Ž;9|4ò¶[ß/ñØ­*Töö¨zìÚÖd’d&²™l²3!1!	c6”U¢Š«Á°ìØÆ.Â1åV0xU¦[€•VVÑ
+Ü…ä›,³¾}½\†¿Æ|>úë÷œ·ZR_ª¥–íLf÷·/Æn©»«»ž:õœçœ÷¼ç3þÇxÌùcÿóÇÿ…ø>þ/Äðñoâ\>—§1†?þ8sæýOÿŒ±‡c…Gcg
+¯ÈFîýå+Ç¿	ˆs> >–Ÿ]ü83q%ì¹Ü¿Èÿhû°Ž1ë»LkÜ7òÿ˜á:v‰¦zÑ`û¦ý(Ä9f²d«aý¯õâ	6øc5³êÿ!.€ûÇFòŽôâ	º½çþüùsç
+ßÿ;ç‹Ÿ¿èÿýïÏ]Ä¡+‘>ó‡úòBLŒ{ÑØ~r~¤¿«ì£OmÄØü;ÿÇŽ'é§-#Å/yÀÅ[%`=»cÇþý¿ûÝïÏŸé#ƒ€¾ì}¹ ¾(p?=7Òÿ»ýûwlÝºeóÆ§0&ÐôGßu€[ßòWîÆ[v”@¼î`¼yGÉÛ²÷lÜìúwËÖ­ |dÆïR	ôår‡—âÜEZ.Œ´l”aÕwÝuxÉÆ·ÞòÛq0Þ±ã÷%ãwOí(}›{Ý$ÆcKÉ>©W.—A_Ä9¦Äf.C×•c¼cÿïJ_pÝ=>úÄÖ·Þñ!†Uï(5Èu×}éÑ'+ ¾îþ'Ÿ|’ÈXdóæ­efþ(lŸU…3†¾4{¾xˆkD÷üïöƒûhñŒÅ“O<ñÄ£÷ßÿ–ý%¤êCüèSo½õÖÄOíß_fÅ•;8®<t€2Ów¾ôÔ¤yoþnö|	æ|Q×N½Ï>sÚˆS	 CßH½ÿž‰qÿæýÅÏŸö!~bË[oý¾*Ä÷T hÄO>1uØ{6—¿ „IðÝj5çˆgCçž@ˆËLmâ'ž*ÆâþVüè“ûßzë“ÄepÞ ±×=±yócE‡-•!:½à‰'Ù+Xòï?«e\œ®›Ä³dÞ¾Çq›>A<ðäS[vì«ãûèT·nyüg›:-Çí:÷ié*@üèffÆz Ä÷@ÌÄ%ýt¨¯×u¬ÎŽŽŸ=^ñCxîýÂw+½ÇÎ½SÝ®gsÍ3QV;¼d„ëï/p"N@ø·{ÑX‡S}²ÌÅ•œŒñý÷<Š÷žgÖYçuwøï¯vXÆ.Ol|’Ý=_bßb·ÉÔp'Û~§ªmÏ
+æš žÉzÏ÷ïß²qó'e¿}€œ¨§rè‘0.µ™°˜âóà“OÞÝuO“p3¸8bÿ°;Þú¤ÚqÙa·n}¶ãg b2éÍe—ßøÒ3[0¶NsÎ¾¦»,×@ÿDº`c¹Ï°Ø]øä£>¾I_Gß¿±Íâý¿{§}lÜRòü'„ÅÆ-ÏàÍnçvvôÏ1©Œ'v¼µu"ìxëw¥Öx¦èMŸ¸ëàûK¿Z9DØñg3Œš|àœ‹‡÷üï
+ *÷Àwì(£3^øêŸzò:õº{HAm.¹>i¾µuã„.Þ²£„Œ	â'¶ìØ³| ·²ñÌVL<ðèæý[¦$C)T}¤8Ãøß÷üu£/?ì¼:×”À<iÌ™ßêðžûÝŽ-O=ùTá^¤;øÉroÖKFíÿö“u÷? §æ”@L˜ -#®(‘¨ÌŠ10¹ÂíÙJ.þ$b_>µq"ðØRFËš<ºyÇŽóp~‰¨»âó*	¢°ÀÄÇ´Æ<göøB°²áÉ-Té;ãÎ,±à÷¥ûŸÀ:ñ­˜‘	XxôÇ
+‘Ç£eub2÷{÷¿µ~¯,Ì‚øbrf~ìQ
+_ácq2&J¶”„ØÌÎŸÚº5ÀÝ}òÀæ­û 7ª£<'ß™²¼MDOn-8	Ò¯¸áKm¥ƒâ®­[KŒcäwï¿„…aOéâû·–’ÍÄgšàñvl$‰\
+ñù ˆÏùrûÑÉ£®/³F¦›·¼µŸdäï÷?~ÿ=÷ÃäK(Œ}±Í[·lç=¾#2ð*þ¯âÜØØÌ³•ÌiÃ½²Dg›IWºÿ&O>»Ç–ÍÄ[‹É–Ý±Onœãþõ—ø²Iˆ?³é">ùÄ£åA\–êc°oÝüø÷Žûx¥—}t#¹ÃÍ›7>ù()Ë'ž*þEØ (ú(Âe7Fa|òYP‚nN…‚QþÖþ²3ü4 eÎßøÖ[	šI‰ÕQHøl)aÏ÷;[~AqGßéO+¾2ƒxÿv4öV<é¹ŠŽ
+ O:šE¥Ž¾´0ãé¸n@ùÑ%æñÑs øä@Œxuëþ@OHÐ}RaÊsJ-8æ“2ˆ?éß±¤°£ä;2-OÀtÉvuJè”IKWLh!ÃOøl,MÜ2{Û¼¿z†àö<ÉÉ×
++> q™7>ê\ ÿ‹ÒË{Ÿïí*-•	QŒ-Á3ŒIÈåªAœËãérˆûî‚y¶ü&²”¡yËGþ®ä~$ˆŸ˜¸Ñï§¯4p`iž)ØiÖãw%Ç`û`)þ'–Yñé ˆÙå‡í÷œò±¹°ùIÆ!xÛ(»È¾pC ?¢ß¿?è
+~R€øL	[Ì)a‰3>ÆŸ5‚ªB’ŒŠ%sÇÌ±ÜßùqEAf¸×ùgSªð}=ðÖ[,îð§=6–¸˜ûpÃ >íbÄC[ÌŠßÚQÅ[)ü(fŠ	¹ÐÙÙñ …÷lÝ_>÷2Ûºµ"7ø3¢‰Gïù‚¨ [oáR®(‚¸Péà›ñ”%+ÅXÛ(ËC®§Ôƒ¯®Þ*¹²Lm)ÄÌCüìºeÑr!°Ú<zl|ªT¶­›‚˜èÿžš ös™[·§+‹¿¼[ÄÕôÃun)ã8« (ÊƒC?õ®Ky_
+qÙ„vÄc•T1UÉA\Øýˆ»`çÖUú»¾‚‰N ÒwÏ—â’+ÕDŽgãÖ	ˆŸ|²Œ˜ñý þÂä¹±âû×oÝq®ô«ÝïçP'f=J'=| wü79nJ––Ÿ\€ 8M43¸÷ºëž€ø“b#®ñX‰O’…Ç,¥L/¹â[l„<:þ^•þî~ŸGhœc¾¸Ì³{áÑ©Y
+>FJž'ÉUp\D6‹ÑºÎ¾Åw\7¡“e–ï+²‰ÈÃcAú[e_‹â½Šð¹‡¤	Zºû+’WŸ”@œ«bÅ¹"3.z/ÝKð	ÿ½ø€ì¿îÙ·ÞÚˆëûD_Û>@â¿õ»ý¿ðçyà‰?)9—ëØ¯‹“çÅ—i/k Ê÷ßï<Pl\Cë¸ï.IwÜS>J-¿4×9ä«šýqO  pMlÜø{ºFe·ã$ÆçÆ‚!~o¢î¬c9€Œ'ÙW¥ü¯û+_²®zÁ—=ù	?V)!åºr4î]_ÿõaÌ²Åí¤$üdÜÁ&–J®ØçÑ2ˆK$Þé‚ (UÓçïei­[sã	„q.WÍŠßËBHÆìû	.À=O=E·:/q¤eImaCúÁ:J'Éàîà‰Y¾Ó³¯-™fPÜá8zÇ?£uß—èÎ˜PdÙÄEßÜ-ŠÒKK4AñÊy¦
++…ñ'SÎ.ŸÏ½ñøh1ÄS’±:Á¾”?ðÅâÆò”»C“¸§Ðþ,¹¾$µ2Ôw®jÞü6
+äQ1|hq gE©£ 4±ß¿•ÂxŠ'áªº8—ËhŠ	2.gÚû}öí»®€ñS3G„ñu…(êÑ'~ç}éþû××”ƒýƒŽó}®ÕùlÁ°û®ó§¨‹žïðEIøL‘3~¹…æ
+—ñW±œ(1âÒè®”)&A"cæ‰ýß‘¶¼ßŸ(.w³CbÂøŸ†>ûÄí»¬LpYð^ÇH»xº…Mí•	ŠN6…³ÿ-ûs™”¥J[®º›ñ”l3
+d\Ì´çþŽ~gûWÄ'4úC=ðÀ?uf/V³q&`\&”Éª§l’<9”MIøœe¹	hÎ­0äÍïÊcIÉViÄ¥—:¼I+$ãu~“}5Ýn7–J²‹Ârj-ÌÄ"¤\~p.zp¼bV6Æäâ¦Kß§ŽÇ‹†Ÿ`ƒî||#9ïGï/Ÿìûä³R#®ñø{¹ ×õKÊX)Š6>QXä…HlÖ…¾l¹×Ä²®Ë¶4`póÙ~º³ƒôøÆ¢Sñiâ‰û¿1rÿã(\*ÆErb¬b™T)Ä“Òxfelú‘§-Ï¬ócˆ²”útÖz¹Qfäf½†ç|Öê,²kVÒ²qã£÷|É÷”@Ì8µšb€8q»LíL|ÐÐ}<kõÎàÌ&ã÷?Úb¸ÙƒM4XŸÚøÎùÞÎ‡ðE¶%Âø“R=1¾7Å¥p–“ñü>¾µöõÕâ¿©•+¨j1i«ƒÌ÷±Í›¶ˆ7·”ãRQ<VúQåK¹ 3f9êr2n"ö}àÙéØ÷µÒ­ö‘÷‹ûgDºÏéx`Òÿ1O_"ŒKxbpº‰%_ç+£udÜ¹ÉÉV3á	âÿc#XëÈÍj%_Ö§Šƒgè‰²ƒ—Ï@å¦ÞTðaø3	oÕÄ
+ÿ;a[‰t0Ë×7Ÿšöž¤	âò‰þrˆKƒè	H]ŸxwŒÌôégòÇj=¡›cð`þÌ–4duÜ÷¥¢Ò2#ž	bRù•‰Šó×}‰å·ß™Ü±œ—¢ñ^çòot°sHy¹ÌyÈÑ·BüÞhù+ ff\à­»ÿþg­lUtúèþŸ±3ºf,ÖF`Åi\êïz«Àb(B×ÿbl.Ä“823ÄÕDqÄãcEáÇgÓü“±
+týñÇé’F.ð”¼ƒcŸL‹°ŸËq Äùb3þ$ðÈŸœÉ£ËÆÿ¦r¢pö½j§æå‚Í¹4î¨âñÀècfãÿ[KŠü‡
