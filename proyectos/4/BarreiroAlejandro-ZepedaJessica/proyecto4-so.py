@@ -2,16 +2,15 @@ import os
 from datetime import datetime
 import math
 
-archivo_lectura = open('fiunamfs.img', 'r+b')
-archivo_escritura = open('fiunamfs.img', 'r+b')
+microsistema = open('fiunamfs.img', 'r+b')
 
-lectura = archivo_lectura.read(60).decode('utf-8')
+lectura = microsistema.read(60).decode('utf-8')
 
 tamanio = int(lectura[40:46].rstrip('\x00'))
 clus_directorio = int(lectura[47:50].rstrip('\x00'))
 clus_unidad = int(lectura[52:].rstrip('\x00'))
 
-print('Identificación:', lectura[0:2])
+print('Identificación:', lectura[0:8])
 print('Versión:', lectura[10:14])
 print('Etiqueta:', lectura[20:36])
 print('Tamaño cluster:', tamanio)
@@ -37,8 +36,8 @@ def info_archivos():
 	direccion = tamanio
 
 	for i in range(num_archivos):
-		archivo_lectura.seek(direccion)
-		lectura_enlistar = archivo_lectura.read(64).decode('utf-8')
+		microsistema.seek(direccion)
+		lectura_enlistar = microsistema.read(64).decode('utf-8')
 		if lectura_enlistar[0:16] != '...............\x00':
 			lista_anidada = []
 			lista_anidada.append(lectura_enlistar[0:16].rstrip('\x00').lstrip(' '))
@@ -72,86 +71,99 @@ def copiar_archivo_sistema():
 
 	lista = info_archivos()
 
+	cluster_inicial = -1
 	for elemento in lista:
 		if elemento[0] == nombre_original:
 			tamanio_archivo = elemento[1]
 			cluster_inicial = elemento[2]
 			break
 
-	archivo_lectura.seek(cluster_inicial * tamanio)
-	lectura = archivo_lectura.read(tamanio_archivo)
+	if cluster_inicial != -1:
+		microsistema.seek(cluster_inicial * tamanio)
+		lectura = microsistema.read(tamanio_archivo)
 
-	archivo_copia = open(nombre_copia, 'wb')
-	archivo_copia.write(lectura)
-	archivo_copia.close()
-
+		archivo_copia = open(nombre_copia, 'wb')
+		archivo_copia.write(lectura)
+		archivo_copia.close()
+		print('Archivo copiado.')
+	else:
+		print('El archivo no existe.')
 
 def copiar_sistema_archivo():
 	nombre_original = input('Ingrese el nombre del archivo a copiar: ')
-	archivo_original = open(nombre_original, 'rb')
-	nuevo_tamanio = os.stat(nombre_original).st_size
-	lectura_original = archivo_original.read()
+	try: 
+		archivo_original = open(nombre_original, 'rb')
+		nuevo_tamanio = os.stat(nombre_original).st_size
+		lectura_original = archivo_original.read()
 
-	nombre_copia = input('Ingrese el nombre del archivo nuevo: ')
+		nombre_copia = input('Ingrese el nombre del archivo nuevo: ')
 
-	lista = info_archivos()
-	lista = sorted(lista, key=lambda x:x[2])
+		lista = info_archivos()
+		lista = sorted(lista, key=lambda x:x[2])
 
-	espacio = []
-	for i in range(len(lista)-1):
-		espacio.append((lista[i+1][2] - lista[i][8]) * tamanio)
+		espacio = []
+		for i in range(len(lista)-1):
+			espacio.append((lista[i+1][2] - lista[i][8]) * tamanio)
 
-	for i in range(len(espacio)):
-		if nuevo_tamanio < espacio[i] :
-			sig_cluster = lista[i][8] + 1
-			break
-		sig_cluster = lista[-1][8] + 1
+		for i in range(len(espacio)):
+			if nuevo_tamanio < espacio[i] :
+				sig_cluster = lista[i][8] + 1
+				break
+			sig_cluster = lista[-1][8] + 1
 
-	archivo_escritura.seek(sig_cluster * tamanio)
-	archivo_escritura.write(lectura_original)
+		microsistema.seek(sig_cluster * tamanio)
+		microsistema.write(lectura_original)
 
-	archivo_original.close()
+		archivo_original.close()
 
-	nuevo_directorio = (nombre_copia.rjust(15,' ') + '\x00' + str(nuevo_tamanio).rjust(8,'0') 
-		+ '\x00' + str(sig_cluster).rjust(5,'0') + '\x00' + datetime.now().strftime('%Y%m%d%H%M%S')
-		+ '\x00' + datetime.now().strftime('%Y%m%d%H%M%S') + '\x00' + '\x00' + '\x00' + '\x00').encode('utf-8')
-	
-	direccion = tamanio
-	for i in range(num_archivos):
-		archivo_lectura.seek(direccion)
-		lectura_enlistar = archivo_lectura.read(64).decode('utf-8')
-		if lectura_enlistar[0:16] == '...............\x00':
-			archivo_escritura.seek(direccion)
-			archivo_escritura.write(nuevo_directorio)
-			break
-		direccion += 64
+		nuevo_directorio = (nombre_copia.rjust(15,' ') + '\x00' + str(nuevo_tamanio).rjust(8,'0') 
+			+ '\x00' + str(sig_cluster).rjust(5,'0') + '\x00' + datetime.now().strftime('%Y%m%d%H%M%S')
+			+ '\x00' + datetime.now().strftime('%Y%m%d%H%M%S') + '\x00' + '\x00' + '\x00' + '\x00').encode('utf-8')
+		
+		direccion = tamanio
+		for i in range(num_archivos):
+			microsistema.seek(direccion)
+			lectura_enlistar = microsistema.read(64).decode('utf-8')
+			if lectura_enlistar[0:16] == '...............\x00':
+				microsistema.seek(direccion)
+				microsistema.write(nuevo_directorio)
+				break
+			direccion += 64
+		print('Archivo copiado.')
+	except FileNotFoundError:
+		print('El archivo indicado no existe.')
 
 def eliminar_archivo():
 	nombre_eliminar = input('Ingrese el nombre del archivo a eliminar: ')
 
 	lista = info_archivos()
 
+	cluster_inicial = -1
 	for elemento in lista:
 		if elemento[0] == nombre_eliminar:
 			tamanio_archivo = elemento[1]
 			cluster_inicial = elemento[2]
 			break
 
-	archivo_escritura.seek(cluster_inicial * tamanio)
-	for i in range(tamanio_archivo):
-		archivo_escritura.write(('\x00').encode('utf-8'))
+	if cluster_inicial != -1:
+		microsistema.seek(cluster_inicial * tamanio)
+		for i in range(tamanio_archivo):
+			microsistema.write(('\x00').encode('utf-8'))
 
-	directorio_vacio = ('...............\x0000000000\x0000000\x0000000000000000\x0000000000000000\x00\x00\x00\x00').encode('utf-8')
+		directorio_vacio = ('...............\x0000000000\x0000000\x0000000000000000\x0000000000000000\x00\x00\x00\x00').encode('utf-8')
 
-	direccion = tamanio
-	for i in range(num_archivos):
-		archivo_lectura.seek(direccion)
-		lectura_enlistar = archivo_lectura.read(64).decode('utf-8')
-		if lectura_enlistar[0:16].lstrip(' ').rstrip('\x00') == nombre_eliminar:
-			archivo_escritura.seek(direccion)
-			archivo_escritura.write(directorio_vacio)
-			break
-		direccion += 64
+		direccion = tamanio
+		for i in range(num_archivos):
+			microsistema.seek(direccion)
+			lectura_enlistar = microsistema.read(64).decode('utf-8')
+			if lectura_enlistar[0:16].lstrip(' ').rstrip('\x00') == nombre_eliminar:
+				microsistema.seek(direccion)
+				microsistema.write(directorio_vacio)
+				break
+			direccion += 64
+		print('Archivo eliminado.')
+	else: 
+		print('El archivo indicado no existe.')
 
 def desfragmentar():
 	lista = info_archivos()
@@ -159,27 +171,26 @@ def desfragmentar():
 
 	for i in range(len(lista)-1):
 		if lista[i+1][2] - lista[i][8] > 1:
-			archivo_lectura.seek(lista[i+1][2] * tamanio)
-			lectura_defrag = archivo_lectura.read(lista[i+1][1])
+			microsistema.seek(lista[i+1][2] * tamanio)
+			lectura_defrag = microsistema.read(lista[i+1][1])
 
-			archivo_escritura.seek(lista[i+1][2] * tamanio)
+			microsistema.seek(lista[i+1][2] * tamanio)
 			for j in range(lista[i+1][1]):
-				archivo_escritura.write(('\x00').encode('utf-8'))
+				microsistema.write(('\x00').encode('utf-8'))
 
-			archivo_escritura.seek((lista[i][8] + 1) * tamanio)
-			archivo_escritura.write(lectura_defrag)
+			microsistema.seek((lista[i][8] + 1) * tamanio)
+			microsistema.write(lectura_defrag)
 
 			modificaciones = (str(lista[i][8] + 1).rjust(5,'0') + '\x00' + lista[i+1][3] + lista[i+1][4] + lista[i+1][5]
 				+ lista[i+1][6] + lista[i+1][7] + lista[i+1][9] + '\x00' + datetime.now().strftime('%Y%m%d%H%M%S')).encode('utf-8')
-			print(modificaciones)
 
 			direccion = tamanio
 			for j in range(num_archivos):
-				archivo_lectura.seek(direccion)
-				lectura_enlistar = archivo_lectura.read(64).decode('utf-8')
+				microsistema.seek(direccion)
+				lectura_enlistar = microsistema.read(64).decode('utf-8')
 				if lectura_enlistar[0:16].lstrip(' ').rstrip('\x00') == lista[i+1][0]:
-					archivo_escritura.seek(direccion + 25)
-					archivo_escritura.write(modificaciones)
+					microsistema.seek(direccion + 25)
+					microsistema.write(modificaciones)
 					break
 				direccion += 64
 
@@ -203,22 +214,18 @@ while opcion != 6:
 		enlistar_archivos()
 	elif opcion == 2:
 		copiar_archivo_sistema()
-		print('Archivo copiado.')
 	elif opcion == 3:
 		copiar_sistema_archivo()
-		print('Archivo copiado.')
 	elif opcion == 4:
 		eliminar_archivo()
-		print('Archivo eliminado.')
 	elif opcion == 5:
 		desfragmentar()
 		print('Desfragmentado.')
 	elif opcion == 6:
 		print('Ejecución terminada.')
 	else:
-		#archivo_escritura.seek(2048 + 19)
-		#archivo_escritura.write('24576'.encode('utf-8'))
+		#microsistema.seek(2048 + 19)
+		#microsistema.write('24576'.encode('utf-8'))
 		print('Opción no válida')
 
-archivo_lectura.close()
-archivo_escritura.close()
+microsistema.close()
