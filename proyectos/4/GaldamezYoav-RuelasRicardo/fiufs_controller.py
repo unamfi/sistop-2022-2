@@ -193,7 +193,7 @@ def mostrar_directorio(directorio):
 	f_modificacion = "{:<24}"
 
 	#Formateamos el encabezado del listado
-	print(f_nombre.format("Nombre"),end='')
+	print("\n",f_nombre.format("Nombre"),end='')
 	print(f_tamanio.format("Tamaño"),end='')
 	print(f_cluster.format("Cluster"),end='')
 	print(f_creacion.format("Creación:"),end='')
@@ -517,31 +517,40 @@ bitmap = 5*[True] + (info_sistema.num_clusters_uni-5)*[False]
 #Una vez iniciado el programa se actualiza el directorio y el bitmap
 actualizar_info(info_sistema, directorio, nombres_archivos, bitmap) 
 
-#mostrar_directorio(directorio)
+while(True):
+	actualizar_info(info_sistema, directorio, nombres_archivos, bitmap)
 
+	print("\n\t-> Bienvenido <-")
+	print("1) Mostrar directorio")
+	print("2) Copiar archivo de tu computadora al FiUnamFS")
+	print("3) Copiar archivo del FiUnamFS a tu computadora")
+	print("4) Eliminar archivo del FiUnamFS")
+	print("5) Desfragmentar sistema")
+	print("6) Salir")
 
-#desfragmentar(directorio, bitmap)
+	try:
+		opcion = int(input("Ingresa la opción de tu elección: "))
+	except ValueError:
+		print("\nError: Tipo de dato equivocado.")
+		print("-> Por favor, ingresa un valor númerico.")
+		continue
 
-#actualizar_info(info_sistema, directorio, nombres_archivos, bitmap) 
-
-
-#mostrar_directorio(directorio)
-
-for entrada in directorio:
-	if(entrada.nombre == 'mensajes.png'):
-		sistema.seek(entrada.cluster*info_sistema.tam_cluster)
-		print(sistema.read(entrada.tamanio))
-
-
-#AQUI SE CODIFICARA LA INTERFAZ DEL SISTEMA
-#while(True):
-#	actualizar_info(info_sistema, directorio, nombres_archivos, bitmap) 
-#	if(opcion == 1):
-#		mostrar_directorio(directorio)		
-
-
-
-#mostrar_directorio(directorio) OPCION 1
-#copiar_externo(directorio,'.gitignore',nombres_archivos,info_sistema) OPCION 2        SOLICITAR NOMBRE ARCHIVO
-#copiar_interno('.gitignore', directorio, nombres_archivos, info_sistema) OPCION 3     SOLICITAR NOMBRE ARCHIVO
-#eliminar_archivo('.gitignore', directorio, info_sistema) OPCION 4    SOLICITAR NOMBRE ARCHIVO
+	if(opcion == 1):
+		mostrar_directorio(directorio)
+	elif(opcion ==  2):
+		nombre_archivo = input("Ingresa el nombre de tu archivo (incluyendo extension): ")
+		copiar_externo(directorio, nombre_archivo, nombres_archivos, info_sistema)
+	elif(opcion ==  3):
+		nombre_archivo = input("Ingresa el nombre de tu archivo (incluyendo extension): ")
+		copiar_interno(directorio, nombre_archivo, nombres_archivos, info_sistema)
+	elif(opcion ==  4):
+		nombre_archivo = input("Ingresa el nombre de tu archivo (incluyendo extension): ")
+		eliminar_archivo(nombre_archivo, directorio, info_sistema)
+	elif(opcion ==  5):
+		desfragmentar(directorio, bitmap)
+	elif(opcion == 6):
+		print("\n¡Hasta la próxima!\n")
+		break;	
+	else:
+	    print("\n\tError: Opción invalida.")
+	    print("\n\t-> Por favor, ingresa una opción valida.")
