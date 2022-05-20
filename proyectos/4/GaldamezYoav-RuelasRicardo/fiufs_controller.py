@@ -522,8 +522,8 @@ while(True):
 
 	print("\n\t-> Bienvenido <-")
 	print("1) Mostrar directorio")
-	print("2) Copiar archivo de tu computadora al FiUnamFS")
-	print("3) Copiar archivo del FiUnamFS a tu computadora")
+	print("2) Copiar archivo del FiUnamFS a tu computadora")
+	print("3) Copiar archivo de tu computadora al FiUnamFS")
 	print("4) Eliminar archivo del FiUnamFS")
 	print("5) Desfragmentar sistema")
 	print("6) Salir")
