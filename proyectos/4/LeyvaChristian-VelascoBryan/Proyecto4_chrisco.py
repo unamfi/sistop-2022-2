@@ -173,7 +173,6 @@ def copyFileInto(maxClusterFile,filename,fileSize,nClusters,contLast):
     # Se obtiene el cluster desde donde el nuevo archivo se escribirá
     # clusterinicial + clustersNecesarios 
     initialCluster = maxClusterFile['clusterInicial'] +  math.ceil(maxClusterFile['tamanio'] / SuperBloque['tamanio'] ) + 1
-    print("N clusters " , nClusters)
     finalCluster = initialCluster +  nClusters
     global DIMap
     
@@ -195,15 +194,13 @@ def copyFileInto(maxClusterFile,filename,fileSize,nClusters,contLast):
             # Fecha Creacion
             DIMap[desde + 31:desde + 45] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
             # Fecha modificacion
-            print(len(fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')))
             DIMap[desde + 46:desde + 60] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
             
             # Se escribe el archivo
             with open(filename,'rb') as file:
-                temp =file.read()
-                bytesLen = (finalCluster - initialCluster)*SuperBloque['tamanio']
-                print(len(temp.zfill(bytesLen)))
-                DIMap[initialCluster:finalCluster+1] = file.read()
+                desdeWrite = SuperBloque['tamanio'] * initialCluster
+                hastaWrite = desdeWrite + fileSize
+                DIMap[desdeWrite:hastaWrite] = file.read()
             return 
 
 # Copiar archivo de tu sistema a FiUnamFs
@@ -248,6 +245,7 @@ def copy_import(filename):
 
 def rm(filename:str):
     pass
+
 def defragmentar():
     pass    
 
