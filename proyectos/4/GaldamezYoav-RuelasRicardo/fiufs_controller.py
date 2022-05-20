@@ -330,6 +330,19 @@ def fecha_en_sistema(tiempo_epoch):
 	return fecha_sistema
 
 
+#Método que transforma una fecha formateada en fechas con formato para el sistema
+def fecha_format_en_sistema(fecha_formateada):
+	anio = fecha_formateada[6:10]
+	mes = fecha_formateada[3:5]
+	dia = fecha_formateada[0:2]
+	hora = fecha_formateada[11:13]
+	minutos = fecha_formateada[14:16]
+	segundos = fecha_formateada[17:19]
+
+	fecha_sistema = anio + mes + dia + hora + minutos + segundos
+
+	return fecha_sistema
+
 #Método que genera un bitmap de los clusters disponibles en el sistema
 def generar_bitmap(bitmap, directorio):
 
@@ -448,11 +461,11 @@ def eliminar_archivo(nombre_archivo, directorio, info_sistema):
 	for i in range(cluster_inicial, cluster_inicial+num_clusters_archivo):
 		bitmap[i] = False
 
-	print("\nArchivo eliminado correctamente.\n")
+	print("\n-> Archivo eliminado correctamente.\n")
 
 
-#Método que realiza la desfragmentación del sistema de archivos
-def desfragmentar(directorio, bitmap):
+#Método que realiza la desfragmentación de los datos del sistema de archivos
+def desfragmentar_datos(directorio, bitmap):
 	for entrada in directorio:
 		cursor_cluster = 5 #Variable que va almacenando el cluster que estamos analizando
 
@@ -500,7 +513,51 @@ def desfragmentar(directorio, bitmap):
 			sistema.seek(1*info_sistema.tam_cluster + 64*indice_entrada + 25)
 			sistema.write(str(entrada.cluster).rjust(5, ' ').encode(codif))
 
-	print("\n-> Desfragmentación concluida correctamente.")
+
+#Desfragmentar entradas del directorio
+def desfragmentar_directorio(directorio, info_sistema):
+	contador = 0
+	tam_entrada = 64
+	num_entradas_cluster = int(info_sistema.tam_cluster/tam_entrada) #Número de entradas por cluster
+
+	#Borramos todas las entradas del directorio
+	for i in range(4):
+		#Obtenemos la dirección de cada cluster a partir de su tamaño y número de cluster
+		direccion_cluster = info_sistema.tam_cluster*(i+1)
+
+		#Dirijimos el cursor hacia la direccion previamente obtenida
+		sistema.seek(direccion_cluster)
+
+		for i in range(num_entradas_cluster):
+			nombre = sistema.read(15).decode(codif)
+			sistema.read(1).decode(codif) #Movemos el cursor del espacio vacio
+
+			#Hacemos que todas las entradas esten disponibles
+			if(nombre != "..............."):
+				sistema.seek(direccion_cluster + i*64)
+				sistema.write("...............".encode(codif))
+				
+			sistema.read(48).decode(codif) #Movemos el cursor hasta la siguiente entrada
+
+	#Escribimos nuevamente las entradas a partir de los datos en la lista de directorio
+	sistema.seek(info_sistema.tam_cluster) #Nos colocamos en el primer cluster del directorio
+	for entrada in directorio:
+		nombre_archivo = entrada.nombre.rjust(15, ' ').encode(codif)
+		tamanio_archivo_format = str(entrada.tamanio).rjust(8, '0').encode(codif)
+		creacion_archivo = fecha_format_en_sistema(entrada.creacion).encode(codif)
+		modificacion_archivo = fecha_format_en_sistema(entrada.modificacion).encode(codif)
+
+		sistema.write(nombre_archivo)
+		sistema.write(b'\x00')
+		sistema.write(tamanio_archivo_format)
+		sistema.write(b'\x00')
+		sistema.write(str(entrada.cluster).rjust(5,'0').encode(codif))
+		sistema.write(b'\x00')
+		sistema.write(creacion_archivo)
+		sistema.write(b'\x00')
+		sistema.write(modificacion_archivo)
+		sistema.write(b'\x00')
+		sistema.read(3) #Avanzamos las posiciones no utilizadas al final de cada entrada
 
 
 #Método para actualizar los objetos que guardan información sobre el sistema de archivos
@@ -519,6 +576,8 @@ bitmap = 5*[True] + (info_sistema.num_clusters_uni-5)*[False]
 #Una vez iniciado el programa se actualiza el directorio y el bitmap
 actualizar_info(info_sistema, directorio, nombres_archivos, bitmap) 
 
+
+#PROGRAMA PRINCIPAL
 while(True):
 	actualizar_info(info_sistema, directorio, nombres_archivos, bitmap)
 
@@ -549,7 +608,9 @@ while(True):
 		nombre_archivo = input("Ingresa el nombre del archivo (incluyendo extension): ")
 		eliminar_archivo(nombre_archivo, directorio, info_sistema)
 	elif(opcion ==  5):
-		desfragmentar(directorio, bitmap)
+		desfragmentar_datos(directorio, bitmap)
+		desfragmentar_directorio(directorio, info_sistema)
+		print("\n-> Desfragmentación concluida correctamente.")
 	elif(opcion == 6):
 		print("\n¡Hasta la próxima!\n")
 		break;	
