@@ -1,0 +1,12 @@
+Documentación:
+El programa fue desarrollado con la versión de Python 3.7.9 con el IDE Thonny.
+
+Para su funcionamiento solo basta ejecutarlo sin hacer uso de argumentos.
+
+Se cuenta con un menú que presenta las diferentes opciones a escoger, al seleccionar el número mostrará otro menú.
+(Excepto en el caso de 'ls', al seleccionarlo se listaran los contenidos)
+
+La función ls nos permite listar el contenido del sistema de archivos mediante un ciclo for que recorre los nombres de los archivos y los imprime
+La función mv2PC nos permite compartir un archivo del sistema de archivos a nuestra computadora, primero se abre la imagen del sistema en modo binario y se solicita el nombre del archivo a copiar, se verifica que el archivo solicitado existe, una vez verificado se busca el archivo en la imagen y se toma los datos de éste para introducirlos en un nuevo archivo generado en nuestra computadora.
+
+Se realizaron pruebas en Windows 10 y Linux version 5.14.0-kali4-amd64.
