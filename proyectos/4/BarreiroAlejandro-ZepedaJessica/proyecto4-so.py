@@ -10,12 +10,13 @@ tamanio = int(lectura[40:46].rstrip('\x00'))
 clus_directorio = int(lectura[47:50].rstrip('\x00'))
 clus_unidad = int(lectura[52:].rstrip('\x00'))
 
-print('Identificación:', lectura[0:8])
-print('Versión:', lectura[10:14])
-print('Etiqueta:', lectura[20:36])
-print('Tamaño cluster:', tamanio)
-print('Núm. de clusters directorio:', clus_directorio)
-print('Núm. de clusters unidad:', clus_unidad)
+print('\n\033[1m----------Microsistema de archivos----------\033[0m\n')
+print('\033[1m{:<28}	{:15}'.format('Identificación:\033[0m', lectura[0:8]))
+print('\033[1m{:<28}	{:15}'.format('Versión:\033[0m', lectura[10:14]))
+print('\033[1m{:<28}	{:15}'.format('Etiqueta:\033[0m', lectura[20:36]))
+print('\033[1m{:<28}	{:5}'.format('Tamaño cluster:\033[0m', tamanio))
+print('\033[1m{:<28}	{:5}'.format('Núm. de clusters directorio:\033[0m', clus_directorio))
+print('\033[1m{:<28}	{:5}'.format('Núm. de clusters unidad:\033[0m', clus_unidad))
 
 num_archivos = int(clus_directorio * 8 * 256 / 64)
 
@@ -61,13 +62,13 @@ def enlistar_archivos():
 	lista = info_archivos()
 
 	for elemento in lista:
-		print('{}		{}	B		{}-{}		{}-{}-{}		{}:{}'.format(
+		print('{:<20}	{:<8}B	{:4} -{:4}	{:4}-{:2}-{:2}	{:2}:{:2}'.format(
 			elemento[0], elemento[1], elemento[2], elemento[8], elemento[3], elemento[4], elemento[5], elemento[6], elemento[7]))
 			
 
 def copiar_archivo_sistema():
-	nombre_copia = input('Ingrese el nombre del archivo nuevo: ')
-	nombre_original = input('Ingrese el nombre del archivo a copiar: ')
+	nombre_copia = input('\nIngrese el nombre del archivo nuevo:    ')
+	nombre_original = input('Ingrese el nombre del archivo a copiar:    ')
 
 	lista = info_archivos()
 
@@ -85,18 +86,18 @@ def copiar_archivo_sistema():
 		archivo_copia = open(nombre_copia, 'wb')
 		archivo_copia.write(lectura)
 		archivo_copia.close()
-		print('Archivo copiado.')
+		print('\nArchivo copiado.')
 	else:
-		print('El archivo no existe.')
+		print('\nEl archivo no existe.')
 
 def copiar_sistema_archivo():
-	nombre_original = input('Ingrese el nombre del archivo a copiar: ')
+	nombre_original = input('\nIngrese el nombre del archivo a copiar:    ')
 	try: 
 		archivo_original = open(nombre_original, 'rb')
 		nuevo_tamanio = os.stat(nombre_original).st_size
 		lectura_original = archivo_original.read()
 
-		nombre_copia = input('Ingrese el nombre del archivo nuevo: ')
+		nombre_copia = input('Ingrese el nombre del archivo nuevo:    ')
 
 		lista = info_archivos()
 		lista = sorted(lista, key=lambda x:x[2])
@@ -129,12 +130,12 @@ def copiar_sistema_archivo():
 				microsistema.write(nuevo_directorio)
 				break
 			direccion += 64
-		print('Archivo copiado.')
+		print('\nArchivo copiado.')
 	except FileNotFoundError:
-		print('El archivo indicado no existe.')
+		print('\nEl archivo indicado no existe.')
 
 def eliminar_archivo():
-	nombre_eliminar = input('Ingrese el nombre del archivo a eliminar: ')
+	nombre_eliminar = input('\nIngrese el nombre del archivo a eliminar:    ')
 
 	lista = info_archivos()
 
@@ -161,9 +162,9 @@ def eliminar_archivo():
 				microsistema.write(directorio_vacio)
 				break
 			direccion += 64
-		print('Archivo eliminado.')
+		print('\nArchivo eliminado.')
 	else: 
-		print('El archivo indicado no existe.')
+		print('\nEl archivo indicado no existe.')
 
 def desfragmentar():
 	lista = info_archivos()
@@ -198,6 +199,7 @@ opcion = 9808790848908094832908490230
 
 while opcion != 6:
 
+	print('\n\033[1m--------------Menú de opciones--------------\033[0m')
 	print('''\nSelecciona una opción:
 1. Listar los contenidos del directorio
 2. Copiar uno de los archivos de dentro del FiUnamFS hacia tu sistema
@@ -210,7 +212,7 @@ while opcion != 6:
 	opcion = int(input('Ingrese la opción: '))
 
 	if opcion == 1:
-		print('Listando los contenidos del directorio.')
+		print('\nListando los contenidos del directorio...\n')
 		enlistar_archivos()
 	elif opcion == 2:
 		copiar_archivo_sistema()
@@ -220,12 +222,13 @@ while opcion != 6:
 		eliminar_archivo()
 	elif opcion == 5:
 		desfragmentar()
-		print('Desfragmentado.')
+		print('\nDesfragmentado.')
 	elif opcion == 6:
-		print('Ejecución terminada.')
+		print('\nEjecución terminada.')
+	elif opcion == 7:
+		microsistema.seek(2048 + 19)
+		microsistema.write('24576'.encode('utf-8'))
 	else:
-		#microsistema.seek(2048 + 19)
-		#microsistema.write('24576'.encode('utf-8'))
-		print('Opción no válida')
+		print('\nOpción no válida')
 
 microsistema.close()
