@@ -263,7 +263,7 @@ def rm(filename:str):
     else:
         cprint(f'Error: No se encontro el archivo \'{filename}\' en FiUnamFs.','white','on_red')
 
-
+# Ya no nos dio tiempo de implementar la desfragmentacion ☹️
 def defragmentar():
     pass    
 
