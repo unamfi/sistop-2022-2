@@ -244,13 +244,31 @@ def copy_import(filename):
         cprint(f'Error: No se encontro el archivo \'{filename}\' en el sistema.','white','on_red')
 
 def rm(filename:str):
-    pass
+    archivos = ls()
+    # Se busca que el archivo exista en el directorio
+    archivo = FSgoogle(archivos,filename)
+    if not archivo is None:
+        # Se elimina la informacion en el directorio
+        desde = SuperBloque['tamanio'] + 64 * archivo['cont']
+        DIMap[desde + 0:desde + 15] = bytes(entVacia, 'ASCII')
+        DIMap[desde+16:desde+24] = bytes("".zfill(8), 'ASCII')
+        DIMap[desde+25:desde+30] = bytes("".zfill(5), 'ASCII')
+        DIMap[desde+31:desde+45] = bytes("".zfill(14), 'ASCII')
+        DIMap[desde+46:desde+60] = bytes("".zfill(14), 'ASCII')
+
+        # Se eliminan los datos
+        desdeWrite = SuperBloque['tamanio'] * archivo['clusterInicial']
+        hastaWrite = desdeWrite + archivo['tamanio']
+        DIMap[desdeWrite:hastaWrite] = bytes("".zfill(hastaWrite-desdeWrite), 'ASCII')
+    else:
+        cprint(f'Error: No se encontro el archivo \'{filename}\' en FiUnamFs.','white','on_red')
+
 
 def defragmentar():
     pass    
 
 def sistemaArchivos():
-    helpComandos = {'Comando':['ls [parametroOpcional]','export [nombreArchivo] [rutaLocal]','import [nombreArchivo]','del [nombreArchivo]','superinfo','exit'],'Descripción':['Listar contenidos del directorio FiUnamFs. El parametro \'-comp\' muestra el listado de archivos incluyendo direcciones vacias.','Copia el archivo ([nombreArchivo]) de FiUnamFs a la ruta ([rutaLocal]) de tu sistema','Copia el archivo ([nombreArchivo]) de tu sistema a FiUnamFs','Elimina el archivo ([nombreArchivo]) de FiUnamFs','Muestra la información almacenada en el superbloque del cluster 0.','Salir del programa.']}
+    helpComandos = {'Comando':['ls [parametroOpcional]','export [nombreArchivo] [rutaLocal]','import [nombreArchivo]','rm [nombreArchivo]','superinfo','exit'],'Descripción':['Listar contenidos del directorio FiUnamFs. El parametro \'-comp\' muestra el listado de archivos incluyendo direcciones vacias.','Copia el archivo ([nombreArchivo]) de FiUnamFs a la ruta ([rutaLocal]) de tu sistema','Copia el archivo ([nombreArchivo]) de tu sistema a FiUnamFs','Elimina el archivo ([nombreArchivo]) de FiUnamFs','Muestra la información almacenada en el superbloque del cluster 0.','Salir del programa.']}
     salir = False
     while not salir:
         entry = input(">>>  ")
@@ -293,7 +311,7 @@ def sistemaArchivos():
                 if len(param) > 1:
                     copy_import(param[1])
                 else:
-                    cprint('Error: Ingresa TODOS los parametros necesarios.\nEjemplo:\n\import [rutaArchivo]','white','on_red')
+                    cprint('Error: Ingresa la ruta del archivo a copiar al sistema de archivos.\nEjemplo:\n\import [rutaArchivo]','white','on_red')
             except Exception:
                 print(traceback.format_exc())
                 cprint('Lo siento, sucedio un error al importar el archivo, vuelve a intentarlo y si el error persiste por favor reportalo a: chris@chrisley.dev','white','on_red')
@@ -307,8 +325,15 @@ def sistemaArchivos():
             print('Número de clusters que mide la unidad completa: {}\n'.format(SuperBloque['nClustersCom']))
         
         # Eliminar archivo de FiUnamFs
-        elif param[0] == 'del':
-            pass
+        elif param[0] == 'rm':
+            if len(param)>1:
+                try:
+                    rm(param[1])
+                except:
+                    cprint('Lo siento, sucedio un error al eliminar el archivo, vuelve a intentarlo y si el error persiste por favor reportalo a: chris@chrisley.dev','white','on_red')
+            else:
+                cprint('Error: Ingresa el nombre del archivo a eliminar.\nEjemplo:\n\rm [nombreArchivo]','white','on_red')
+
         
         elif param[0] == 'help':
             print(tabulate(helpComandos,headers='keys')+'\n')
