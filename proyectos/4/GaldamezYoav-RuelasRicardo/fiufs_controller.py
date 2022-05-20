@@ -460,10 +460,10 @@ def desfragmentar(directorio, bitmap):
 		num_clusters_archivo = int(math.ceil(entrada.tamanio/info_sistema.tam_cluster))
 		disponible = False
 
-		print(entrada.nombre)
 		while(cluster_inicial > cursor_cluster):
 			contador_disponibles = 0
 			for i in range(cursor_cluster,len(bitmap)):
+				#Por cada bloque disponible en el bitmap
 				if(bitmap[i] == False):
 					contador_disponibles += 1
 				else:
@@ -479,15 +479,33 @@ def desfragmentar(directorio, bitmap):
 				break
 
 		if(disponible == True):
-			sistema.seek(cluster_inicial)
+			sistema.seek(cluster_inicial*info_sistema.tam_cluster)
 			datos = sistema.read(entrada.tamanio)
-			print(datos)
-			entrada.cluster_inicial = cursor_cluster
+
+			#Liberamos en el bitmap los espacios que fueron modificados
+			for i in range(cluster_inicial, cluster_inicial+num_clusters_archivo):
+				bitmap[i] = False
+
+			entrada.cluster = cursor_cluster
+			sistema.seek(entrada.cluster*info_sistema.tam_cluster)
+			sistema.write(datos)
+
+			#Marcamos como ocupados las nuevas posiciones de los datos en el bitmap de clusters
+			for i in range(entrada.cluster, entrada.cluster+num_clusters_archivo):
+				bitmap[i] = True
+
+			#Ahora buscamos la entrada del archivo en el directorio del sistema y modificamos
+			#su cluster inicial
+			indice_entrada = buscar_entrada_nombre(entrada.nombre,info_sistema, directorio)
+			sistema.seek(1*info_sistema.tam_cluster + 64*indice_entrada + 25)
+			sistema.write(str(entrada.cluster).rjust(5, ' ').encode(codif))
+
 
 #Método para actualizar los objetos que guardan información sobre el sistema de archivos
 def actualizar_info(info_sistema, directorio, nombres_archivos, bitmap):
 	generar_directorio(info_sistema, directorio, nombres_archivos) #Generación recurrente del directorio
 	generar_bitmap(bitmap, directorio)
+
 
 #VARIABLES GLOBALES
 codif = 'ASCII' #La decodificación que se empleará en el sistema sera ASCII
@@ -499,9 +517,21 @@ bitmap = 5*[True] + (info_sistema.num_clusters_uni-5)*[False]
 #Una vez iniciado el programa se actualiza el directorio y el bitmap
 actualizar_info(info_sistema, directorio, nombres_archivos, bitmap) 
 
-mostrar_directorio(directorio)
+#mostrar_directorio(directorio)
 
-desfragmentar(directorio, bitmap)
+
+#desfragmentar(directorio, bitmap)
+
+#actualizar_info(info_sistema, directorio, nombres_archivos, bitmap) 
+
+
+#mostrar_directorio(directorio)
+
+for entrada in directorio:
+	if(entrada.nombre == 'mensajes.png'):
+		sistema.seek(entrada.cluster*info_sistema.tam_cluster)
+		print(sistema.read(entrada.tamanio))
+
 
 #AQUI SE CODIFICARA LA INTERFAZ DEL SISTEMA
 #while(True):
