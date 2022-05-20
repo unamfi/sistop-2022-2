@@ -119,7 +119,8 @@ def copiar_sistema_archivo():
 
 		espacio = []
 		for i in range(len(lista)-1):
-			espacio.append((lista[i+1][2] - lista[i][8]) * tamanio)
+			#Se resta uno ya que en caso de que sean clusteres contiguos no se tiene espacio pero la resta daría 1
+			espacio.append((lista[i+1][2] - lista[i][8] - 1) * tamanio)
 
 		'''Si se encuentra un espacio suficientemente grande para colocar el nuevo archivo se guarda el valor del 
 		   siguiente cluster disponible. Si no se encuentra el espacio, se guarda el cluster siguiente al último 
