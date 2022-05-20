@@ -4,7 +4,7 @@
 # Imports: -------------------------------------------------------------------------------
 
 # Bibliotecas incluidas en el core de Python
-import os,sys,mmap,traceback
+import os,mmap,traceback, math
 from datetime import datetime
 import shutil
 
@@ -117,7 +117,7 @@ def ls(param=None):
     temp['fechaModificacion'] = 'Fecha de modificación'
     archivos.append(temp)
 
-    for i in range(0,64):
+    for i in range(0,96):
         desde = SuperBloque['tamanio'] + i * 64
         hasta = desde + 64
         
@@ -172,7 +172,8 @@ def getMaxInitCluster(archivos):
 def copyFileInto(maxClusterFile,filename,fileSize,nClusters,contLast):
     # Se obtiene el cluster desde donde el nuevo archivo se escribirá
     # clusterinicial + clustersNecesarios 
-    initialCluster = maxClusterFile['clusterInicial'] +  int(maxClusterFile['tamanio'] / SuperBloque['tamanio'] )
+    initialCluster = maxClusterFile['clusterInicial'] +  math.ceil(maxClusterFile['tamanio'] / SuperBloque['tamanio'] ) + 1
+    print("N clusters " , nClusters)
     finalCluster = initialCluster +  nClusters
     global DIMap
     
@@ -194,12 +195,16 @@ def copyFileInto(maxClusterFile,filename,fileSize,nClusters,contLast):
             # Fecha Creacion
             DIMap[desde + 31:desde + 45] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
             # Fecha modificacion
+            print(len(fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')))
             DIMap[desde + 46:desde + 60] = fechaActual.strftime("%Y%m%d%H%M%S").encode('ASCII')
             
             # Se escribe el archivo
             with open(filename,'rb') as file:
-                DIMap[initialCluster:finalCluster] = file.read().encode('ASCII')
-            return
+                temp =file.read()
+                bytesLen = (finalCluster - initialCluster)*SuperBloque['tamanio']
+                print(len(temp.zfill(bytesLen)))
+                DIMap[initialCluster:finalCluster+1] = file.read()
+            return 
 
 # Copiar archivo de tu sistema a FiUnamFs
 def copy_import(filename):
@@ -212,7 +217,7 @@ def copy_import(filename):
                     # Se obtiene el tamaño del archivo a copiar hacia el sistema de archivos
                     fileSize = os.stat(filename).st_size
                     # Se obtienen los clusters que requiere el archivo (redondeando)
-                    nClusters = int(fileSize/SuperBloque['tamanio']) # nbytes / 2048 bytes (tamaño de los clusters en el sistema de arch.)
+                    nClusters = math.ceil(fileSize/SuperBloque['tamanio']) # nbytes / 2048 bytes (tamaño de los clusters en el sistema de arch.)
 
                     maxClusterFile = getMaxInitCluster(archivos)
 
