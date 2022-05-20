@@ -500,6 +500,8 @@ def desfragmentar(directorio, bitmap):
 			sistema.seek(1*info_sistema.tam_cluster + 64*indice_entrada + 25)
 			sistema.write(str(entrada.cluster).rjust(5, ' ').encode(codif))
 
+	print("\n-> Desfragmentación concluida correctamente.")
+
 
 #Método para actualizar los objetos que guardan información sobre el sistema de archivos
 def actualizar_info(info_sistema, directorio, nombres_archivos, bitmap):
@@ -542,7 +544,7 @@ while(True):
 		copiar_externo(directorio, nombre_archivo, nombres_archivos, info_sistema)
 	elif(opcion ==  3):
 		nombre_archivo = input("Ingresa el nombre del archivo (incluyendo extension): ")
-		copiar_interno(directorio, nombre_archivo, nombres_archivos, info_sistema)
+		copiar_interno(nombre_archivo, directorio, nombres_archivos, info_sistema)
 	elif(opcion ==  4):
 		nombre_archivo = input("Ingresa el nombre del archivo (incluyendo extension): ")
 		eliminar_archivo(nombre_archivo, directorio, info_sistema)
@@ -552,5 +554,5 @@ while(True):
 		print("\n¡Hasta la próxima!\n")
 		break;	
 	else:
-	    print("\n\tError: Opción invalida.")
-	    print("\n\t-> Por favor, ingresa una opción valida.")
+	    print("\nError: Opción invalida.")
+	    print("\n-> Por favor, ingresa una opción valida.")
