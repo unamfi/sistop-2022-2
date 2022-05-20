@@ -54,7 +54,7 @@ Ahora, mostrando el copiado de un archivo de la computadora hacia FiUnamFS, junt
   
 El copiado de un archivo de FiUnamFS hacia la computadora, y la comprobación mediante la interfaz:
   
-![CopyOut](imagenes/copyOut.png)
+![CopyOut](imagenes/CopyOut.png)
   
 Eliminado de un archivo:
   
