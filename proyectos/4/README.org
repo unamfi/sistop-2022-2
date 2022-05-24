@@ -5,7 +5,7 @@ Planteamiento: 2022.05.04
 Entrega: 2022.05.19
 #+END_SRC
 
-# ¡Las [[./calificaciones.org][calificaciones y comentarios]] ya están disponibles!
+¡Las [[./calificaciones.org][calificaciones y comentarios]] ya están disponibles!
 
 ** Descripción del proyecto
 

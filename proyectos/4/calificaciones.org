@@ -1,0 +1,349 @@
+#+title: Calificaciones y comentarios del proyecto 3
+#+author: Gunnar Wolf
+
+El planteamiento del proyecto y la rúbrica para su calificación están
+[[./README.md][disponibles aquí]].
+
+** Abad Aldo, Rosales André
+- Documentación :: [[./AbadAldo-RosalesAndré/Proyecto 4 AbadAldo-RosalesAndré (reporte).pdf][Proyecto 4 AbadAldo-RosalesAndré (reporte).pdf]]
+- Archivos :: [[./AbadAldo-RosalesAndré/fiunamfs.img][fiunamfs.img]], [[./AbadAldo-RosalesAndré/fiunamfs.py][fiunamfs.py]]
+- Comentarios ::
+  - El problema para recuperar datos del sistema de archivos deriva de
+    que en las líneas 34 y 35 intentaron decodificar la longitud y la
+    posición de inicio con =struct.unpack('<L',
+    self.file_system.read(4))[0]=. ¿Por qué usaron esa función?
+  - En el listado del directorio, presentan todas las entradas que
+    están vacías (esto es, que contienen como nombre de archivo =...............=
+    - Pero en el fuente están buscando la cadena =Xx.xXx.xXx.xXx.= —
+      Que he empleado en otras ocasiones que presento este proyecto
+  - La estructura del programa es demasiado similar a la presentada
+    por un compañero del semestre 2020-1.  No puedo tomar este trabajo
+    como entregado. Si estoy juzgándolos injustamente, por favor
+    díganmelo, y reviso su entrega.
+
+** Aleman Flores, Pérez Duarte
+- Documentación :: [[./AlemanFlores_PérezDuarte/DocumentacionP4.txt][DocumentacionP4.txt]]
+- Archivos :: [[./AlemanFlores_PérezDuarte/Proyecto4.py][Proyecto4.py]]
+- Interfaz :: Línea de comando
+- Estrategia empleada ::
+- Comentarios ::
+  - El listado de archivos presenta todos los posibles nombres en el
+    directorio, incluso si presenta la cadena especial que indica
+    "aquí no hay nada"
+  - Copiar un archivo hacia ``afuera'' sólo copia 57 caracteres de la
+    entrada de directorio, no copia datos reales
+  - Naturalmente, el resto de la funcionalidad sencillamente no está
+    desarollado.
+  - Al iniciar el programa preguntan la ruta donde debe estar el
+    sistema de archivos, pero en =mv2PC()= asumen que está en el
+    directorio actual y se llama =fiunamfs.img=. Eso es inconsistente,
+    y lleva a errores en el uso
+  - Si el sistema de archivos va a estar en el directorio actual,
+    deberían haberlo contemplado en un =.gitignore=
+
+| *Rubro*                          | *Parcial* | *Peso* | *Puntos* |
+|----------------------------------+-----------+--------+----------|
+| *Proyecto*                       |           |    0.3 |     1.50 |
+| Cumplimiento                     |         5 |        |     0.50 |
+| Claridad de desarrollo           |         5 |        |     0.50 |
+| Interfaz usuario                 |         5 |        |     0.50 |
+|----------------------------------+-----------+--------+----------|
+| *Desarrollo*                     |           |    0.3 |     2.50 |
+| Directorio de proyecto           |       7.5 |        |     0.75 |
+| Código válido                    |       7.5 |        |     0.75 |
+| Comentarios                      |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Legibilidad*                    |           |    0.2 |     1.50 |
+| Estructura                       |       7.5 |        |     0.75 |
+| Nomenclatura                     |       7.5 |        |     0.75 |
+|----------------------------------+-----------+--------+----------|
+| *Entrega*                        |           |    0.2 |     1.33 |
+| Documentación externa            |         5 |        |     0.33 |
+| Entorno y dependencias           |       7.5 |        |     0.50 |
+| Historia en Git                  |       7.5 |        |     0.50 |
+|----------------------------------+-----------+--------+----------|
+| *Extras*                         |           |        |     0.00 |
+| Directorios jerárquicos          |           |    0.1 |     0.00 |
+| Sistema de archivos con bitácora |           |    0.1 |     0.00 |
+|----------------------------------+-----------+--------+----------|
+| *TOTAL*                          |           |        |     6.83 |
+|----------------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@17+@18 ; f-2::@18$4=$2*@18$3 ; f-2::@19$4=$2*@19$3 ; f-2::@20$4=@2+@6+@10+@13+@17 ; f-2
+
+** Barreiro Alejandro, Zepeda Jessica
+- Documentación :: [[./BarreiroAlejandro-ZepedaJessica/proyecto_so_4.pdf][proyecto_so_4.pdf]]
+- Archivos :: [[./BarreiroAlejandro-ZepedaJessica/proyecto4-so.py][proyecto4-so.py]]
+- Interfaz :: Línea de comando (menú de opciones)
+- Estrategia empleada ::
+  - Programación imperativa estructurada tradicional
+  - Acceso a los datos empleando combinaciones =seek()= / =read()= o
+    =seek()= / =write()=
+- Comentarios ::
+  - ¡Excelente implementación!
+  - Buenísimo que cacharan y corrigieran mi error con la opción 7 ☺
+  - Dado que requiere al sistema de archivos en el directorio actual,
+    y que le puede hacer modificaciones, debían haber utilizado un
+    =.gitignore=.
+
+| *Rubro*                          | *Parcial* | *Peso* | *Puntos* |
+|----------------------------------+-----------+--------+----------|
+| *Proyecto*                       |           |    0.3 |     2.75 |
+| Cumplimiento                     |        10 |        |     1.00 |
+| Claridad de desarrollo           |        10 |        |     1.00 |
+| Interfaz usuario                 |       7.5 |        |     0.75 |
+|----------------------------------+-----------+--------+----------|
+| *Desarrollo*                     |           |    0.3 |     2.75 |
+| Directorio de proyecto           |       7.5 |        |     0.75 |
+| Código válido                    |        10 |        |     1.00 |
+| Comentarios                      |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Legibilidad*                    |           |    0.2 |     2.00 |
+| Estructura                       |        10 |        |     1.00 |
+| Nomenclatura                     |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Entrega*                        |           |    0.2 |     2.01 |
+| Documentación externa            |        10 |        |     0.67 |
+| Entorno y dependencias           |        10 |        |     0.67 |
+| Historia en Git                  |        10 |        |     0.67 |
+|----------------------------------+-----------+--------+----------|
+| *Extras*                         |           |        |     0.00 |
+| Directorios jerárquicos          |           |    0.1 |     0.00 |
+| Sistema de archivos con bitácora |           |    0.1 |     0.00 |
+|----------------------------------+-----------+--------+----------|
+| *TOTAL*                          |           |        |     9.51 |
+|----------------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@17+@18 ; f-2::@18$4=$2*@18$3 ; f-2::@19$4=$2*@19$3 ; f-2::@20$4=@2+@6+@10+@13+@17 ; f-2
+
+** Barrios Francisco
+- Documentación :: [[./BarriosFrancisco/README.md][README.md]], [[./BarriosFrancisco/archivos/logo.png][logo.png]], [[./BarriosFrancisco/archivos/mensajes.png][mensajes.png]], [[./BarriosFrancisco/imagenes/CopyInt.png][CopyInt.png]], [[./BarriosFrancisco/imagenes/CopyOut.png][CopyOut.png]], [[./BarriosFrancisco/imagenes/ayuda.png][ayuda.png]], [[./BarriosFrancisco/imagenes/delete.png][delete.png]]
+- Archivos :: [[./BarriosFrancisco/MicroSDE.py][MicroSDE.py]]
+- Interfaz :: Línea de comando
+- Estrategia empleada ::
+  - Uso de un descriptor de archivos; lectura, escritura y reubicación
+    mediante =read()=, =write()= y =seek()=
+  - Orientación a objetos; clases =SuperBloque=, =archivoX= y =Filesystem=
+- Comentarios ::
+  - Si modificas un sistema de archivos =fiunamfs.img=, y éste tiene
+    que estar en el directorio de ejecución, ¡deberías agregarlo en un
+    =.gitignore=!
+  - Varias de las funciones que dejaste fuera de las tres clases
+    deberían ser métodos de la clase =FileSystem=
+  - ¡Muy bien por cachar los varios errores que pueden ocurrir al
+    especificar nombres de archivos! Es común que esto cause la
+    corrupción del directorio en varias implementaciones.
+  - Respecto a tu desfragmentador no terminado: Seguiste la estrategia
+    de ``peinar'' al sistema de archivos a partir de los clusters. Yo
+    sugeriría más bien hacerlo a partir del directorio. Tienes tu
+    =self.bitmapLista=, pero no debes tratar a los clusters como
+    entidades independientes. Yo sugeriría algo:
+    - Tomar nota del último cluster recorrido (=ultimo=)
+    - Iterar sobre los archivos del directorio → =entrada=
+    - ¿Es =entrada = ultimo + 1=? De ser así, continúa con el
+      siguiente
+    - Si no, cambia la entrada de directorio para que vaya desde
+      =ultimo+1= hasta =ultimo+1 + tamaño=
+    - Copia los sectores de datos de su ubicación actual a la nueva.
+
+| *Rubro*                          | *Parcial* | *Peso* | *Puntos* |
+|----------------------------------+-----------+--------+----------|
+| *Proyecto*                       |           |    0.3 |     2.50 |
+| Cumplimiento                     |       7.5 |        |     0.75 |
+| Claridad de desarrollo           |        10 |        |     1.00 |
+| Interfaz usuario                 |       7.5 |        |     0.75 |
+|----------------------------------+-----------+--------+----------|
+| *Desarrollo*                     |           |    0.3 |     2.75 |
+| Directorio de proyecto           |       7.5 |        |     0.75 |
+| Código válido                    |        10 |        |     1.00 |
+| Comentarios                      |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Legibilidad*                    |           |    0.2 |     2.00 |
+| Estructura                       |        10 |        |     1.00 |
+| Nomenclatura                     |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Entrega*                        |           |    0.2 |     2.01 |
+| Documentación externa            |        10 |        |     0.67 |
+| Entorno y dependencias           |        10 |        |     0.67 |
+| Historia en Git                  |        10 |        |     0.67 |
+|----------------------------------+-----------+--------+----------|
+| *Extras*                         |           |        |     0.00 |
+| Directorios jerárquicos          |           |    0.1 |     0.00 |
+| Sistema de archivos con bitácora |           |    0.1 |     0.00 |
+|----------------------------------+-----------+--------+----------|
+| *TOTAL*                          |           |        |     9.26 |
+|----------------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@17+@18 ; f-2::@18$4=$2*@18$3 ; f-2::@19$4=$2*@19$3 ; f-2::@20$4=@2+@6+@10+@13+@17 ; f-2
+
+** Davila Jesus, Espinosa Giselle
+- Documentación :: [[./DavilaJesus-EspinosaGiselle/Documentacion/CapturaInsercionDeSistemaDeArchivos.JPG][CapturaInsercionDeSistemaDeArchivos.JPG]], [[./DavilaJesus-EspinosaGiselle/Documentacion/DesfragmentacionEnCurso.png][DesfragmentacionEnCurso.png]], [[./DavilaJesus-EspinosaGiselle/Documentacion/DocumentacionProyecto4.pdf][DocumentacionProyecto4.pdf]], [[./DavilaJesus-EspinosaGiselle/Documentacion/FragmentacionDelFiUnamFs.JPG][FragmentacionDelFiUnamFs.JPG]], [[./DavilaJesus-EspinosaGiselle/Documentacion/InsercionDeUnArchivoConNombreMayora15Caracteres.JPG][InsercionDeUnArchivoConNombreMayora15Caracteres.JPG]], [[./DavilaJesus-EspinosaGiselle/Documentacion/ListadoDeArchivosEnFiUnamFs.JPG][ListadoDeArchivosEnFiUnamFs.JPG]], [[./DavilaJesus-EspinosaGiselle/Documentacion/PosDesfragmentacion.png][PosDesfragmentacion.png]], [[./DavilaJesus-EspinosaGiselle/Documentacion/insertarArchivoaFiUnamFs.JPG][insertarArchivoaFiUnamFs.JPG]]
+- Archivos :: [[./DavilaJesus-EspinosaGiselle/Codigo/ProyectoSistemaArchivos.py][ProyectoSistemaArchivos.py]], [[./DavilaJesus-EspinosaGiselle/Codigo/fiunamfs.img][fiunamfs.img]]
+- Interfaz :: GUI (tkinter)
+- Estrategia empleada ::
+  - Orientación a objetos: El sistema de archivos está representado en
+    la clase =sistema=
+  - Uso de un descriptor de archivos; lectura, escritura y reubicación
+    mediante =read()=, =write()= y =seek()=
+- Comentarios ::
+  - Si modifican un sistema de archivos =fiunamfs.img=, y éste tiene
+    que estar en el directorio de ejecución, ¡deberían agregarlo en un
+    =.gitignore=!
+  - ¡Muy buen trabajo con la interfaz! Es perfectible sin duda, pero
+    muestra buen esfuerzo.
+
+| *Rubro*                          | *Parcial* | *Peso* | *Puntos* |
+|----------------------------------+-----------+--------+----------|
+| *Proyecto*                       |           |    0.3 |     3.00 |
+| Cumplimiento                     |        10 |        |     1.00 |
+| Claridad de desarrollo           |        10 |        |     1.00 |
+| Interfaz usuario                 |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Desarrollo*                     |           |    0.3 |     2.75 |
+| Directorio de proyecto           |       7.5 |        |     0.75 |
+| Código válido                    |        10 |        |     1.00 |
+| Comentarios                      |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Legibilidad*                    |           |    0.2 |     2.00 |
+| Estructura                       |        10 |        |     1.00 |
+| Nomenclatura                     |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Entrega*                        |           |    0.2 |     2.01 |
+| Documentación externa            |        10 |        |     0.67 |
+| Entorno y dependencias           |        10 |        |     0.67 |
+| Historia en Git                  |        10 |        |     0.67 |
+|----------------------------------+-----------+--------+----------|
+| *Extras*                         |           |        |     0.00 |
+| Directorios jerárquicos          |           |    0.1 |     0.00 |
+| Sistema de archivos con bitácora |           |    0.1 |     0.00 |
+|----------------------------------+-----------+--------+----------|
+| *TOTAL*                          |           |        |     9.76 |
+|----------------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@17+@18 ; f-2::@18$4=$2*@18$3 ; f-2::@19$4=$2*@19$3 ; f-2::@20$4=@2+@6+@10+@13+@17 ; f-2
+
+** Escalona Axel
+- Documentación :: [[./EscalonaAxel/archivos encontrados/(del SSAA)logo.png][(del SSAA)logo.png]], [[./EscalonaAxel/archivos encontrados/(del SSAA)mensajes.png][(del SSAA)mensajes.png]], [[./EscalonaAxel/doc.pdf][doc.pdf]], [[./EscalonaAxel/left.png][left.png]]
+- Archivos :: [[./EscalonaAxel/SistemadeArchivos.py][SistemadeArchivos.py]], [[./EscalonaAxel/archivos encontrados/(del SSAA)README.org][(del SSAA)README.org]], [[./EscalonaAxel/fiunamfs.img][fiunamfs.img]]
+- Interfaz :: Línea de comando
+- Estrategia empleada ::
+  - Uso de un descriptor de archivos; lectura, escritura y reubicación
+    mediante =read()=, =write()= y =seek()=
+  - Si modificas un sistema de archivos =fiunamfs.img=, y éste tiene
+    que estar en el directorio de ejecución, ¡deberías agregarlo en un
+    =.gitignore=!
+- Comentarios ::
+  - No implementaste la desfragmentación ☹
+
+| *Rubro*                          | *Parcial* | *Peso* | *Puntos* |
+|----------------------------------+-----------+--------+----------|
+| *Proyecto*                       |           |    0.3 |     2.50 |
+| Cumplimiento                     |       7.5 |        |     0.75 |
+| Claridad de desarrollo           |        10 |        |     1.00 |
+| Interfaz usuario                 |       7.5 |        |     0.75 |
+|----------------------------------+-----------+--------+----------|
+| *Desarrollo*                     |           |    0.3 |     2.25 |
+| Directorio de proyecto           |       7.5 |        |     0.75 |
+| Código válido                    |        10 |        |     1.00 |
+| Comentarios                      |         5 |        |     0.50 |
+|----------------------------------+-----------+--------+----------|
+| *Legibilidad*                    |           |    0.2 |     1.75 |
+| Estructura                       |       7.5 |        |     0.75 |
+| Nomenclatura                     |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Entrega*                        |           |    0.2 |     1.67 |
+| Documentación externa            |        10 |        |     0.67 |
+| Entorno y dependencias           |        10 |        |     0.67 |
+| Historia en Git                  |         5 |        |     0.33 |
+|----------------------------------+-----------+--------+----------|
+| *Extras*                         |           |        |     0.00 |
+| Directorios jerárquicos          |           |    0.1 |     0.00 |
+| Sistema de archivos con bitácora |           |    0.1 |     0.00 |
+|----------------------------------+-----------+--------+----------|
+| *TOTAL*                          |           |        |     8.17 |
+|----------------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@17+@18 ; f-2::@18$4=$2*@18$3 ; f-2::@19$4=$2*@19$3 ; f-2::@20$4=@2+@6+@10+@13+@17 ; f-2
+
+** Galdamez Yoav, Ruelas Ricardo
+- Documentación :: [[./GaldamezYoav-RuelasRicardo/documentacion.pdf][documentacion.pdf]]
+- Archivos :: [[./GaldamezYoav-RuelasRicardo/fiufs_controller.py][fiufs_controller.py]]
+- Interfaz :: Línea de comando (menú)
+- Estrategia empleada ::
+  - Orientación a objetos: Clases =SuperBloque=, =Entrada= (de
+    directorio)
+    - Aunque las clases son únicamente utilizadas como estructuras de
+      datos, no presentan métodos (únicamente son funciones en el
+      programa base)
+  - Uso de un descriptor de archivos; lectura, escritura y reubicación
+    mediante =read()=, =write()= y =seek()=
+- Comentarios ::
+  - ¡Bien por el manejo de situaciones de error!
+  - ¡Bien por identificar la necesidad de usar =.gitignore=!
+
+| *Rubro*                          | *Parcial* | *Peso* | *Puntos* |
+|----------------------------------+-----------+--------+----------|
+| *Proyecto*                       |           |    0.3 |     2.75 |
+| Cumplimiento                     |        10 |        |     1.00 |
+| Claridad de desarrollo           |        10 |        |     1.00 |
+| Interfaz usuario                 |       7.5 |        |     0.75 |
+|----------------------------------+-----------+--------+----------|
+| *Desarrollo*                     |           |    0.3 |     3.00 |
+| Directorio de proyecto           |        10 |        |     1.00 |
+| Código válido                    |        10 |        |     1.00 |
+| Comentarios                      |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Legibilidad*                    |           |    0.2 |     2.00 |
+| Estructura                       |        10 |        |     1.00 |
+| Nomenclatura                     |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Entrega*                        |           |    0.2 |     2.01 |
+| Documentación externa            |        10 |        |     0.67 |
+| Entorno y dependencias           |        10 |        |     0.67 |
+| Historia en Git                  |        10 |        |     0.67 |
+|----------------------------------+-----------+--------+----------|
+| *Extras*                         |           |        |     0.00 |
+| Directorios jerárquicos          |           |    0.1 |     0.00 |
+| Sistema de archivos con bitácora |           |    0.1 |     0.00 |
+|----------------------------------+-----------+--------+----------|
+| *TOTAL*                          |           |        |     9.76 |
+|----------------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@17+@18 ; f-2::@18$4=$2*@18$3 ; f-2::@19$4=$2*@19$3 ; f-2::@20$4=@2+@6+@10+@13+@17 ; f-2
+
+** Leyva Christian, Velasco Bryan
+- Documentación :: [[./LeyvaChristian-VelascoBryan/Documentación proyecto 4.pdf][Documentación proyecto 4.pdf]]
+- Archivos :: [[./LeyvaChristian-VelascoBryan/Proyecto4_chrisco.py][Proyecto4_chrisco.py]], [[./LeyvaChristian-VelascoBryan/fiunamfs.img][fiunamfs.img]]
+- Interfaz :: Línea de comando con tabulación y manejo de color para
+  resultados más claros
+- Estrategia empleada :: Mapeo de archivo a memoria con =mmap=
+- Comentarios ::
+  - No implementaron la desfragmentación ☹
+  - ¡Bien por identificar la necesidad de usar =.gitignore=!
+  - ¡Muy bueno que manejaran como globales los diferentes parámetros
+    que les especifiqué!
+
+| *Rubro*                          | *Parcial* | *Peso* | *Puntos* |
+|----------------------------------+-----------+--------+----------|
+| *Proyecto*                       |           |    0.3 |     2.50 |
+| Cumplimiento                     |       7.5 |        |     0.75 |
+| Claridad de desarrollo           |        10 |        |     1.00 |
+| Interfaz usuario                 |       7.5 |        |     0.75 |
+|----------------------------------+-----------+--------+----------|
+| *Desarrollo*                     |           |    0.3 |     2.00 |
+| Directorio de proyecto           |        10 |        |     1.00 |
+| Código válido                    |        10 |        |     1.00 |
+| Comentarios                      |           |        |     0.00 |
+|----------------------------------+-----------+--------+----------|
+| *Legibilidad*                    |           |    0.2 |     2.00 |
+| Estructura                       |        10 |        |     1.00 |
+| Nomenclatura                     |        10 |        |     1.00 |
+|----------------------------------+-----------+--------+----------|
+| *Entrega*                        |           |    0.2 |     2.01 |
+| Documentación externa            |        10 |        |     0.67 |
+| Entorno y dependencias           |        10 |        |     0.67 |
+| Historia en Git                  |        10 |        |     0.67 |
+|----------------------------------+-----------+--------+----------|
+| *Extras*                         |           |        |     0.00 |
+| Directorios jerárquicos          |           |    0.1 |     0.00 |
+| Sistema de archivos con bitácora |           |    0.1 |     0.00 |
+|----------------------------------+-----------+--------+----------|
+| *TOTAL*                          |           |        |     8.51 |
+|----------------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3+@4+@5 ; f-2::@3$4=$2*@2$3/3 ; f-2::@4$4=$2*@2$3/3 ; f-2::@5$4=$2*@2$3/3 ; f-2::@6$4=@7+@8+@9 ; f-2::@7$4=$2*@6$3/3 ; f-2::@8$4=$2*@6$3/3 ; f-2::@9$4=$2*@6$3/3 ; f-2::@10$4=@11+@12 ; f-2::@11$4=$2*@10$3/2 ; f-2::@12$4=$2*@10$3/2 ; f-2::@13$4=@14+@15+@16 ; f-2::@14$4=$2*@13$3/3 ; f-2::@15$4=$2*@13$3/3 ; f-2::@16$4=$2*@13$3/3 ; f-2::@17$4=@17+@18 ; f-2::@18$4=$2*@18$3 ; f-2::@19$4=$2*@19$3 ; f-2::@20$4=@2+@6+@10+@13+@17 ; f-2
+
+
